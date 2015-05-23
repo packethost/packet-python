@@ -1,0 +1,19 @@
+# -*- coding: utf-8 -*-
+from .baseapi import BaseAPI
+
+class Plan():
+    def __init__(self, data):
+        self.id = data['id']
+        self.name = data['name']
+        self.slug = data['slug']
+        self.line = data['line']
+        self.pricing = data['pricing']
+        self.nics = data['specs']['nics']
+        self.cpus = data['specs']['cpus']
+        self.drives = data['specs']['drives']
+        self.memory = data['specs']['memory']
+        self.features = data['specs']['features']
+        self.description = data['description']
+
+    def __str__(self):
+        return "%s" % (self.slug)
