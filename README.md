@@ -1,18 +1,15 @@
-#packet-python
-##
+Packet
+======
 
-This library provides easy access to Packet's API
+A Python client for the Packet API.
 
+Documentation
+-------------
+Full Packet API documenation is available here:
+[https://www.packet.net/dev/api/](https://www.packet.net/dev/api/)
 
-## Features
-packet-python supports all the features provided via the Packet API, such as:
-
-* Manage Projects
-* Manage a Project's Users and Devices
-* Manage SSH Keys
-* Power Off, Power On and Reboot Devices
-
-## Examples
+Examples
+--------
 ### List projects
 
 ```python
@@ -48,16 +45,28 @@ print(device.status)
 device.reboot()
 ```
 
-## Testing
+Testing
+-------
 
 Yes.
 
-## Links
+Contributing
+------------
 
-  * GitHub: [https://github.com/packethost/packet-python](https://github.com/packethost/packet-python)
-  * Author Website: [https://www.packet.net/team/aaron-welch](https://www.packet.net/team/aaron-welch)
+* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet.
+* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it.
+* Fork the project.
+* Start a feature/bugfix branch.
+* Commit and push until you are happy with your contribution.
+* Make sure to add tests for it. This is important so we don't break it in a future version unintentionally.
 
-## Credits
+Credits
+-------
 
 CargoCulted with much gratitude from:
 https://github.com/koalalorenzo/python-digitalocean
+
+Copyright
+---------
+
+Copyright (c) 2015 Packet Host. See `LICENSE.txt` for further details.
