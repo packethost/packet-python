@@ -7,7 +7,6 @@ class Facility():
         self.code = data['code']
         self.name = data['name']
         self.features = data['features']
-        self.href = data['href']
         self.address = data['address']
 
     def __str__(self):
