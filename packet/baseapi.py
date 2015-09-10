@@ -49,14 +49,6 @@ class BaseAPI(object):
             raise Error(
                 'method type not recognizes as one of GET, POST, DELETE or PATCH: %s' % type
             )
-            
-        if str(resp.status_code)[0] != str(2):
-            raise Error(
-                'non 2xx HTTP status code: %s' % resp.status_code
-            )
-
-        if not resp.content:
-            return None
 
         try:
             data = resp.json()
@@ -64,5 +56,19 @@ class BaseAPI(object):
             raise JSONReadError(
                 'Read failed: %s' % e.message
             )
+            
+        if not resp.ok:
+            msg = data
+            if 'errors' in data:
+                msg = ', '.join(data['errors']) 
+
+            raise Error(
+                'Error {0}: {1}'.format(resp.status_code, msg)
+            )
+
+        if not resp.content:
+            return None
+
+        
         return data
 

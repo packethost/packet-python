@@ -27,7 +27,7 @@ for project in projects:
 import packet 
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
-device = manager.create_device(project='project-id',
+device = manager.create_device(project_id='project-id',
                                hostname='node-name-of-your-choice',
                                plan='baremetal_1', facility='ewr1',
                                operating_system='ubuntu_14_04')
