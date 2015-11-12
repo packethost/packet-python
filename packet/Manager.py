@@ -23,8 +23,8 @@ class Manager(BaseAPI):
             facilities.append(facility)
         return facilities
 
-    def list_devices(self, project_id):
-        data = super(Manager, self).call_api('projects/%s/devices' % (project_id))
+    def list_devices(self, project_id, per_page=10):
+        data = super(Manager, self).call_api('projects/%s/devices?per_page=%s' % (project_id, per_page))
         devices = list()
         for jsoned in data['devices']:
             device = Device(jsoned, self.auth_token, self.consumer_token)
