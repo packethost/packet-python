@@ -15,16 +15,18 @@ class Manager(BaseAPI):
     def get_user(self):
         data = super(Manager, self).call_api("user")
 
-    def list_facilities(self):
-        data = super(Manager, self).call_api("facilities")
+    def list_facilities(self, params = {}):
+        pmtrs = self._parse_params(params)
+        data = super(Manager, self).call_api("facilities%s" % pmtrs)
         facilities = list()
         for jsoned in data['facilities']:
             facility = Facility(jsoned)
             facilities.append(facility)
         return facilities
 
-    def list_devices(self, project_id, per_page=10):
-        data = super(Manager, self).call_api('projects/%s/devices?per_page=%s' % (project_id, per_page))
+    def list_devices(self, project_id, params = {}):
+        pmtrs = self._parse_params(params)
+        data = super(Manager, self).call_api('projects/%s/devices%s' % (project_id, pmtrs))
         devices = list()
         for jsoned in data['devices']:
             device = Device(jsoned, self.auth_token, self.consumer_token)
@@ -47,24 +49,27 @@ class Manager(BaseAPI):
         data = super(Manager, self).call_api('devices/%s' % device_id)
         return Device(data, self.auth_token, self.consumer_token)
 
-    def list_plans(self):
-        data = super(Manager, self).call_api('plans')
+    def list_plans(self, params = {}):
+        pmtrs = self._parse_params(params)
+        data = super(Manager, self).call_api('plans%s' %s pmtrs)
         plans = list()
         for jsoned in data['plans']:
             plan = Plan(jsoned)
             plans.append(plan)
         return plans
 
-    def list_operating_systems(self):
-        data = super(Manager, self).call_api('operating-systems')
+    def list_operating_systems(self, params = {}):
+        pmtrs = self._parse_params(params)
+        data = super(Manager, self).call_api('operating-systems%s' % pmtrs)
         oss = list()
         for jsoned in data['operating_systems']:
             os = OperatingSystem(jsoned)
             oss.append(os)
         return oss
 
-    def list_ssh_keys(self):
-        data = super(Manager, self).call_api('ssh-keys')
+    def list_ssh_keys(self, params = {}):
+        pmtrs = self._parse_params(params)
+        data = super(Manager, self).call_api('ssh-keys%s', pmtrs)
         ssh_keys = list()
         for jsoned in data['ssh_keys']:
             ssh_key = SSHKey(jsoned, self.auth_token, self.consumer_token)
@@ -80,8 +85,9 @@ class Manager(BaseAPI):
         data = super(Manager, self).call_api('ssh-keys', type='POST', params=params)
         return SSHKey(data, self.auth_token, self.consumer_token)
 
-    def list_projects(self):
-        data = super(Manager, self).call_api('projects')
+    def list_projects(self, params = {}):
+        pmtrs = self._parse_params(params)
+        data = super(Manager, self).call_api('projects%s' pmtrs)
         projects = list()
         for jsoned in data['projects']:
             project = Project(jsoned, self.auth_token, self.consumer_token)
@@ -99,3 +105,8 @@ class Manager(BaseAPI):
 
     def __str__(self):
         return "%s" % (self.token)
+    def _parse_params(self, params):
+        pmtrs = ""
+        for k,v in params.items():
+            pmtrs+=str("?%s=%s" % (k, v))
+        return pmtrs
