@@ -50,24 +50,27 @@ class BaseAPI(object):
                 'method type not recognizes as one of GET, POST, DELETE or PATCH: %s' % type
             )
 
+        if not resp.content:
+            data = None
+        elif resp.headers['content-type'].startswith("application/json"):
+            try:
+                data = resp.json()
+            except ValueError as e:
+                raise JSONReadError(
+                    'Read failed: %s' % e.message
+                )
+        else:
+            data = resp.content
+
         if not resp.ok:
             msg = data
-            if 'errors' in data:
-                msg = ', '.join(data['errors']) 
-
+            if not data:
+                msg = "(empty response)"
+            elif 'errors' in data:
+                msg = ', '.join(data['errors'])
             raise Error(
                 'Error {0}: {1}'.format(resp.status_code, msg)
             )
 
-        if not resp.content:
-            return None
-
-        try:
-            data = resp.json()
-        except ValueError as e:
-            raise JSONReadError(
-                'Read failed: %s' % e.message
-            )
-        
         return data
 
