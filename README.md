@@ -45,6 +45,20 @@ print(device.status)
 device.reboot()
 ```
 
+### Listing all devices, limiting to 50 per page
+
+// Packet API defaults to a limit of 10 per page
+
+```python
+import packet
+manager = packet.Manager(auth_token="yourapiauthtoken")
+params = {
+    'per_page': 50
+}
+devices = manager.list_devices(project_id='project_id', params = params)
+print(devices)
+```
+
 Testing
 -------
 
