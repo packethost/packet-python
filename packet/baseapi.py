@@ -63,7 +63,6 @@ class BaseAPI(object):
             return None
 
         try:
-            print resp
             data = resp.json()
         except ValueError as e:
             raise JSONReadError(
