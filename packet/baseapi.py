@@ -50,13 +50,6 @@ class BaseAPI(object):
                 'method type not recognizes as one of GET, POST, DELETE or PATCH: %s' % type
             )
 
-        try:
-            data = resp.json()
-        except ValueError as e:
-            raise JSONReadError(
-                'Read failed: %s' % e.message
-            )
-            
         if not resp.ok:
             msg = data
             if 'errors' in data:
@@ -69,6 +62,13 @@ class BaseAPI(object):
         if not resp.content:
             return None
 
+        try:
+            print resp
+            data = resp.json()
+        except ValueError as e:
+            raise JSONReadError(
+                'Read failed: %s' % e.message
+            )
         
         return data
 
