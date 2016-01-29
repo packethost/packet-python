@@ -21,6 +21,19 @@ for project in projects:
     print(project)
 ```
 
+### List plans
+
+```python
+import packet
+manager = packet.Manager(auth_token="yourapiauthtoken")
+
+plans = manager.list_plans()
+for plan in plans:
+    print(plan)
+    if 'cpus' in plan.specs:
+        print(plan.specs['cpus'][0]['count'])
+```
+
 ### Creating a Device
 
 ```python

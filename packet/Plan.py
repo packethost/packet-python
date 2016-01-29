@@ -8,11 +8,7 @@ class Plan():
         self.slug = data['slug']
         self.line = data['line']
         self.pricing = data['pricing']
-        self.nics = data['specs']['nics']
-        self.cpus = data['specs']['cpus']
-        self.drives = data['specs']['drives']
-        self.memory = data['specs']['memory']
-        self.features = data['specs']['features']
+        self.specs = data['specs']
         self.description = data['description']
 
     def __str__(self):

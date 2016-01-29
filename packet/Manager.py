@@ -51,7 +51,7 @@ class Manager(BaseAPI):
 
     def list_plans(self, params = {}):
         pmtrs = self._parse_params(params)
-        data = super(Manager, self).call_api('plans%s' %s pmtrs)
+        data = super(Manager, self).call_api('plans%s' % pmtrs)
         plans = list()
         for jsoned in data['plans']:
             plan = Plan(jsoned)
@@ -69,7 +69,7 @@ class Manager(BaseAPI):
 
     def list_ssh_keys(self, params = {}):
         pmtrs = self._parse_params(params)
-        data = super(Manager, self).call_api('ssh-keys%s', pmtrs)
+        data = super(Manager, self).call_api('ssh-keys%s' % pmtrs)
         ssh_keys = list()
         for jsoned in data['ssh_keys']:
             ssh_key = SSHKey(jsoned, self.auth_token, self.consumer_token)
@@ -87,7 +87,8 @@ class Manager(BaseAPI):
 
     def list_projects(self, params = {}):
         pmtrs = self._parse_params(params)
-        data = super(Manager, self).call_api('projects%s' pmtrs)
+        data = super(Manager, self).call_api('projects%s' % pmtrs)
+        self.total = data['meta']['total']
         projects = list()
         for jsoned in data['projects']:
             project = Project(jsoned, self.auth_token, self.consumer_token)
@@ -106,7 +107,7 @@ class Manager(BaseAPI):
     def __str__(self):
         return "%s" % (self.token)
     def _parse_params(self, params):
-        pmtrs = ""
+        vals = list()
         for k,v in params.items():
-            pmtrs+=str("?%s=%s" % (k, v))
-        return pmtrs
+            vals.append(str("%s=%s" % (k, v)))
+        return "?" + "&".join(vals)
