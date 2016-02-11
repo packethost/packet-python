@@ -44,7 +44,7 @@ class BaseAPI(object):
         elif type=='DELETE':
             resp = requests.delete(url, headers=headers)
         elif type=='PATCH':
-            resp = requests.patch(url, headers=headers, params=params)
+            resp = requests.patch(url, headers=headers, data=json.dumps(params))
         else:
             raise Error(
                 'method type not recognizes as one of GET, POST, DELETE or PATCH: %s' % type
