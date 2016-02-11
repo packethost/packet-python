@@ -26,7 +26,8 @@ class Device(BaseAPI):
 
     def update(self):
         params = {
-            "hostname": self.hostname
+            "hostname": self.hostname,
+            "locked": self.locked
         }
 
         return super(Device, self).call_api("devices/%s" % self.id, type='PATCH', params=params)
