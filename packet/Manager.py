@@ -33,7 +33,9 @@ class Manager(BaseAPI):
             devices.append(device)
         return devices
 
-    def create_device(self, project_id, hostname, plan, facility, operating_system, billing_cycle="hourly", userdata="", locked=False):
+    def create_device(self, project_id, hostname, plan, facility,
+                      operating_system, billing_cycle="hourly", userdata="",
+                      locked=False, features={}):
         params = {'hostname': hostname,
                   'project_id': project_id,
                   'plan': plan,
@@ -42,6 +44,7 @@ class Manager(BaseAPI):
                   'billing_cycle': billing_cycle,
                   'userdata': userdata,
                   'locked': locked,
+                  'features': features,
                  }
         data = super(Manager, self).call_api('projects/%s/devices' % project_id, type='POST', params=params)
         return Device(data, self.auth_token, self.consumer_token)
