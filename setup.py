@@ -24,5 +24,6 @@ setup(
     install_requires=['requests'],
 #    test_suite='packet.tests',
     license='LGPL v3',
+    keywords='packet api client',
     long_description=long_description
 )
