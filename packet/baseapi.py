@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-import json, logging, requests
+import json
+import logging
+import requests
 
 
 class Error(Exception):
@@ -26,7 +28,7 @@ class BaseAPI(object):
         if params is None:
             params = {}
 
-        url = 'https://'+ self.end_point +'/'+ method
+        url = 'https://' + self.end_point + '/' + method
 
         headers = {'X-Auth-Token': self.auth_token,
                    'X-Consumer-Token': self.consumer_token,
@@ -37,13 +39,14 @@ class BaseAPI(object):
         self._log.debug('%s %s %s %s' %
                         (type, url, params, headers_str))
 
-        if type=='GET':
+        if type == 'GET':
             resp = requests.get(url, headers=headers)
-        elif type=='POST':
+        elif type == 'POST':
+            print url
             resp = requests.post(url, headers=headers, data=json.dumps(params))
-        elif type=='DELETE':
+        elif type == 'DELETE':
             resp = requests.delete(url, headers=headers)
-        elif type=='PATCH':
+        elif type == 'PATCH':
             resp = requests.patch(url, headers=headers, data=json.dumps(params))
         else:
             raise Error(
@@ -73,4 +76,3 @@ class BaseAPI(object):
             )
 
         return data
-
