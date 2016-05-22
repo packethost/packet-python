@@ -3,6 +3,14 @@ Packet
 
 A Python client for the Packet API.
 
+Installation
+------------
+The packet python api library can be installed using pip: `pip install packet-python`
+
+Package information available here:
+
+https://pypi.python.org/pypi?:action=files&name=packet-python&version=1.0
+
 Documentation
 -------------
 Full Packet API documenation is available here:
