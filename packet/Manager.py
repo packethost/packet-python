@@ -111,7 +111,7 @@ class Manager(BaseAPI):
         return Project(data, self.auth_token, self.consumer_token)
 
     def list_volumes(self, project_id, params={}):
-        params['include'] = 'facility'
+        params['include'] = 'facility,attachments.device'
         pmtrs = self._parse_params(params)
         data = super(Manager, self).call_api('projects/%s/storage%s' % (project_id, pmtrs))
         volumes = list()

@@ -21,6 +21,7 @@ class Volume(BaseAPI):
 
         self.plan = Plan(data['plan'])
         self.facility = Facility(data['facility'])
+        self.attached_to = data['attachments'][0]['device']['id']
 
         super(Volume, self).__init__(auth_token, consumer_token)
 
