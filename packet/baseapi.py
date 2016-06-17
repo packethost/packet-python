@@ -42,7 +42,6 @@ class BaseAPI(object):
         if type == 'GET':
             resp = requests.get(url, headers=headers)
         elif type == 'POST':
-            print(url)
             resp = requests.post(url, headers=headers, data=json.dumps(params))
         elif type == 'DELETE':
             resp = requests.delete(url, headers=headers)
