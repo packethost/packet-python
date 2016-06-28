@@ -23,7 +23,7 @@ class Volume(BaseAPI):
         self.facility = Facility(data['facility'])
         try:
             self.attached_to = data['attachments'][0]['device']['id']
-        except IndexError:
+        except (KeyError, IndexError):
             self.attached_to = None
 
         super(Volume, self).__init__(auth_token, consumer_token)
