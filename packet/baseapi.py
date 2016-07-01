@@ -73,5 +73,10 @@ class BaseAPI(object):
             raise Error(
                 'Error {0}: {1}'.format(resp.status_code, msg)
             )
-
+        self.meta = None
+        try:
+            if data['meta']:
+                self.meta = data['meta']
+        except (KeyError, IndexError):
+            pass
         return data
