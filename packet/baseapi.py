@@ -75,7 +75,7 @@ class BaseAPI(object):
             )
         self.meta = None
         try:
-            if data['meta']:
+            if data and data['meta']:
                 self.meta = data['meta']
         except (KeyError, IndexError):
             pass
