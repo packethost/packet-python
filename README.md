@@ -3,13 +3,15 @@ Packet
 
 A Python client for the Packet API.
 
+![travis build status badge](https://travis-ci.org/packethost/packet-python.svg?branch=master "Build Status")
+
 Installation
 ------------
 The packet python api library can be installed using pip: `pip install packet-python`
 
 Package information available here:
 
-https://pypi.python.org/pypi?:action=files&name=packet-python&version=1.0
+https://pypi.python.org/pypi/packet-python
 
 Documentation
 -------------
@@ -80,11 +82,6 @@ devices = manager.list_devices(project_id='project_id', params = params)
 print(devices)
 ```
 
-Testing
--------
-
-Yes.
-
 Contributing
 ------------
 
@@ -93,7 +90,7 @@ Contributing
 * Fork the project.
 * Start a feature/bugfix branch.
 * Commit and push until you are happy with your contribution.
-* Make sure to add tests for it. This is important so we don't break it in a future version unintentionally.
+* You can test your changes with the `test/tests.sh` script, which is what travis uses to check builds.
 
 Credits
 -------
