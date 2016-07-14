@@ -1,4 +1,5 @@
-# command to install dependencies
+language: python
+
 install:
   - pip install .
   - pip install requests coverage
