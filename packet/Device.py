@@ -1,12 +1,13 @@
 # -*- coding: utf-8 -*-
 
-from .baseapi import BaseAPI
 from .OperatingSystem import OperatingSystem
 
 
-class Device(BaseAPI):
+class Device():
 
-    def __init__(self, data, auth_token, consumer_token=None):
+    def __init__(self, data, manager):
+        self.manager = manager
+
         self.id = data['id']
         self.plan = data['plan']
         self.hostname = data['hostname']
@@ -22,30 +23,31 @@ class Device(BaseAPI):
         self.user = data['user']
         self.ip_addresses = data['ip_addresses']
 
-        super(Device, self).__init__(auth_token, consumer_token)
-
     def update(self):
         params = {
             "hostname": self.hostname,
             "locked": self.locked
         }
 
-        return super(Device, self).call_api("devices/%s" % self.id, type='PATCH', params=params)
+        return self.manager.call_api("devices/%s" % self.id, type='PATCH', params=params)
 
     def delete(self):
-        return super(Device, self).call_api("devices/%s" % self.id, type='DELETE')
+        return self.manager.call_api("devices/%s" % self.id, type='DELETE')
 
     def power_off(self):
-        params = { 'type': 'power_off' }
-        return super(Device, self).call_api("devices/%s/actions" % self.id, type='POST', params=params)
+        params = {'type': 'power_off'}
+        return self.manager.call_api("devices/%s/actions" % self.id, type='POST', params=params)
 
     def power_on(self):
-        params = { 'type': 'power_on' }
-        return super(Device, self).call_api("devices/%s/actions" % self.id, type='POST', params=params)
+        params = {'type': 'power_on'}
+        return self.manager.call_api("devices/%s/actions" % self.id, type='POST', params=params)
 
     def reboot(self):
-        params = { 'type': 'reboot' }
-        return super(Device, self).call_api("devices/%s/actions" % self.id, type='POST', params=params)
+        params = {'type': 'reboot'}
+        return self.manager.call_api("devices/%s/actions" % self.id, type='POST', params=params)
 
     def __str__(self):
         return "%s" % self.hostname
+
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)

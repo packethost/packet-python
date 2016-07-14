@@ -24,7 +24,7 @@ class BaseAPI(object):
         self.end_point = 'api.packet.net'
         self._log = logging.getLogger(__name__)
 
-    def call_api(self, method, type='GET', params=None):
+    def call_api(self, method, type='GET', params=None):  # pragma: no cover
         if params is None:
             params = {}
 
@@ -40,9 +40,9 @@ class BaseAPI(object):
                         (type, url, params, headers_str))
 
         if type == 'GET':
+            url = url + '%s' % self._parse_params(params)
             resp = requests.get(url, headers=headers)
         elif type == 'POST':
-            print(url)
             resp = requests.post(url, headers=headers, data=json.dumps(params))
         elif type == 'DELETE':
             resp = requests.delete(url, headers=headers)
@@ -75,9 +75,12 @@ class BaseAPI(object):
                 'Error {0}: {1}'.format(resp.status_code, msg)
             )
         self.meta = None
-        try:
-            if data['meta']:
-                self.meta = data['meta']
-        except (KeyError, IndexError):
-            pass
+        if data:
+            self.meta = data.get('meta')
         return data
+
+    def _parse_params(self, params):  # pragma: no cover
+        vals = list()
+        for k, v in params.items():
+            vals.append(str("%s=%s" % (k, v)))
+        return "?" + "&".join(vals)
