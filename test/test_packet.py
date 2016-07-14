@@ -1,4 +1,3 @@
-import os
 import sys
 import json
 import unittest
@@ -181,9 +180,8 @@ class PacketMockManager(packet.Manager):
         if type == 'DELETE':
             return True
         else:
-            path = os.path.dirname(os.path.realpath(sys.argv[0]))
             fixture = '%s_%s' % (type.lower(), method.lower())
-            with open('%s/fixtures/%s.json' % (path, fixture.replace('/', '_').split("?")[0])) as data_file:
+            with open('fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
                 return json.load(data_file)
 
 if __name__ == '__main__':
