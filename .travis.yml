@@ -2,5 +2,5 @@ language: python
 
 install:
   - pip install .
-  - pip install requests coverage
+  - pip install requests coverage flake8
 script: test/tests.sh
