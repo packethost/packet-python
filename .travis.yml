@@ -1,0 +1,5 @@
+# command to install dependencies
+install:
+  - pip install .
+  - pip install requests coverage
+script: test/tests.sh

@@ -1,6 +1,6 @@
 [report]
 omit =
-    */.local/*
+  */.local/*
 
 include=
-		*packet_python*
+  *packet*

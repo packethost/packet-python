@@ -1,3 +1,4 @@
+import os
 import sys
 import json
 import unittest
@@ -138,6 +139,7 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
     def test_get_volume(self):
         volume = self.manager.get_volume('f9a8a263')
         str(volume)
+        repr(volume)
         self.assertIsInstance(volume, packet.Volume)
 
     def test_update_volume(self):
@@ -179,8 +181,9 @@ class PacketMockManager(packet.Manager):
         if type == 'DELETE':
             return True
         else:
+            path = os.path.dirname(os.path.realpath(sys.argv[0]))
             fixture = '%s_%s' % (type.lower(), method.lower())
-            with open('fixtures/%s.json' % fixture.replace('/', '_').split("?")[0]) as data_file:
+            with open('%s/fixtures/%s.json' % (path, fixture.replace('/', '_').split("?")[0])) as data_file:
                 return json.load(data_file)
 
 if __name__ == '__main__':
