@@ -10,4 +10,7 @@ class Facility():
         self.address = data['address']
 
     def __str__(self):
-        return "%s" % self.name
+        return "%s" % self.code
+
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)
