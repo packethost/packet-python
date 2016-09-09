@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from .baseapi import BaseAPI
+
 
 class Plan():
     def __init__(self, data):
@@ -13,3 +13,6 @@ class Plan():
 
     def __str__(self):
         return "%s" % (self.slug)
+
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)

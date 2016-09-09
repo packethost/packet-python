@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 
-from .baseapi import BaseAPI
 
+class Project():
 
-class Project(BaseAPI):
+    def __init__(self, data, manager):
+        self.manager = manager
 
-    def __init__(self, data, auth_token, consumer_token=None):
         self.id = data['id']
         self.name = data['name']
         self.payment_method = data['payment_method']
@@ -18,17 +18,18 @@ class Project(BaseAPI):
         self.members = data['members']
         self.ssh_keys = data['ssh_keys']
 
-        super(Project, self).__init__(auth_token, consumer_token)
-
     def update(self):
         params = {
             "name": self.name
         }
 
-        return super(Project, self).call_api("projects/%s" % self.id, type='PATCH', params=params)
+        return self.manager.call_api("projects/%s" % self.id, type='PATCH', params=params)
 
     def delete(self):
-        return super(Project, self).call_api("projects/%s" % self.id, type='DELETE')
+        return self.manager.call_api("projects/%s" % self.id, type='DELETE')
 
     def __str__(self):
         return "%s" % self.name
+
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)
