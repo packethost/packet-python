@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 
-from .baseapi import BaseAPI
 from .Plan import Plan
 from .Facility import Facility
 
 
-class Volume(BaseAPI):
+class Volume():
 
-    def __init__(self, data, auth_token, consumer_token=None):
+    def __init__(self, data, manager):
+        self.manager = manager
+
         self.id = data['id']
         self.name = data['name']
         self.description = data['description']
@@ -26,8 +27,6 @@ class Volume(BaseAPI):
         except (KeyError, IndexError):
             self.attached_to = None
 
-        super(Volume, self).__init__(auth_token, consumer_token)
-
     def update(self):
         params = {
             "description": self.description,
@@ -36,48 +35,52 @@ class Volume(BaseAPI):
             "locked": self.locked
         }
 
-        return super(Volume, self).call_api("storage/%s" % self.id, type='PATCH', params=params)
+        return self.manager.call_api("storage/%s" % self.id, type='PATCH', params=params)
 
     def delete(self):
-        return super(Volume, self).call_api("storage/%s" % self.id, type='DELETE')
+        return self.manager.call_api("storage/%s" % self.id, type='DELETE')
 
     def attach(self, device_id):
         params = {'device_id': device_id}
-        return super(Volume, self).call_api("storage/%s/attachments" % self.id, type='POST', params=params)
+        return self.manager.call_api("storage/%s/attachments" % self.id, type='POST', params=params)
 
     def detach(self):
         for attachment in self.attachments:
-            return super(Volume, self).call_api(attachment['href'], type='DELETE')
+            return self.manager.call_api(attachment['href'], type='DELETE')
 
     def list_snapshots(self, params={}):
-        data = super(Volume, self).call_api('storage/%s/snapshots' % (self.id))
+        data = self.manager.call_api('storage/%s/snapshots' % (self.id))
         snapshots = list()
         for jsoned in data['snapshots']:
-            snapshot = VolumeSnapshot(jsoned, self, self.auth_token, self.consumer_token)
+            snapshot = VolumeSnapshot(jsoned, self)
             snapshots.append(snapshot)
         return snapshots
 
     def create_snapshot(self):
-        return super(Volume, self).call_api("storage/%s/snapshots" % self.id, type='POST')
+        return self.manager.call_api("storage/%s/snapshots" % self.id, type='POST')
 
     def __str__(self):
         return "%s" % self.id
 
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)
 
-class VolumeSnapshot(BaseAPI):
 
-    def __init__(self, data, volume, auth_token, consumer_token=None):
+class VolumeSnapshot():
+
+    def __init__(self, data, volume):
+        self.volume = volume
+
         self.id = data['id']
         self.status = data['status']
         self.timestamp = data['timestamp']
         self.created_at = data['created_at']
 
-        self.volume = volume
-
-        super(VolumeSnapshot, self).__init__(auth_token, consumer_token)
-
     def delete(self):
-        return super(VolumeSnapshot, self).call_api("/storage/%s/snapshots/%s" % (self.volume.id, self.id), type='DELETE')
+        return self.volume.manager.call_api("/storage/%s/snapshots/%s" % (self.volume.id, self.id), type='DELETE')
 
     def __str__(self):
         return "%s" % self.id
+
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)

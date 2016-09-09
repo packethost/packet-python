@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
-from .baseapi import BaseAPI
 
 
-class SSHKey(BaseAPI):
+class SSHKey():
 
-    def __init__(self, data, auth_token, consumer_token=None):
+    def __init__(self, data, manager):
+        self.manager = manager
+
         self.id = data['id']
         self.key = data['key']
         self.label = data['label']
@@ -14,18 +15,19 @@ class SSHKey(BaseAPI):
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
-        super(SSHKey, self).__init__(auth_token, consumer_token)
-
     def update(self):
         params = {
             "label": self.label,
             "key": self.key,
         }
 
-        return super(SSHKey, self).call_api("ssh-keys/%s" % self.id, type='PATCH', params=params)
+        return self.manager.call_api("ssh-keys/%s" % self.id, type='PATCH', params=params)
 
     def delete(self):
-        return super(SSHKey, self).call_api("ssh-keys/%s" % self.id, type='DELETE')
+        return self.manager.call_api("ssh-keys/%s" % self.id, type='DELETE')
 
     def __str__(self):
         return "%s %s" % (self.id, self.label)
+
+    def __repr__(self):
+        return '{}: {}'.format(self.__class__.__name__, self.id)
