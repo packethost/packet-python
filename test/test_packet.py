@@ -181,7 +181,7 @@ class PacketMockManager(packet.Manager):
             return True
         else:
             fixture = '%s_%s' % (type.lower(), method.lower())
-            with open('test/fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
+            with open('fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
                 return json.load(data_file)
 
 
