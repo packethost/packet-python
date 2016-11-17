@@ -11,7 +11,7 @@ class SSHKey():
         self.label = data['label']
         self.fingerprint = data['fingerprint']
         self.href = data['href']
-        self.user = data['user']['href']
+        self.owner = data['owner']['href']
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
 
