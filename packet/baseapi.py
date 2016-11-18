@@ -90,8 +90,11 @@ class BaseAPI(object):
                 'Error {0}: {1}'.format(resp.status_code, msg)
             )
         self.meta = None
-        if data:
-            self.meta = data.get('meta')
+        try:
+            if data and data['meta']:
+                self.meta = data['meta']
+        except (KeyError, IndexError):
+            pass
         return data
 
     def _parse_params(self, params):  # pragma: no cover
