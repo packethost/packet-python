@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from .baseapi import BaseAPI
+from .baseapi import Error as PacketError
 from .Plan import Plan
 from .Device import Device
 from .SSHKey import SSHKey
@@ -134,3 +135,27 @@ class Manager(BaseAPI):
         params = {'include': 'facility,attachments.device'}
         data = self.call_api('storage/%s' % volume_id, params=params)
         return Volume(data, self)
+
+    def get_capacity(self):
+        return self.call_api('/capacity')['capacity']
+
+    # servers is a list of tuples of facility, plan, and quantity.
+    def validate_capacity(self, servers):
+        params = {'servers': []}
+        for server in servers:
+            params['servers'].append(
+                {
+                    'facility': server[0],
+                    'plan': server[1],
+                    'quantity': server[2]
+                }
+            )
+
+        try:
+            self.call_api('/capacity', 'POST', params)
+            return True
+        except PacketError as e:
+            if e.args[0] == 'Error 503: Service Unavailable':
+                return False
+            else:
+                raise e
