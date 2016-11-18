@@ -184,5 +184,6 @@ class PacketMockManager(packet.Manager):
             with open('fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
                 return json.load(data_file)
 
+
 if __name__ == '__main__':
     sys.exit(unittest.main())
