@@ -8,7 +8,7 @@ class Project():
 
         self.id = data['id']
         self.name = data['name']
-        self.payment_method = data['payment_method']
+        self.payment_method = data.get('payment_method', [])
         self.max_projects = data.get('max_devices')
         self.created_at = data['created_at']
         self.updated_at = data['updated_at']
