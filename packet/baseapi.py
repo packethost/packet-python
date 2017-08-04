@@ -65,7 +65,7 @@ class BaseAPI(object):
             raise Error('Communcations error: %s' % str(e), e)
         if not resp.content:
             data = None
-        elif resp.headers.get("content-type","").startswith("application/json"):
+        elif resp.headers.get("content-type", "").startswith("application/json"):
             try:
                 data = resp.json()
             except ValueError as e:
