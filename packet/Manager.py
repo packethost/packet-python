@@ -161,7 +161,7 @@ class Manager(BaseAPI):
         try:
             self.call_api('/capacity', 'POST', params)
             return True
-        except PacketError as e:
+        except PacketError as e: # pragma: no cover
             if e.args[0] == 'Error 503: Service Unavailable':
                 return False
             else:
