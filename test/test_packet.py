@@ -73,7 +73,8 @@ class PacketManagerTest(unittest.TestCase):
         self.assertIsInstance(device, packet.Device)
 
     def test_create_device_ipxe(self):
-        device = self.manager.create_device('438659f0', 'hostname', 'baremetal_0', 'ewr1', 'custom_ipxe', ipxe_script_url='https://example.com', always_pxe=True)
+        device = self.manager.create_device('438659f0', 'hostname', 'baremetal_0', 'ewr1', 'custom_ipxe',
+                                            ipxe_script_url='https://example.com', always_pxe=True)
         self.assertIsInstance(device, packet.Device)
 
     def test_get_device(self):
@@ -182,10 +183,11 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
         volume.create_clone()
 
     def test_capacity(self):
-        capacity = self.manager.get_capacity()
+        self.manager.get_capacity()
 
     def test_validate_capacity(self):
         capacity = self.manager.validate_capacity([('ewr1', 'baremetal_0', 10)])
+        self.assertTrue(capacity)
 
 
 class PacketMockManager(packet.Manager):

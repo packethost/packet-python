@@ -4,7 +4,7 @@ import logging
 import requests
 
 
-class Error(Exception): # pragma: no cover
+class Error(Exception):  # pragma: no cover
     """Base exception class for this module"""
     def __init__(self, msg, cause=None):
         super(Error, self).__init__(msg)
