@@ -63,14 +63,9 @@ class BaseAPI(object):
                 )
         except requests.exceptions.RequestException as e:
             raise Error('Communcations error: %s' % str(e), e)
-        try:
-            resp.raise_for_status()
-        except requests.HTTPError as e:
-            raise Error('Error {0}: {1}'.format(resp.status_code,
-                                                resp.reason), e)
         if not resp.content:
             data = None
-        elif resp.headers['content-type'].startswith("application/json"):
+        elif resp.headers.get("content-type","").startswith("application/json"):
             try:
                 data = resp.json()
             except ValueError as e:
@@ -89,6 +84,11 @@ class BaseAPI(object):
             raise Error(
                 'Error {0}: {1}'.format(resp.status_code, msg)
             )
+        try:
+            resp.raise_for_status()
+        except requests.HTTPError as e:
+            raise Error('Error {0}: {1}'.format(resp.status_code,
+                                                resp.reason), e)
         self.meta = None
         try:
             if data and data['meta']:
