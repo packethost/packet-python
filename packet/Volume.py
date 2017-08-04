@@ -59,6 +59,9 @@ class Volume():
     def create_snapshot(self):
         return self.manager.call_api("storage/%s/snapshots" % self.id, type='POST')
 
+    def create_clone(self):
+        return self.manager.call_api("storage/%s/clone" % self.id, type="POST")
+
     def __str__(self):
         return "%s" % self.id
 
