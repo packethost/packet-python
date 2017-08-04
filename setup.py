@@ -15,7 +15,7 @@ if os.path.isfile("README.md"):
 
 setup(
     name='packet-python',
-    version='1.34',
+    version='1.35',
     description='Packet API client',
     author='Aaron Welch ( http://www.packet.net )',
     author_email='welch@packet.net',
