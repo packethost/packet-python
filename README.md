@@ -16,7 +16,7 @@ https://pypi.python.org/pypi/packet-python
 Documentation
 -------------
 Full Packet API documenation is available here:
-[https://www.packet.net/dev/api/](https://www.packet.net/dev/api/)
+[https://www.packet.net/developers/api/](https://www.packet.net/developers/api/)
 
 Examples
 --------
