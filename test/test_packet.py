@@ -1,7 +1,9 @@
 import sys
 import json
 import unittest
+
 import packet
+import requests_mock
 
 
 class PacketManagerTest(unittest.TestCase):
@@ -201,12 +203,30 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 class PacketMockManager(packet.Manager):
 
     def call_api(self, method, type='GET', params=None):
-        if type == 'DELETE':
-            return None
-        else:
+        with requests_mock.Mocker() as m:
+            mock = {
+                'DELETE': m.delete,
+                'GET': m.get,
+                'PUT': m.put,
+                'POST': m.post,
+                'PATCH': m.patch,
+            }[type]
+
+            if type == 'DELETE':
+                mock(requests_mock.ANY)
+                return super(PacketMockManager, self).call_api(method, type, params)
+
             fixture = '%s_%s' % (type.lower(), method.lower())
-            with open('test/fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
-                return json.load(data_file)
+            fixture = fixture.replace('/', '_').split('?')[0]
+            fixture = 'test/fixtures/%s.json' % fixture
+
+            headers = {'content-type': 'application/json'}
+
+            with open(fixture) as data_file:
+                j = json.load(data_file)
+
+            mock(requests_mock.ANY, headers=headers, json=j)
+            return super(PacketMockManager, self).call_api(method, type, params)
 
 
 if __name__ == '__main__':

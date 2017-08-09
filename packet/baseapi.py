@@ -32,7 +32,7 @@ class BaseAPI(object):
         self.end_point = 'api.packet.net'
         self._log = logging.getLogger(__name__)
 
-    def call_api(self, method, type='GET', params=None):  # pragma: no cover
+    def call_api(self, method, type='GET', params=None):  # noqa
         if params is None:
             params = {}
 
@@ -57,9 +57,9 @@ class BaseAPI(object):
                 resp = requests.delete(url, headers=headers)
             elif type == 'PATCH':
                 resp = requests.patch(url, headers=headers, data=json.dumps(params))
-            else:
+            else:  # pragma: no cover
                 raise Error('method type not recognized as one of GET, POST, DELETE or PATCH: %s' % type)
-        except requests.exceptions.RequestException as e:
+        except requests.exceptions.RequestException as e:  # pragma: no cover
             raise Error('Communcations error: %s' % str(e), e)
 
         if not resp.content:
@@ -67,12 +67,12 @@ class BaseAPI(object):
         elif resp.headers.get("content-type", "").startswith("application/json"):
             try:
                 data = resp.json()
-            except ValueError as e:
+            except ValueError as e:  # pragma: no cover
                 raise JSONReadError('Read failed: %s' % e.message, e)
         else:
-            data = resp.content
+            data = resp.content  # pragma: no cover
 
-        if not resp.ok:
+        if not resp.ok:  # pragma: no cover
             msg = data
             if not data:
                 msg = "(empty response)"
@@ -82,7 +82,7 @@ class BaseAPI(object):
 
         try:
             resp.raise_for_status()
-        except requests.HTTPError as e:
+        except requests.HTTPError as e:  # pragma: no cover
             raise Error('Error {0}: {1}'.format(resp.status_code, resp.reason), e)
 
         self.meta = None
@@ -94,7 +94,7 @@ class BaseAPI(object):
 
         return data
 
-    def _parse_params(self, params):  # pragma: no cover
+    def _parse_params(self, params):
         vals = list()
         for k, v in params.items():
             vals.append(str("%s=%s" % (k, v)))
