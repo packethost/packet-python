@@ -60,7 +60,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_delete_project(self):
         project = self.manager.get_project('438659f0')
-        self.assertTrue(project.delete())
+        self.assertIsNone(project.delete())
 
     def test_list_devices(self):
         devices = self.manager.list_devices('438659f0')
@@ -90,9 +90,9 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_device_actions(self):
         device = self.manager.get_device('9dec7266')
-        self.assertTrue(device.power_off() is None)
-        self.assertTrue(device.power_on() is None)
-        self.assertTrue(device.reboot() is None)
+        self.assertIsNone(device.power_off())
+        self.assertIsNone(device.power_on())
+        self.assertIsNone(device.reboot())
 
     def test_update_device(self):
         hostname = 'updated hostname'
@@ -104,7 +104,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_delete_device(self):
         device = self.manager.get_device('9dec7266')
-        self.assertTrue(device.delete())
+        self.assertIsNone(device.delete())
 
     def test_list_ssh_keys(self):
         keys = self.manager.list_ssh_keys()
@@ -129,7 +129,7 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_delete_ssh_key(self):
         key = self.manager.get_ssh_key('084a5dec')
-        self.assertTrue(key.delete())
+        self.assertIsNone(key.delete())
 
     def test_update_ssh_key(self):
         label = 'updated label'
@@ -164,7 +164,7 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_delete_volume(self):
         volume = self.manager.get_volume('f9a8a263')
-        self.assertTrue(volume.delete())
+        self.assertIsNone(volume.delete())
 
     def test_list_volume_snapshots(self):
         volume = self.manager.get_volume('f9a8a263')
@@ -176,11 +176,11 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_attach_volume(self):
         volume = self.manager.get_volume('f9a8a263')
-        self.assertTrue(volume.attach('9dec7266') is None)
+        self.assertIsNone(volume.attach('9dec7266'))
 
     def test_detach_volume(self):
         volume = self.manager.get_volume('f9a8a263')
-        self.assertTrue(volume.detach())
+        self.assertIsNone(volume.detach())
 
     def test_volume_create_snapshot(self):
         volume = self.manager.get_volume('f9a8a263')
@@ -202,7 +202,7 @@ class PacketMockManager(packet.Manager):
 
     def call_api(self, method, type='GET', params=None):
         if type == 'DELETE':
-            return True
+            return None
         else:
             fixture = '%s_%s' % (type.lower(), method.lower())
             with open('test/fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
