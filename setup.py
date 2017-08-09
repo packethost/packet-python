@@ -24,5 +24,4 @@ setup(
     install_requires=['requests'],
     license='LGPL v3',
     keywords='packet api client',
-    long_description=long_description
-)
+    long_description=long_description)

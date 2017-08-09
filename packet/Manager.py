@@ -11,6 +11,7 @@ from .Volume import Volume
 
 
 class Manager(BaseAPI):
+
     def __init__(self, auth_token, consumer_token=None):
         super(Manager, self).__init__(auth_token, consumer_token)
 
@@ -70,10 +71,20 @@ class Manager(BaseAPI):
             devices.append(device)
         return devices
 
-    def create_device(self, project_id, hostname, plan, facility,
-                      operating_system, billing_cycle='hourly', userdata='',
-                      locked=False, tags={}, features={}, ipxe_script_url='',
-                      always_pxe=False, public_ipv4_subnet_size=31):
+    def create_device(self,
+                      project_id,
+                      hostname,
+                      plan,
+                      facility,
+                      operating_system,
+                      billing_cycle='hourly',
+                      userdata='',
+                      locked=False,
+                      tags={},
+                      features={},
+                      ipxe_script_url='',
+                      always_pxe=False,
+                      public_ipv4_subnet_size=31):
 
         params = {
             'hostname': hostname,
@@ -152,13 +163,7 @@ class Manager(BaseAPI):
     def validate_capacity(self, servers):
         params = {'servers': []}
         for server in servers:
-            params['servers'].append(
-                {
-                    'facility': server[0],
-                    'plan': server[1],
-                    'quantity': server[2]
-                }
-            )
+            params['servers'].append({'facility': server[0], 'plan': server[1], 'quantity': server[2]})
 
         try:
             self.call_api('/capacity', 'POST', params)

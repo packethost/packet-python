@@ -7,7 +7,6 @@ __author_email__ = "welch@packet.net"
 __license__ = "LGPL v3"
 __copyright__ = "Copyright (c) 2015, Aaron Welch and Packet"
 
-
 from .Device import Device  # noqa
 from .Facility import Facility  # noqa
 from .OperatingSystem import OperatingSystem  # noqa

@@ -5,6 +5,7 @@ import packet
 
 
 class PacketManagerTest(unittest.TestCase):
+
     def setUp(self):
         self.manager = PacketMockManager(auth_token="foo")
 
@@ -73,8 +74,14 @@ class PacketManagerTest(unittest.TestCase):
         self.assertIsInstance(device, packet.Device)
 
     def test_create_device_ipxe(self):
-        device = self.manager.create_device('438659f0', 'hostname', 'baremetal_0', 'ewr1', 'custom_ipxe',
-                                            ipxe_script_url='https://example.com', always_pxe=True)
+        device = self.manager.create_device(
+            '438659f0',
+            'hostname',
+            'baremetal_0',
+            'ewr1',
+            'custom_ipxe',
+            ipxe_script_url='https://example.com',
+            always_pxe=True)
         self.assertIsInstance(device, packet.Device)
 
     def test_get_device(self):
@@ -115,6 +122,7 @@ class PacketManagerTest(unittest.TestCase):
 641uW1u5ML2HgQdfYKMF/YFGnI1Y6xV637DjhDyZYV9LasUH49npSSJjsBcsk9JGfUpNAOdcgpFzK8V90eiOrOC5YncxdwwG8pwjFI9nNVPCl4hYEu1iXdy\
 ysHvkFfS2fklsNjLWrzfafPlaen+qcBxygCA0sFdW/7er50aJeghdBHnE2WhIKLUkJxnKadznfAge7oEe+3LLAPfP+3yHyvp2+H0IzmVfYvAjnzliYetqQ8\
 pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
+
         key = self.manager.create_ssh_key(label="sshkey-name", public_key=public_key)
         self.assertIsInstance(key, packet.SSHKey)
         self.assertEquals(key.key, public_key)
