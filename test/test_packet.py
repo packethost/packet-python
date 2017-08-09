@@ -36,7 +36,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_list_projects(self):
         projects = self.manager.list_projects()
-        self.assertTrue(isinstance(projects, list))
+        self.assertIsInstance(projects, list)
         for project in projects:
             str(project)
             repr(project)
