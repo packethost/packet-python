@@ -72,7 +72,8 @@ class Manager(BaseAPI):
 
     def create_device(self, project_id, hostname, plan, facility,
                       operating_system, billing_cycle='hourly', userdata='',
-                      locked=False, tags={}, features={}, ipxe_script_url='', always_pxe=False):
+                      locked=False, tags={}, features={}, ipxe_script_url='',
+                      always_pxe=False, public_ipv4_subnet_size=31):
 
         params = {
             'hostname': hostname,
@@ -84,6 +85,7 @@ class Manager(BaseAPI):
             'userdata': userdata,
             'locked': locked,
             'features': features,
+            'public_ipv4_subnet_size': public_ipv4_subnet_size,
             'tags': tags,
         }
 
