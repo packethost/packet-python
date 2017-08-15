@@ -1,10 +1,13 @@
 import sys
 import json
 import unittest
+
 import packet
+import requests_mock
 
 
 class PacketManagerTest(unittest.TestCase):
+
     def setUp(self):
         self.manager = PacketMockManager(auth_token="foo")
 
@@ -35,7 +38,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_list_projects(self):
         projects = self.manager.list_projects()
-        self.assertTrue(isinstance(projects, list))
+        self.assertIsInstance(projects, list)
         for project in projects:
             str(project)
             repr(project)
@@ -59,7 +62,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_delete_project(self):
         project = self.manager.get_project('438659f0')
-        self.assertTrue(project.delete())
+        self.assertIsNone(project.delete())
 
     def test_list_devices(self):
         devices = self.manager.list_devices('438659f0')
@@ -73,8 +76,14 @@ class PacketManagerTest(unittest.TestCase):
         self.assertIsInstance(device, packet.Device)
 
     def test_create_device_ipxe(self):
-        device = self.manager.create_device('438659f0', 'hostname', 'baremetal_0', 'ewr1', 'custom_ipxe',
-                                            ipxe_script_url='https://example.com', always_pxe=True)
+        device = self.manager.create_device(
+            '438659f0',
+            'hostname',
+            'baremetal_0',
+            'ewr1',
+            'custom_ipxe',
+            ipxe_script_url='https://example.com',
+            always_pxe=True)
         self.assertIsInstance(device, packet.Device)
 
     def test_get_device(self):
@@ -83,9 +92,9 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_device_actions(self):
         device = self.manager.get_device('9dec7266')
-        self.assertTrue(device.power_off() is None)
-        self.assertTrue(device.power_on() is None)
-        self.assertTrue(device.reboot() is None)
+        self.assertIsNone(device.power_off())
+        self.assertIsNone(device.power_on())
+        self.assertIsNone(device.reboot())
 
     def test_update_device(self):
         hostname = 'updated hostname'
@@ -97,7 +106,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_delete_device(self):
         device = self.manager.get_device('9dec7266')
-        self.assertTrue(device.delete())
+        self.assertIsNone(device.delete())
 
     def test_list_ssh_keys(self):
         keys = self.manager.list_ssh_keys()
@@ -115,13 +124,14 @@ class PacketManagerTest(unittest.TestCase):
 641uW1u5ML2HgQdfYKMF/YFGnI1Y6xV637DjhDyZYV9LasUH49npSSJjsBcsk9JGfUpNAOdcgpFzK8V90eiOrOC5YncxdwwG8pwjFI9nNVPCl4hYEu1iXdy\
 ysHvkFfS2fklsNjLWrzfafPlaen+qcBxygCA0sFdW/7er50aJeghdBHnE2WhIKLUkJxnKadznfAge7oEe+3LLAPfP+3yHyvp2+H0IzmVfYvAjnzliYetqQ8\
 pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
+
         key = self.manager.create_ssh_key(label="sshkey-name", public_key=public_key)
         self.assertIsInstance(key, packet.SSHKey)
         self.assertEquals(key.key, public_key)
 
     def test_delete_ssh_key(self):
         key = self.manager.get_ssh_key('084a5dec')
-        self.assertTrue(key.delete())
+        self.assertIsNone(key.delete())
 
     def test_update_ssh_key(self):
         label = 'updated label'
@@ -156,7 +166,7 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_delete_volume(self):
         volume = self.manager.get_volume('f9a8a263')
-        self.assertTrue(volume.delete())
+        self.assertIsNone(volume.delete())
 
     def test_list_volume_snapshots(self):
         volume = self.manager.get_volume('f9a8a263')
@@ -168,11 +178,11 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_attach_volume(self):
         volume = self.manager.get_volume('f9a8a263')
-        self.assertTrue(volume.attach('9dec7266') is None)
+        self.assertIsNone(volume.attach('9dec7266'))
 
     def test_detach_volume(self):
         volume = self.manager.get_volume('f9a8a263')
-        self.assertTrue(volume.detach())
+        self.assertIsNone(volume.detach())
 
     def test_volume_create_snapshot(self):
         volume = self.manager.get_volume('f9a8a263')
@@ -193,12 +203,30 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 class PacketMockManager(packet.Manager):
 
     def call_api(self, method, type='GET', params=None):
-        if type == 'DELETE':
-            return True
-        else:
+        with requests_mock.Mocker() as m:
+            mock = {
+                'DELETE': m.delete,
+                'GET': m.get,
+                'PUT': m.put,
+                'POST': m.post,
+                'PATCH': m.patch,
+            }[type]
+
+            if type == 'DELETE':
+                mock(requests_mock.ANY)
+                return super(PacketMockManager, self).call_api(method, type, params)
+
             fixture = '%s_%s' % (type.lower(), method.lower())
-            with open('fixtures/%s.json' % (fixture.replace('/', '_').split("?")[0])) as data_file:
-                return json.load(data_file)
+            fixture = fixture.replace('/', '_').split('?')[0]
+            fixture = 'test/fixtures/%s.json' % fixture
+
+            headers = {'content-type': 'application/json'}
+
+            with open(fixture) as data_file:
+                j = json.load(data_file)
+
+            mock(requests_mock.ANY, headers=headers, json=j)
+            return super(PacketMockManager, self).call_api(method, type, params)
 
 
 if __name__ == '__main__':

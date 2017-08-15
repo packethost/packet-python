@@ -1,0 +1,21 @@
+matrix:
+  PYTHON_VERSION:
+    - 2.7
+    - 3.3
+    - 3.4
+    - 3.5
+    - 3.6
+
+pipeline:
+  fmt_and_lint:
+    image: python:alpine
+    commands:
+      - pip install pylama yapf
+      - yapf -dr packet | (! grep '.')
+      - pylama packet test setup.py
+
+  test:
+    image: python:${PYTHON_VERSION}-alpine
+    commands:
+      - pip install tox
+      - tox

@@ -2,6 +2,7 @@
 
 
 class OperatingSystem(object):
+
     def __init__(self, data):
         self.slug = data['slug']
         self.name = data['name']

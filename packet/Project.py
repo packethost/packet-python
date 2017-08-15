@@ -19,9 +19,7 @@ class Project():
         self.ssh_keys = data['ssh_keys']
 
     def update(self):
-        params = {
-            "name": self.name
-        }
+        params = {"name": self.name}
 
         return self.manager.call_api("projects/%s" % self.id, type='PATCH', params=params)
 

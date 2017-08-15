@@ -28,12 +28,7 @@ class Volume():
             self.attached_to = None
 
     def update(self):
-        params = {
-            "description": self.description,
-            "size": self.size,
-            "plan": self.plan,
-            "locked": self.locked
-        }
+        params = {"description": self.description, "size": self.size, "plan": self.plan.slug, "locked": self.locked}
 
         return self.manager.call_api("storage/%s" % self.id, type='PATCH', params=params)
 

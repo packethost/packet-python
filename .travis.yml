@@ -1,6 +1,10 @@
 language: python
+python:
+  - "2.7"
+  - "3.3"
+  - "3.4"
+  - "3.5"
+  - "3.6"
 
-install:
-  - pip install .
-  - pip install requests coverage flake8
-script: test/tests.sh
+install: pip install tox
+script: tox
