@@ -84,6 +84,8 @@ class Manager(BaseAPI):
                       features={},
                       ipxe_script_url='',
                       always_pxe=False,
+                      spot_instance=False,
+                      spot_price_max=-1,
                       public_ipv4_subnet_size=31):
 
         params = {
@@ -104,6 +106,9 @@ class Manager(BaseAPI):
             params['operating_system'] = 'custom_ipxe'
             params['ipxe_script_url'] = ipxe_script_url
             params['always_pxe'] = always_pxe
+        if spot_instance:
+            params['spot_instance'] = spot_instance
+            params['spot_price_max'] = spot_price_max
         data = self.call_api('projects/%s/devices' % project_id, type='POST', params=params)
         return Device(data, self)
 
@@ -173,3 +178,7 @@ class Manager(BaseAPI):
                 return False
             else:
                 raise e
+
+    def get_spot_market_prices(self, params={}):
+        data = self.call_api('/market/spot/prices', params=params)
+        return data["spot_market_prices"]
