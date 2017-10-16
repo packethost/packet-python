@@ -15,7 +15,8 @@ pipeline:
       - pylama packet test setup.py
 
   test:
-    image: python:${PYTHON_VERSION}-alpine
+    image: python:${PYTHON_VERSION}
     commands:
-      - pip install tox
-      - tox
+      - apt update -y && apt install -y pandoc
+      - pip install pypandoc tox
+      - tox -e py$(echo ${PYTHON_VERSION} | sed 's|\.||')
