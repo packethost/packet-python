@@ -23,7 +23,7 @@ Examples
 ### List projects
 
 ```python
-import packet 
+import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 projects = manager.list_projects()
@@ -47,7 +47,7 @@ for plan in plans:
 ### Creating a Device
 
 ```python
-import packet 
+import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 device = manager.create_device(project_id='project-id',
@@ -60,7 +60,7 @@ print(device)
 ### Checking the status and rebooting a Device
 
 ```python
-import packet 
+import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 device = manager.get_device('device-id')
@@ -70,7 +70,7 @@ device.reboot()
 
 ### Listing all devices, limiting to 50 per page
 
-// Packet API defaults to a limit of 10 per page
+_Packet API defaults to a limit of 10 per page_
 
 ```python
 import packet
