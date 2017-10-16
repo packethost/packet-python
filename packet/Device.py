@@ -22,6 +22,8 @@ class Device():
         self.billing_cycle = data['billing_cycle']
         self.user = data['user']
         self.ip_addresses = data['ip_addresses']
+        self.spot_instance = data.get('spot_instance')
+        self.spot_price_max = data.get('spot_price_max')
         self.facility = data['facility']
 
     def update(self):
