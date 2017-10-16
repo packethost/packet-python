@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 import pypandoc
 
 try:
@@ -9,14 +10,17 @@ except ImportError:
     use_setuptools()
     from setuptools import setup
 
-readme = pypandoc.convert_file('README.md', 'rst')
-changelog = pypandoc.convert_file('CHANGELOG.md', 'rst')
+long_description = 'This library provides the python client for the Packet API.'
+if os.path.isfile('README.md') and os.path.isfile('CHANGELOG.md'):
+    readme = pypandoc.convert_file('README.md', 'rst')
+    changelog = pypandoc.convert_file('CHANGELOG.md', 'rst')
+    long_description = readme + '\n' + changelog
 
 setup(
     name='packet-python',
     version='1.36.0',
     description='Packet API client',
-    long_description=readme + '\n' + changelog,
+    long_description=long_description,
     url='https://github.com/packethost/packet-python',
     author='Packet Developers',
     license='LGPL v3',
