@@ -23,7 +23,7 @@ Examples
 ### List projects
 
 ```python
-import packet 
+import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 projects = manager.list_projects()
@@ -47,7 +47,7 @@ for plan in plans:
 ### Creating a Device
 
 ```python
-import packet 
+import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 device = manager.create_device(project_id='project-id',
@@ -60,7 +60,7 @@ print(device)
 ### Checking the status and rebooting a Device
 
 ```python
-import packet 
+import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 device = manager.get_device('device-id')
@@ -70,7 +70,7 @@ device.reboot()
 
 ### Listing all devices, limiting to 50 per page
 
-// Packet API defaults to a limit of 10 per page
+_Packet API defaults to a limit of 10 per page_
 
 ```python
 import packet
@@ -101,4 +101,9 @@ https://github.com/koalalorenzo/python-digitalocean
 Copyright
 ---------
 
-Copyright (c) 2015 Packet Host. See `LICENSE.txt` for further details.
+Copyright (c) 2017 Packet Host. See [License](https://github.com/packethost/packet-python/LICENSE.txt) for further details.
+
+Changes
+-------
+
+See the [Changelog](https://github.com/packethost/packet-python/CHANGES.md) for further details.
