@@ -3,6 +3,40 @@
 import os
 import pypandoc
 
+# Notes for the not-an-everyday-python-dev for package distribution on pypi
+#
+# Build the package using `setuptools`:
+#
+#     python setup.py sdist bdist_wheel
+#
+# Make sure you have ~/.pypirc correctly populated, as of today should look something like:
+#
+#     [distutils]
+#     index-servers =
+#         pypi
+#         testpypi
+#
+#     [pypi]
+#     username: username-here
+#     password: password-here
+#
+#     [testpypi]
+#     repository: https://test.pypi.org/legacy/
+#     username: username-here (not necessarily same as real pypi)
+#     password: password-here (not necessarily same as real pypi)
+#
+# Then upload using twine to testpypi first:
+#
+#     twine upload -r testpypi dist/*
+#
+# If all looks good go ahead and tag the repo, push to GH, and then push to real
+# pypi:
+#
+#     twine upload dist/*
+#
+# Congratulations to me, I've just condensed so many webpages into 30 lines,
+# :raised_hands:!
+
 try:
     from setuptools import setup
 except ImportError:
