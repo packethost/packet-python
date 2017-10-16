@@ -18,5 +18,5 @@ pipeline:
     image: python:${PYTHON_VERSION}
     commands:
       - apt update -y && apt install -y pandoc
-      - pip install tox
+      - pip install pypandoc tox
       - tox

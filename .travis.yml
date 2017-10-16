@@ -11,5 +11,5 @@ python:
   - "3.6"
 sudo: false
 
-install: pip install tox
+install: pip install pypandoc tox
 script: tox
