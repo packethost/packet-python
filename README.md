@@ -101,4 +101,4 @@ https://github.com/koalalorenzo/python-digitalocean
 Copyright
 ---------
 
-Copyright (c) 2015 Packet Host. See `LICENSE.txt` for further details.
+Copyright (c) 2017 Packet Host. See [License](https://github.com/packethost/packet-python/LICENSE.txt) for further details.
