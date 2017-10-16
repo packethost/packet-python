@@ -102,3 +102,8 @@ Copyright
 ---------
 
 Copyright (c) 2017 Packet Host. See [License](https://github.com/packethost/packet-python/LICENSE.txt) for further details.
+
+Changes
+-------
+
+See the [Changelog](https://github.com/packethost/packet-python/CHANGES.md) for further details.
