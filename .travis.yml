@@ -12,4 +12,4 @@ python:
 sudo: false
 
 install: pip install pypandoc tox
-script: tox
+script: tox -e py$(echo "$TRAVIS_PYTHON_VERSION" | sed 's|\.||')
