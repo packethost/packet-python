@@ -14,7 +14,7 @@ changelog = pypandoc.convert_file('CHANGELOG.md', 'rst')
 
 setup(
     name='packet-python',
-    version='1.35',
+    version='1.36.0',
     description='Packet API client',
     long_description=readme + '\n' + changelog,
     url='https://github.com/packethost/packet-python',
