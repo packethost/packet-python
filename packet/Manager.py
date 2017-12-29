@@ -82,11 +82,13 @@ class Manager(BaseAPI):
                       features={},
                       ipxe_script_url='',
                       locked=False,
+                      project_ssh_keys=[],
                       public_ipv4_subnet_size=31,
                       spot_instance=False,
                       spot_price_max=-1,
                       tags={},
                       termination_time=None,
+                      user_ssh_keys=[],
                       userdata=''):
 
         params = {
@@ -99,7 +101,9 @@ class Manager(BaseAPI):
             'plan': plan,
             'project_id': project_id,
             'public_ipv4_subnet_size': public_ipv4_subnet_size,
+            'project_ssh_keys': project_ssh_keys,
             'tags': tags,
+            'user_ssh_keys': user_ssh_keys,
             'userdata': userdata,
         }
 

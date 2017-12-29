@@ -20,6 +20,7 @@ class Device():
         self.plan = data['plan']
         self.spot_instance = data.get('spot_instance')
         self.spot_price_max = data.get('spot_price_max')
+        self.ssh_keys = data.get('ssh_keys', [])
         self.state = data['state']
         self.tags = data['tags']
         self.termination_time = data.get('termination_time')
