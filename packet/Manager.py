@@ -86,6 +86,7 @@ class Manager(BaseAPI):
                       spot_instance=False,
                       spot_price_max=-1,
                       tags={},
+                      termination_time=None,
                       userdata=''):
 
         params = {
@@ -109,6 +110,7 @@ class Manager(BaseAPI):
         if spot_instance:
             params['spot_instance'] = spot_instance
             params['spot_price_max'] = spot_price_max
+            params['termination_time'] = termination_time
         data = self.call_api('projects/%s/devices' % project_id, type='POST', params=params)
         return Device(data, self)
 

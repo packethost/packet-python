@@ -22,6 +22,7 @@ class Device():
         self.spot_price_max = data.get('spot_price_max')
         self.state = data['state']
         self.tags = data['tags']
+        self.termination_time = data.get('termination_time')
         self.updated_at = data['updated_at']
         self.user = data['user']
 
