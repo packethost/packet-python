@@ -5,6 +5,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.37.0] - 2018-01-08
+### Added
+- Spot Market Support
+- Ability to specify ssh keys on device creation
+
 ## [1.36.0] - 2017-10-16
 ### Added
 - Better tests using PacketMockManager
