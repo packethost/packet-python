@@ -8,21 +8,23 @@ class Device():
     def __init__(self, data, manager):
         self.manager = manager
 
-        self.id = data['id']
-        self.plan = data['plan']
+        self.billing_cycle = data['billing_cycle']
+        self.created_at = data['created_at']
+        self.facility = data['facility']
         self.hostname = data['hostname']
         self.href = data['href']
-        self.userdata = data['userdata']
-        self.operating_system = OperatingSystem(data['operating_system'])
-        self.locked = data['locked']
-        self.tags = data['tags']
-        self.created_at = data['created_at']
-        self.updated_at = data['updated_at']
-        self.state = data['state']
-        self.billing_cycle = data['billing_cycle']
-        self.user = data['user']
+        self.id = data['id']
         self.ip_addresses = data['ip_addresses']
-        self.facility = data['facility']
+        self.locked = data['locked']
+        self.operating_system = OperatingSystem(data['operating_system'])
+        self.plan = data['plan']
+        self.spot_instance = data.get('spot_instance')
+        self.spot_price_max = data.get('spot_price_max')
+        self.state = data['state']
+        self.tags = data['tags']
+        self.termination_time = data.get('termination_time')
+        self.updated_at = data['updated_at']
+        self.user = data['user']
 
     def update(self):
         params = {

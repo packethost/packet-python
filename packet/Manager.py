@@ -77,33 +77,40 @@ class Manager(BaseAPI):
                       plan,
                       facility,
                       operating_system,
+                      always_pxe=False,
                       billing_cycle='hourly',
-                      userdata='',
-                      locked=False,
-                      tags={},
                       features={},
                       ipxe_script_url='',
-                      always_pxe=False,
-                      public_ipv4_subnet_size=31):
+                      locked=False,
+                      public_ipv4_subnet_size=31,
+                      spot_instance=False,
+                      spot_price_max=-1,
+                      tags={},
+                      termination_time=None,
+                      userdata=''):
 
         params = {
-            'hostname': hostname,
-            'project_id': project_id,
-            'plan': plan,
-            'facility': facility,
-            'operating_system': operating_system,
             'billing_cycle': billing_cycle,
-            'userdata': userdata,
-            'locked': locked,
+            'facility': facility,
             'features': features,
+            'hostname': hostname,
+            'locked': locked,
+            'operating_system': operating_system,
+            'plan': plan,
+            'project_id': project_id,
             'public_ipv4_subnet_size': public_ipv4_subnet_size,
             'tags': tags,
+            'userdata': userdata,
         }
 
         if ipxe_script_url != '':
-            params['operating_system'] = 'custom_ipxe'
-            params['ipxe_script_url'] = ipxe_script_url
             params['always_pxe'] = always_pxe
+            params['ipxe_script_url'] = ipxe_script_url
+            params['operating_system'] = 'custom_ipxe'
+        if spot_instance:
+            params['spot_instance'] = spot_instance
+            params['spot_price_max'] = spot_price_max
+            params['termination_time'] = termination_time
         data = self.call_api('projects/%s/devices' % project_id, type='POST', params=params)
         return Device(data, self)
 
@@ -173,3 +180,7 @@ class Manager(BaseAPI):
                 return False
             else:
                 raise e
+
+    def get_spot_market_prices(self, params={}):
+        data = self.call_api('/market/spot/prices', params=params)
+        return data["spot_market_prices"]
