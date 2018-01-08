@@ -52,7 +52,7 @@ if os.path.isfile('README.md') and os.path.isfile('CHANGELOG.md'):
 
 setup(
     name='packet-python',
-    version='1.36.0',
+    version='1.37.1',
     description='Packet API client',
     long_description=long_description,
     url='https://github.com/packethost/packet-python',

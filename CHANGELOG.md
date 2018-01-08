@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 
+## [1.37.1] - 2018-01-08
+### Fixed
+- Version number in setup.py
+
 ## [1.37.0] - 2018-01-08
 ### Added
 - Spot Market Support
