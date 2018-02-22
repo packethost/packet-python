@@ -7,7 +7,9 @@ A Python client for the Packet API.
 
 Installation
 ------------
-The packet python api library can be installed using pip: `pip install packet-python`
+The packet python api library can be installed using pip:
+
+    pip install packet-python
 
 Package information available here:
 
