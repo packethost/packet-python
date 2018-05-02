@@ -168,6 +168,16 @@ class Manager(BaseAPI):
         return Volume(data, self)
 
     def get_capacity(self, legacy=None):
+        """Get capacity of all facilities.
+
+        :param legacy: Indicate set of server types to include in response
+
+        Validation of `legacy` is left to the packet api to avoid going out of date if any new value is introduced.
+        The currently known values are:
+          - only (current default, will be switched "soon")
+          - include
+          - exclude (soon to be default)
+        """
         params = None
         if legacy:
             params = {'legacy': legacy}
