@@ -5,8 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
 ## Unreleased
-### Added
-- `legacy` param to `get_capacity` function
+### Removed
+- Support for python3.3
 
 ## [1.37.1] - 2018-01-08
 ### Fixed
