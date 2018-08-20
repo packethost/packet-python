@@ -7,6 +7,8 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## Unreleased
 ### Removed
 - Support for python3.3
+### Changed
+- setup.py no longer converts markdown to reST because pypi now supports markdown, woop.
 
 ## [1.37.1] - 2018-01-08
 ### Fixed
