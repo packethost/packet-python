@@ -17,6 +17,5 @@ pipeline:
   test:
     image: python:${PYTHON_VERSION}
     commands:
-      - apt update -y && apt install -y pandoc
-      - pip install pypandoc tox
+      - pip install tox
       - tox -e py$(echo ${PYTHON_VERSION} | sed 's|\.||')
