@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import os
 import pypandoc
 
 # Notes for the not-an-everyday-python-dev for package distribution on pypi
@@ -44,11 +43,9 @@ except ImportError:
     use_setuptools()
     from setuptools import setup
 
-long_description = 'This library provides the python client for the Packet API.'
-if os.path.isfile('README.md') and os.path.isfile('CHANGELOG.md'):
-    readme = pypandoc.convert_file('README.md', 'rst')
-    changelog = pypandoc.convert_file('CHANGELOG.md', 'rst')
-    long_description = readme + '\n' + changelog
+readme = pypandoc.convert_file('README.md', 'rst')
+changelog = pypandoc.convert_file('CHANGELOG.md', 'rst')
+long_description = readme + '\n' + changelog
 
 setup(
     name='packet-python',
