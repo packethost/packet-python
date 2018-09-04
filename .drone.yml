@@ -31,19 +31,19 @@ pipeline:
       TWINE_REPOSITORY: testpypi
       TWINE_REPOSITORY_URL: https://test.pypi.org/legacy/
     commands:
+      - env | sort | grep DRONE
       - pip install twine
       - twine upload dist/*
     when:
       event: tag
-      ref: refs/heads/master
     secrets: [twine_username, twine_password]
 
   upload_pypi:
     image: python
     commands:
+      - env | sort | grep DRONE
       - pip install twine
       - twine upload dist/*
     when:
       event: tag
-      ref: refs/heads/master
     secrets: [twine_username, twine_password]
