@@ -66,7 +66,7 @@ import packet
 manager = packet.Manager(auth_token="yourapiauthtoken")
 
 device = manager.get_device('device-id')
-print(device.status)
+print(device.state)
 device.reboot()
 ```
 
