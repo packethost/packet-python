@@ -127,7 +127,7 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
         key = self.manager.create_ssh_key(label="sshkey-name", public_key=public_key)
         self.assertIsInstance(key, packet.SSHKey)
-        self.assertEquals(key.key, public_key)
+        self.assertEqual(key.key, public_key)
 
     def test_delete_ssh_key(self):
         key = self.manager.get_ssh_key('084a5dec')
