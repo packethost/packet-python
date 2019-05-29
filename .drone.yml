@@ -10,8 +10,8 @@ pipeline:
   fmt_and_lint:
     image: python:3.6-alpine
     commands:
-      - pip install pylama yapf
-      - yapf -dr packet | (! grep '.')
+      - pip install black pylama
+      - black --check --diff .
       - pylama packet test setup.py
 
   test:
