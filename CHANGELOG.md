@@ -7,6 +7,7 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ## Unreleased
 ### Added
 - Support for python3.7
+- `legacy` param to `get_capacity` function
 ### Removed
 - Support for python3.3
 ### Changed
