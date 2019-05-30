@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# SPDX-License-Identifier: LGPL-3.0-only
 
 # Notes for the not-an-everyday-python-dev for package distribution on pypi
 #
@@ -47,7 +48,7 @@ with open("README.md") as readme, open("CHANGELOG.md") as changelog:
 
 setup(
     name="packet-python",
-    version="1.37.1",
+    version="1.38.0",
     description="Packet API client",
     long_description=long_description,
     long_description_content_type="text/markdown",

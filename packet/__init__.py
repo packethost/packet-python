@@ -1,11 +1,13 @@
 # -*- coding: utf-8 -*-
+# SPDX-License-Identifier: LGPL-3.0-only
+
 """library to interact with the Packet API"""
 
-__version__ = "1.0"
-__author__ = "Aaron Welch ( https://www.packet.net/about/team/aaron-welch/ )"
-__author_email__ = "welch@packet.net"
+__version__ = "1.38.0"
+__author__ = "Packet Engineers"
+__author_email__ = "help@packet.net"
 __license__ = "LGPL v3"
-__copyright__ = "Copyright (c) 2015, Aaron Welch and Packet"
+__copyright__ = "Copyright (c) 2019, Packet"
 
 from .Device import Device  # noqa
 from .Facility import Facility  # noqa
