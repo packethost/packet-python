@@ -4,7 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [1.38.1] - 2019-05-30
+### Fixed
+- Changelog
+
+## [1.38.0] - 2019-05-30
 ### Added
 - Support for python3.7
 - `legacy` param to `get_capacity` function
