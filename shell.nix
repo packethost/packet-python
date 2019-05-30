@@ -24,5 +24,7 @@ mkShell {
     python3Packages.requests
     python3Packages.requests-mock
     python3Packages.tox
+    python3Packages.twine
+    python3Packages.wheel
   ];
 }
