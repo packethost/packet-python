@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+# SPDX-License-Identifier: LGPL-3.0-only
+
 """library to interact with the Packet API"""
 
 __version__ = "1.0"

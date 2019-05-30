@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# SPDX-License-Identifier: LGPL-3.0-only
 
 # Notes for the not-an-everyday-python-dev for package distribution on pypi
 #
