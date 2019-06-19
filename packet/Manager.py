@@ -10,6 +10,7 @@ from .Project import Project
 from .Facility import Facility
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
+from .MetadataList import MetadataList
 
 
 class Manager(BaseAPI):
@@ -24,7 +25,7 @@ class Manager(BaseAPI):
 
     def list_facilities(self, params={}):
         data = self.call_api("facilities", params=params)
-        facilities = list()
+        facilities = MetadataList(list(), self.meta)
         for jsoned in data["facilities"]:
             facility = Facility(jsoned)
             facilities.append(facility)
@@ -32,7 +33,7 @@ class Manager(BaseAPI):
 
     def list_plans(self, params={}):
         data = self.call_api("plans", params=params)
-        plans = list()
+        plans = MetadataList(list(), self.meta)
         for jsoned in data["plans"]:
             plan = Plan(jsoned)
             plans.append(plan)
@@ -40,7 +41,7 @@ class Manager(BaseAPI):
 
     def list_operating_systems(self, params={}):
         data = self.call_api("operating-systems", params=params)
-        oss = list()
+        oss = MetadataList(list(), self.meta)
         for jsoned in data["operating_systems"]:
             os = OperatingSystem(jsoned)
             oss.append(os)
@@ -49,7 +50,7 @@ class Manager(BaseAPI):
     def list_projects(self, params={}):
         data = self.call_api("projects", params=params)
         self.total = data["meta"]["total"]
-        projects = list()
+        projects = MetadataList(list(), self.meta)
         for jsoned in data["projects"]:
             project = Project(jsoned, self)
             projects.append(project)
@@ -66,7 +67,7 @@ class Manager(BaseAPI):
 
     def list_devices(self, project_id, params={}):
         data = self.call_api("projects/%s/devices" % project_id, params=params)
-        devices = list()
+        devices = MetadataList(list(), self.meta)
         for jsoned in data["devices"]:
             device = Device(jsoned, self)
             devices.append(device)
@@ -129,7 +130,7 @@ class Manager(BaseAPI):
 
     def list_ssh_keys(self, params={}):
         data = self.call_api("ssh-keys", params=params)
-        ssh_keys = list()
+        ssh_keys = MetadataList(list(), self.meta)
         for jsoned in data["ssh_keys"]:
             ssh_key = SSHKey(jsoned, self)
             ssh_keys.append(ssh_key)
@@ -147,7 +148,7 @@ class Manager(BaseAPI):
     def list_volumes(self, project_id, params={}):
         params["include"] = "facility,attachments.device"
         data = self.call_api("projects/%s/storage" % project_id, params=params)
-        volumes = list()
+        volumes = MetadataList(list(), self.meta)
         for jsoned in data["volumes"]:
             volume = Volume(jsoned, self)
             volumes.append(volume)

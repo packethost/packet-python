@@ -18,3 +18,4 @@ from .SSHKey import SSHKey  # noqa
 from .Volume import Volume  # noqa
 from .Manager import Manager  # noqa
 from .baseapi import Error  # noqa
+from .MetadataList import MetadataList # noqa
