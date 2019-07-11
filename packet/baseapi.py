@@ -46,7 +46,7 @@ class BaseAPI(object):
         while True:
             url = "https://" + self.end_point + "/"
             url += method
-            url += f"?page={page}&per_page={params['per_page']}"
+            url += "?page=" + page + "&per_page=" + params["per_page"]
 
             headers = {
                 "X-Auth-Token": self.auth_token,
