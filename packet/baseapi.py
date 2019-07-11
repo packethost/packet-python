@@ -47,7 +47,7 @@ class BaseAPI(object):
             url = "https://" + self.end_point + "/"
             url += method
             url += "?page={page}&per_page={per_page}".format(
-                page = page, per_page = params["per_page"]
+                page=page, per_page=params["per_page"]
             )
 
             headers = {
