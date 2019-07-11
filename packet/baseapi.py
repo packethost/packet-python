@@ -38,66 +38,91 @@ class BaseAPI(object):
         if params is None:
             params = {}
 
-        url = "https://" + self.end_point + "/" + method
+        paginated_data = {}
+        page = 0
 
-        headers = {
-            "X-Auth-Token": self.auth_token,
-            "X-Consumer-Token": self.consumer_token,
-            "Content-Type": "application/json",
-        }
+        while True:
+            if page == 0 or (paginated_data is not None and paginated_data["meta"]["next"] is None):
+                url = "https://" + self.end_point + "/" + method
+            else:
+                # Appended that last bit b/c w/o it requests weren't coming in correctly
+                url = "https://" + self.end_point + paginated_data["meta"]["next"]["href"] + f"&per_page={params['per_page']}"
 
-        # remove token from log
-        headers_str = str(headers).replace(self.auth_token.strip(), "TOKEN")
-        self._log.debug("%s %s %s %s" % (type, url, params, headers_str))
-        try:
-            if type == "GET":
-                url = url + "%s" % self._parse_params(params)
-                resp = requests.get(url, headers=headers)
-            elif type == "POST":
-                resp = requests.post(url, headers=headers, data=json.dumps(params))
-            elif type == "DELETE":
-                resp = requests.delete(url, headers=headers)
-            elif type == "PATCH":
-                resp = requests.patch(url, headers=headers, data=json.dumps(params))
-            else:  # pragma: no cover
-                raise Error(
-                    "method type not recognized as one of GET, POST, DELETE or PATCH: %s"
-                    % type
-                )
-        except requests.exceptions.RequestException as e:  # pragma: no cover
-            raise Error("Communcations error: %s" % str(e), e)
+            headers = {
+                "X-Auth-Token": self.auth_token,
+                "X-Consumer-Token": self.consumer_token,
+                "Content-Type": "application/json",
+            }
 
-        if not resp.content:
-            data = None
-        elif resp.headers.get("content-type", "").startswith("application/json"):
+            headers_str = str(headers).replace(self.auth_token.strip(), "TOKEN")
+            self._log.debug("%s %s %s %s" % (type, url, params, headers_str))
             try:
-                data = resp.json()
-            except ValueError as e:  # pragma: no cover
-                raise JSONReadError("Read failed: %s" % e.message, e)
-        else:
-            data = resp.content  # pragma: no cover
+                if type == "GET":
+                    url = url + "%s" % self._parse_params(params)
+                    resp = requests.get(url, headers=headers)
+                elif type == "POST":
+                    resp = requests.post(url, headers=headers, data=json.dumps(params))
+                elif type == "DELETE":
+                    resp = requests.delete(url, headers=headers)
+                elif type == "PATCH":
+                    resp = requests.patch(url, headers=headers, data=json.dumps(params))
+                else:  # pragma: no cover
+                    raise Error(
+                        "method type not recognized as one of GET, POST, DELETE or PATCH: %s"
+                        % type
+                    )
+            except requests.exceptions.RequestException as e:  # pragma: no cover
+                raise Error("Communcations error: %s" % str(e), e)
 
-        if not resp.ok:  # pragma: no cover
-            msg = data
-            if not data:
-                msg = "(empty response)"
-            elif "errors" in data:
-                msg = ", ".join(data["errors"])
-            raise Error("Error {0}: {1}".format(resp.status_code, msg))
+            if not resp.content:
+                data = None
+            elif resp.headers.get("content-type", "").startswith("application/json"):
+                try:
+                    data = resp.json()
+                except ValueError as e:  # pragma: no cover
+                    raise JSONReadError("Read failed: %s" % e.message, e)
+            else:
+                data = resp.content  # pragma: no cover
 
-        try:
-            resp.raise_for_status()
-        except requests.HTTPError as e:  # pragma: no cover
-            raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
+            if paginated_data == {}:
+                paginated_data = data
+            elif type is "GET":
+                data_keys = list(data.keys())
+                # Round about way of getting desired key, but shouldn't be a problem with
+                # current api response since it seems like data only contains max two keys
+                append_key = data_keys[0] if (data_keys[0] != "meta") else data_keys[1]
+                for things in data[append_key]:
+                    paginated_data[append_key].append(things)
+                paginated_data["meta"] = data["meta"]
+
+            if not resp.ok:  # pragma: no cover
+                msg = data
+                if not data:
+                    msg = "(empty response)"
+                elif "errors" in data:
+                    msg = ", ".join(data["errors"])
+                raise Error("Error {0}: {1}".format(resp.status_code, msg))
+
+            try:
+                resp.raise_for_status()
+            except requests.HTTPError as e:  # pragma: no cover
+                raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
+
+            if type is not "GET":
+                break
+            if not paginated_data.get("meta") or paginated_data["meta"]["next"] is None:
+                break
+            
+            page += 1
 
         self.meta = None
         try:
-            if data and data["meta"]:
-                self.meta = data["meta"]
+            if paginated_data and paginated_data["meta"]:
+                self.meta = paginated_data["meta"]
         except (KeyError, IndexError):
             pass
 
-        return data
+        return paginated_data
 
     def _parse_params(self, params):
         vals = list()

@@ -10,6 +10,7 @@ from .Project import Project
 from .Facility import Facility
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
+import json
 
 
 class Manager(BaseAPI):
