@@ -38,13 +38,15 @@ class BaseAPI(object):
         if params is None:
             params = {}
         if not params.get("per_page"):
-            params.update( {'per_page' : 10} )
+            params.update({"per_page": 10})
 
         accumulated_data = {}
         page = 1
 
         while True:
-            url = "https://" + self.end_point + "/" + method + f"?page={page}&per_page={params['per_page']}"
+            url = "https://" + self.end_point + "/"
+            url += method
+            url += f"?page={page}&per_page={params['per_page']}"
 
             headers = {
                 "X-Auth-Token": self.auth_token,
@@ -103,11 +105,11 @@ class BaseAPI(object):
             except requests.HTTPError as e:  # pragma: no cover
                 raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
 
-            if (
-                type != "GET" or
-                not accumulated_data.get("meta") or
-                accumulated_data["meta"].get("next") is None
-            ):
+            if type != "GET":
+                break
+            if not accumulated_data.get("meta"):
+                break
+            if not accumulated_data["meta"].get("next") is None:
                 break
 
             page += 1
