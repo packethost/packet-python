@@ -39,14 +39,12 @@ class BaseAPI(object):
             params = {}
 
         paginated_data = {}
-        page = 0
+        page = 1
 
         while True:
-            if page == 0 or (paginated_data is not None and paginated_data["meta"]["next"] is None):
-                url = "https://" + self.end_point + "/" + method
-            else:
-                # Appended that last bit b/c w/o it requests weren't coming in correctly
-                url = "https://" + self.end_point + paginated_data["meta"]["next"]["href"] + f"&per_page={params['per_page']}"
+            url = "https://" + self.end_point + "/" + method
+            if page > 1:
+                url = url + f"?page={page}&per_page={params['per_page']}"
 
             headers = {
                 "X-Auth-Token": self.auth_token,
