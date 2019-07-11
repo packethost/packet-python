@@ -106,9 +106,7 @@ class BaseAPI(object):
             except requests.HTTPError as e:  # pragma: no cover
                 raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
 
-            if type is not "GET":
-                break
-            if not paginated_data.get("meta") or paginated_data["meta"]["next"] is None:
+            if type is not "GET" or not paginated_data.get("meta") or paginated_data["meta"]["next"] is None:
                 break
             
             page += 1
