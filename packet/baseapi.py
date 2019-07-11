@@ -107,9 +107,9 @@ class BaseAPI(object):
                 raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
 
             if (
-                type != "GET"
-                or not paginated_data.get("meta")
-                or paginated_data["meta"]["next"] is None
+                type != "GET" or
+                not paginated_data.get("meta") or
+                paginated_data["meta"]["next"] is None
             ):
                 break
 
