@@ -37,14 +37,14 @@ class BaseAPI(object):
     def call_api(self, method, type="GET", params=None):  # noqa
         if params is None:
             params = {}
+        if not params.get("per_page"):
+            params.update( {'per_page' : 10} )
 
-        paginated_data = {}
+        accumulated_data = {}
         page = 1
 
         while True:
-            url = "https://" + self.end_point + "/" + method
-            if page > 1:
-                url = url + f"?page={page}&per_page={params['per_page']}"
+            url = "https://" + self.end_point + "/" + method + f"?page={page}&per_page={params['per_page']}"
 
             headers = {
                 "X-Auth-Token": self.auth_token,
@@ -82,16 +82,13 @@ class BaseAPI(object):
             else:
                 data = resp.content  # pragma: no cover
 
-            if paginated_data == {}:
-                paginated_data = data
+            if accumulated_data == {}:
+                accumulated_data = data
             elif type == "GET":
-                data_keys = list(data.keys())
-                # Round about way of getting desired key, but shouldn't be a problem with
-                # current api response since it seems like data only contains max two keys
-                append_key = data_keys[0] if (data_keys[0] != "meta") else data_keys[1]
-                for things in data[append_key]:
-                    paginated_data[append_key].append(things)
-                paginated_data["meta"] = data["meta"]
+                meta = data.pop("meta")
+                k = list(data.keys())[0]
+                accumulated_data[k].extend(data[k])
+                accumulated_data["meta"] = meta
 
             if not resp.ok:  # pragma: no cover
                 msg = data
@@ -108,8 +105,8 @@ class BaseAPI(object):
 
             if (
                 type != "GET" or
-                not paginated_data.get("meta") or
-                paginated_data["meta"]["next"] is None
+                not accumulated_data.get("meta") or
+                accumulated_data["meta"].get("next") is None
             ):
                 break
 
@@ -117,12 +114,12 @@ class BaseAPI(object):
 
         self.meta = None
         try:
-            if paginated_data and paginated_data["meta"]:
-                self.meta = paginated_data["meta"]
+            if accumulated_data and accumulated_data["meta"]:
+                self.meta = accumulated_data["meta"]
         except (KeyError, IndexError):
             pass
 
-        return paginated_data
+        return accumulated_data
 
     def _parse_params(self, params):
         vals = list()
