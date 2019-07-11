@@ -84,7 +84,7 @@ class BaseAPI(object):
 
             if paginated_data == {}:
                 paginated_data = data
-            elif type is "GET":
+            elif type == "GET":
                 data_keys = list(data.keys())
                 # Round about way of getting desired key, but shouldn't be a problem with
                 # current api response since it seems like data only contains max two keys
@@ -107,7 +107,7 @@ class BaseAPI(object):
                 raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
 
             if (
-                type is not "GET"
+                type != "GET"
                 or not paginated_data.get("meta")
                 or paginated_data["meta"]["next"] is None
             ):
