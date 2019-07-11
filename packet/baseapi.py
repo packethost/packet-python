@@ -109,7 +109,7 @@ class BaseAPI(object):
                 break
             if not accumulated_data.get("meta"):
                 break
-            if not accumulated_data["meta"].get("next") is None:
+            if not accumulated_data["meta"].get("next"):
                 break
 
             page += 1
