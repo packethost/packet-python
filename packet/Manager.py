@@ -10,6 +10,7 @@ from .Project import Project
 from .Facility import Facility
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
+from .Bgp import Bgp
 
 
 class Manager(BaseAPI):
@@ -225,3 +226,8 @@ class Manager(BaseAPI):
     def get_spot_market_prices(self, params={}):
         data = self.call_api("/market/spot/prices", params=params)
         return data["spot_market_prices"]
+
+    def get_bgp(self, project_id):
+        data = self.call_api("projects/%s/bgp-config" % project_id)
+
+        return Bgp(data)

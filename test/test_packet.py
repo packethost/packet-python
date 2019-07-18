@@ -201,6 +201,10 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
     def test_capacity(self):
         self.manager.get_capacity()
 
+    def test_get_bgp_config(self):
+        bgp = self.manager.get_bgp("1234")
+        self.assertIsNotNone(bgp)
+
     def test_validate_capacity(self):
         capacity = self.manager.validate_capacity([("ewr1", "baremetal_0", 10)])
         self.assertTrue(capacity)
