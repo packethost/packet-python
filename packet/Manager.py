@@ -11,6 +11,7 @@ from .Facility import Facility
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
 from .Bgp import Bgp
+from .IPAddress import IPAddress
 
 
 class Manager(BaseAPI):
@@ -194,7 +195,8 @@ class Manager(BaseAPI):
 
         :param legacy: Indicate set of server types to include in response
 
-        Validation of `legacy` is left to the packet api to avoid going out of date if any new value is introduced.
+        Validation of `legacy` is left to the packet api to avoid going out
+        of date if any new value is introduced.
         The currently known values are:
           - only (current default, will be switched "soon")
           - include
@@ -211,7 +213,11 @@ class Manager(BaseAPI):
         params = {"servers": []}
         for server in servers:
             params["servers"].append(
-                {"facility": server[0], "plan": server[1], "quantity": server[2]}
+                {
+                    "facility": server[0],
+                    "plan": server[1],
+                    "quantity": server[2]
+                 }
             )
 
         try:
@@ -229,5 +235,12 @@ class Manager(BaseAPI):
 
     def get_bgp(self, project_id):
         data = self.call_api("projects/%s/bgp-config" % project_id)
-
         return Bgp(data)
+
+    def list_ips(self, device_id):
+        data = self.call_api("devices/%s/ips" % device_id, type="GET")
+        ips = list()
+        for jsoned in data["ip_addresses"]:
+            ip = IPAddress(jsoned)
+            ips.append(ip)
+        return ips

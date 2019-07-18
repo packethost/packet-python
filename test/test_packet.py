@@ -209,6 +209,10 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
         capacity = self.manager.validate_capacity([("ewr1", "baremetal_0", 10)])
         self.assertTrue(capacity)
 
+    def test_list_device_ips(self):
+        ips = self.manager.list_ips("e123s")
+        self.assertIsNotNone(ips)
+
 
 class PacketMockManager(packet.Manager):
     def call_api(self, method, type="GET", params=None):

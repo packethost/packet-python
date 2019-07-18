@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
 
-
 class Facility:
     def __init__(self, data):
         self.id = data["id"]
