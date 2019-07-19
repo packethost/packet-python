@@ -209,7 +209,7 @@ class PacketManagerTest(unittest.TestCase):
         self.manager.get_capacity()
 
     def test_get_bgp_config(self):
-        bgp = self.manager.get_bgp("1234")
+        bgp = self.manager.get_bgp_config("1234")
         self.assertIsNotNone(bgp)
 
     def test_validate_capacity(self):
