@@ -16,6 +16,7 @@ from .Plan import Plan  # noqa
 from .Project import Project  # noqa
 from .SSHKey import SSHKey  # noqa
 from .Volume import Volume  # noqa
-from .Bgp import Bgp  # noqa
+from .BGPConfig import BGPConfig  # noqa
+from .BGPSession import BGPSession # noqa
 from .Manager import Manager  # noqa
 from .baseapi import Error  # noqa

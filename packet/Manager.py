@@ -10,7 +10,8 @@ from .Project import Project
 from .Facility import Facility
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
-from .Bgp import Bgp
+from .BGPConfig import BGPConfig
+from .BGPSession import BGPSession
 from .IPAddress import IPAddress
 
 
@@ -233,10 +234,30 @@ class Manager(BaseAPI):
         data = self.call_api("/market/spot/prices", params=params)
         return data["spot_market_prices"]
 
-    def get_bgp(self, project_id):
+    # BGP Config
+    def get_bgp_config(self, project_id):
         data = self.call_api("projects/%s/bgp-config" % project_id)
-        return Bgp(data)
+        return BGPConfig(data)
 
+    # BGP Session
+    def get_bgp_sessions(self, device_id, params={}):
+        data = self.call_api("/devices/%s/bgp/sessions" % device_id,
+                             type="GET", params=params)
+        bgp_sessions = list()
+        for jsoned in data["bgp_sessions"]:
+            bpg_session = BGPSession(jsoned)
+            bgp_sessions.append(bpg_session)
+        return bgp_sessions
+
+    def create_create_bgp_session(self, device_id, address_family):
+        data = self.call_api("/devices/%s/bgp/sessions" % device_id,
+                             type="POST",
+                             params={
+                                 "address_family": address_family
+                                 })
+        return BGPSession(data)
+
+    # IP operations
     def list_ips(self, device_id):
         data = self.call_api("devices/%s/ips" % device_id, type="GET")
         ips = list()
@@ -244,3 +265,7 @@ class Manager(BaseAPI):
             ip = IPAddress(jsoned)
             ips.append(ip)
         return ips
+
+    def get_ip(self, ip_id):
+        data = self.call_api("ips/%s" % ip_id)
+        return IPAddress(data)

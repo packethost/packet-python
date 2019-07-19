@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 
-class Bgp:
+class BGPConfig:
     def __init__(self, data):
         self.id = data["id"]
         self.status = data["status"]
@@ -17,6 +17,8 @@ class Bgp:
         self.sessions = data["sessions"]
         self.ranges = data["ranges"]
         self.href = data["href"]
+
+
 
     def __str__(self):
         return "%s" % self.code

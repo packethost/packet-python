@@ -1,0 +1,49 @@
+{
+	"id": "99d5d741-3756-4ebe-a014-34ea7a2e2be1",
+	"address_family": 4,
+	"netmask": "255.255.255.254",
+	"created_at": "2019-07-18T08:46:38Z",
+	"details": null,
+	"tags": [],
+	"public": true,
+	"cidr": 31,
+	"management": true,
+	"manageable": true,
+	"enabled": true,
+	"global_ip": null,
+	"customdata": {},
+	"project": {},
+	"project_lite": {},
+	"facility": {
+		"id": "8e6470b3-b75e-47d1-bb93-45b225750975",
+		"name": "Amsterdam, NL",
+		"code": "ams1",
+		"features": [
+			"baremetal",
+			"storage",
+			"global_ipv4",
+			"backend_transfer",
+			"layer_2"
+		],
+		"address": {
+			"href": "#0688e909-647e-4b21-bdf2-fc056d993fc5"
+		},
+		"ip_ranges": [
+			"2604:1380:2000::/36",
+			"147.75.204.0/23",
+			"147.75.100.0/22",
+			"147.75.80.0/22",
+			"147.75.32.0/23"
+		]
+	},
+	"assigned_to": {
+		"href": "/devices/54ffd20d-d972-4c8d-8628-9da18e67ae17"
+	},
+	"interface": {
+		"href": "/ports/02ea0556-df04-4554-b339-760a0d227b44"
+	},
+	"network": "147.75.84.94",
+	"address": "147.75.84.95",
+	"gateway": "147.75.84.94",
+	"href": "/ips/99d5d741-3756-4ebe-a014-34ea7a2e2be1"
+}
