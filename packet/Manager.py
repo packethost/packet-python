@@ -269,3 +269,8 @@ class Manager(BaseAPI):
     def get_ip(self, ip_id):
         data = self.call_api("ips/%s" % ip_id)
         return IPAddress(data)
+
+    # Batches
+    def create_batch(self,project_id, params):
+        data = self.call_api("/projects/%s/devices/batch" % project_id, type="POST", params=params)
+        print data

@@ -1,8 +1,11 @@
+import json
 import os
 import sys
 import unittest
 import time
 import packet
+from packet import DeviceBatch
+from packet.DeviceBatch import Batches
 
 
 class TestDevice(unittest.TestCase):
@@ -45,9 +48,29 @@ class TestDevice(unittest.TestCase):
         data = self.manager.get_bgp_sessions(self.device.id)
         self.assertIsNotNone(self, data)
 
+
+
+    # def test_create_batch(self):
+    #
+    #     batches = list()
+    #     batch =DeviceBatch (data={
+    #             "facility": "any",
+    #             "quantity": 1,
+    #             "plan":"c2.large.arm",
+    #             "hostname": "testbatch"
+    #             })
+    #
+    #     print "**********"
+    #     batches.append(batch)
+    #     print Batches(batches)
+    #     print "**********"
+    #
+    #     self.manager.create_batch(self.projectId, Batches(batches))
+
     @classmethod
     def tearDownClass(self):
-        self.device.delete()
+        print "done"
+        # self.device.delete()
 
 
 if __name__ == "__main__":
