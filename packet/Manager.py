@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
+import json
 
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
@@ -184,6 +185,7 @@ class Manager(BaseAPI):
             type="POST",
             params=params,
         )
+
         return Volume(data, self)
 
     def get_volume(self, volume_id):
