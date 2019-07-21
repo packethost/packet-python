@@ -1,11 +1,8 @@
-import json
 import os
 import sys
 import unittest
 import time
 import packet
-from packet import DeviceBatch
-from packet.DeviceBatch import Batches
 
 
 class TestDevice(unittest.TestCase):
@@ -60,14 +57,27 @@ class TestDevice(unittest.TestCase):
         while True:
             if self.manager.get_device(self.device.id).state == "active":
                 break
-            time.sleep(2)
+            time.sleep(1)
 
     def test_detach_volume(self):
         self.volume.detach()
         while True:
             if self.manager.get_device(self.device.id).state == "active":
                 break
-            time.sleep(2)
+            time.sleep(1)
+
+    def test_create_snapshot(self):
+        self.volume.create_snapshot()
+
+    def test_get_snapshots(self):
+        snapshots = self.manager.get_snapshots(self.volume.id)
+        self.assertIsNotNone(snapshots)
+        self.timestamp = snapshots[0].timestamp
+
+    def test_clone_volume(self):
+        clone = self.volume.clone()
+        self.assertIsNotNone(clone)
+        clone.delete()
 
     @classmethod
     def tearDownClass(self):

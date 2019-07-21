@@ -14,6 +14,7 @@ from .Volume import Volume
 from .BGPConfig import BGPConfig
 from .BGPSession import BGPSession
 from .IPAddress import IPAddress
+from .Snapshot import Snapshot
 
 
 class Manager(BaseAPI):
@@ -275,4 +276,20 @@ class Manager(BaseAPI):
     # Batches
     def create_batch(self,project_id, params):
         data = self.call_api("/projects/%s/devices/batch" % project_id, type="POST", params=params)
-        print data
+
+    # Snapshots
+    def get_snapshots(self, volume_id, params=None):
+        data = self.call_api("storage/%s/snapshots" % volume_id, type="GET", params=params)
+        snapshots = list()
+        for ss in data["snapshots"]:
+            snapshot = Snapshot(ss)
+            snapshots.append(snapshot)
+
+        return snapshots
+
+    def restore_volume(self, volume_id, restore_point):
+        params = {
+            "restore_point": restore_point
+        }
+        self.call_api("storage/%s/restore" % volume_id, type="POST", params=params)
+

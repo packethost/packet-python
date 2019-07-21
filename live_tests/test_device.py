@@ -1,11 +1,8 @@
-import json
 import os
 import sys
 import unittest
 import time
 import packet
-from packet import DeviceBatch
-from packet.DeviceBatch import Batches
 
 
 class TestDevice(unittest.TestCase):
@@ -41,7 +38,8 @@ class TestDevice(unittest.TestCase):
         self.assertEquals(self.device.hostname, device.hostname)
 
     def test_create_bgp_session(self):
-        bgp_session = self.manager.create_create_bgp_session(self.device.id, address_family= "ipv4")
+        bgp_session = self.manager\
+            .create_create_bgp_session(self.device.id, address_family="ipv4")
         self.assertIsNotNone(bgp_session)
 
     def test_get_bgp_sessions(self):
