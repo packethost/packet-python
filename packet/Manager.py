@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
+import json
 
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
@@ -10,6 +11,11 @@ from .Project import Project
 from .Facility import Facility
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
+from .BGPConfig import BGPConfig
+from .BGPSession import BGPSession
+from .IPAddress import IPAddress
+from .Snapshot import Snapshot
+from .Organization import Organization
 
 
 class Manager(BaseAPI):
@@ -181,6 +187,7 @@ class Manager(BaseAPI):
             type="POST",
             params=params,
         )
+
         return Volume(data, self)
 
     def get_volume(self, volume_id):
@@ -193,7 +200,8 @@ class Manager(BaseAPI):
 
         :param legacy: Indicate set of server types to include in response
 
-        Validation of `legacy` is left to the packet api to avoid going out of date if any new value is introduced.
+        Validation of `legacy` is left to the packet api to avoid going out
+        of date if any new value is introduced.
         The currently known values are:
           - only (current default, will be switched "soon")
           - include
@@ -210,7 +218,11 @@ class Manager(BaseAPI):
         params = {"servers": []}
         for server in servers:
             params["servers"].append(
-                {"facility": server[0], "plan": server[1], "quantity": server[2]}
+                {
+                    "facility": server[0],
+                    "plan": server[1],
+                    "quantity": server[2]
+                 }
             )
 
         try:
@@ -225,3 +237,76 @@ class Manager(BaseAPI):
     def get_spot_market_prices(self, params={}):
         data = self.call_api("/market/spot/prices", params=params)
         return data["spot_market_prices"]
+
+    # BGP Config
+    def get_bgp_config(self, project_id):
+        data = self.call_api("projects/%s/bgp-config" % project_id)
+        return BGPConfig(data)
+
+    # BGP Session
+    def get_bgp_sessions(self, device_id, params={}):
+        data = self.call_api("/devices/%s/bgp/sessions" % device_id,
+                             type="GET", params=params)
+        bgp_sessions = list()
+        for jsoned in data["bgp_sessions"]:
+            bpg_session = BGPSession(jsoned)
+            bgp_sessions.append(bpg_session)
+        return bgp_sessions
+
+    def create_create_bgp_session(self, device_id, address_family):
+        data = self.call_api("/devices/%s/bgp/sessions" % device_id,
+                             type="POST",
+                             params={
+                                 "address_family": address_family
+                                 })
+        return BGPSession(data)
+
+    # IP operations
+    def list_ips(self, device_id):
+        data = self.call_api("devices/%s/ips" % device_id, type="GET")
+        ips = list()
+        for jsoned in data["ip_addresses"]:
+            ip = IPAddress(jsoned)
+            ips.append(ip)
+        return ips
+
+    def get_ip(self, ip_id):
+        data = self.call_api("ips/%s" % ip_id)
+        return IPAddress(data)
+
+    # Batches
+    def create_batch(self,project_id, params):
+        data = self.call_api("/projects/%s/devices/batch" % project_id, type="POST", params=params)
+
+    # Snapshots
+    def get_snapshots(self, volume_id, params=None):
+        data = self.call_api("storage/%s/snapshots" % volume_id, type="GET", params=params)
+        snapshots = list()
+        for ss in data["snapshots"]:
+            snapshot = Snapshot(ss)
+            snapshots.append(snapshot)
+
+        return snapshots
+
+    def restore_volume(self, volume_id, restore_point):
+        params = {
+            "restore_point": restore_point
+        }
+        self.call_api("storage/%s/restore" % volume_id, type="POST", params=params)
+
+    # Organization
+    def list_organizations(self, params=None):
+        data = self.call_api("organizations", type="GET", params=params)
+        orgs = list()
+        for org in data["organizations"]:
+            o = Organization(org)
+            orgs.append(o)
+
+        return orgs
+
+    def get_organization(self, org_id, params=None):
+        data = self.call_api("organizations/%s" % org_id, type="GET", params=params)
+        print org_id
+        print json.dumps(data)
+
+        return Organization(data)

@@ -8,6 +8,8 @@ from .Facility import Facility
 class Volume:
     def __init__(self, data, manager):
         self.manager = manager
+        if data is None:
+            return
 
         self.id = data["id"]
         self.name = data["name"]
@@ -61,10 +63,13 @@ class Volume:
         return snapshots
 
     def create_snapshot(self):
-        return self.manager.call_api("storage/%s/snapshots" % self.id, type="POST")
+        self.manager.call_api("storage/%s/snapshots" % self.id, type="POST")
 
-    def create_clone(self):
-        return self.manager.call_api("storage/%s/clone" % self.id, type="POST")
+    def clone(self):
+        return Volume(self.manager.call_api("storage/%s/clone" % self.id, type="POST"), manager=self.manager)
+
+    def restore(self, restore_point):
+        self.manager.restore_volume(self.id, restore_point=restore_point)
 
     def __str__(self):
         return "%s" % self.id
