@@ -13,16 +13,11 @@ class TestOrganization(unittest.TestCase):
         orgs = self.manager.list_organizations()
         self.assertIsNotNone(orgs)
         self.org_id = orgs[0].id
-    #
-    # def test_get_organization(self):
-    #     print self.org_id
-    #     organization = self.manager.get_organization(self.org_id)
-    #     self.assertIsNotNone(organization)
-    #     self.assertEquals(self.org_id, organization.id)
 
     @classmethod
     def tearDownClass(self):
-        print "tada"
+        pass
+
 
 if __name__ == "__main__":
     sys.exit(unittest.main())
