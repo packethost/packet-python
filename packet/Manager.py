@@ -15,6 +15,7 @@ from .BGPConfig import BGPConfig
 from .BGPSession import BGPSession
 from .IPAddress import IPAddress
 from .Snapshot import Snapshot
+from .Organization import Organization
 
 
 class Manager(BaseAPI):
@@ -293,3 +294,19 @@ class Manager(BaseAPI):
         }
         self.call_api("storage/%s/restore" % volume_id, type="POST", params=params)
 
+    # Organization
+    def list_organizations(self, params=None):
+        data = self.call_api("organizations", type="GET", params=params)
+        orgs = list()
+        for org in data["organizations"]:
+            o = Organization(org)
+            orgs.append(o)
+
+        return orgs
+
+    def get_organization(self, org_id, params=None):
+        data = self.call_api("organizations/%s" % org_id, type="GET", params=params)
+        print org_id
+        print json.dumps(data)
+
+        return Organization(data)

@@ -12,14 +12,9 @@ class TestDevice(unittest.TestCase):
         self.projectId = self.manager.list_projects()[0].id
 
         self.volume = self.manager.create_volume(
-            self.projectId,
-            "volume description",
-            "storage_1",
-            "100",
-            "ewr1",
-            7,
-            "1day"
-        )
+            self.projectId, "volume description",
+            "storage_1", "100",
+            "ewr1", 7, "1day")
 
         while True:
             if self.manager.get_volume(self.volume.id).state == "active":
@@ -75,14 +70,17 @@ class TestDevice(unittest.TestCase):
         self.timestamp = snapshots[0].timestamp
 
     def test_clone_volume(self):
-        clone = self.volume.clone()
-        self.assertIsNotNone(clone)
-        clone.delete()
+        self.clone = self.volume.clone()
+        self.assertIsNotNone(self.clone)
+
+    def test_restore_volume(self):
+        self.volume.restore(self.timestamp)
 
     @classmethod
     def tearDownClass(self):
         self.volume.delete()
         self.device.delete()
+        self.clone.delete()
 
 
 if __name__ == "__main__":

@@ -21,4 +21,5 @@ from .BGPSession import BGPSession # noqa
 from .DeviceBatch import DeviceBatch  # noqa
 from .Manager import Manager  # noqa
 from .Snapshot import Snapshot  # noqa
+from .Organization import Organization  # noqa
 from .baseapi import Error  # noqa

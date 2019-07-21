@@ -3,10 +3,8 @@
 
 
 class Organization:
-    def __init__(self, data, manager):
-        self.manager = manager
-
-        if id in data:
+    def __init__(self, data):
+        if "id" in data:
             self.id = data["id"]
         if "name" in data:
             self.name = data["name"]
@@ -72,6 +70,8 @@ class Organization:
             self.current_user_abilities = data["current_user_abilities"]
         if "href" in data:
             self.href = data["href"]
+
+
 
     def __str__(self):
         return "%s" % self.id
