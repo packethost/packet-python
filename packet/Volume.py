@@ -8,6 +8,8 @@ from .Facility import Facility
 class Volume:
     def __init__(self, data, manager):
         self.manager = manager
+        if data is None:
+            return
 
         self.id = data["id"]
         self.name = data["name"]

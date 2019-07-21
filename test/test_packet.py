@@ -203,7 +203,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_volume_create_clone(self):
         volume = self.manager.get_volume("f9a8a263")
-        volume.create_clone()
+        volume.clone()
 
     def test_capacity(self):
         self.manager.get_capacity()
