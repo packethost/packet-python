@@ -306,7 +306,5 @@ class Manager(BaseAPI):
 
     def get_organization(self, org_id, params=None):
         data = self.call_api("organizations/%s" % org_id, type="GET", params=params)
-        print org_id
-        print json.dumps(data)
 
         return Organization(data)

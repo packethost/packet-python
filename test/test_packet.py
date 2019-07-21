@@ -15,7 +15,6 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_get_user(self):
         user = self.manager.get_user()
-        print "TADA"
 
         self.assertEqual(user.get("full_name"), "Aaron Welch")
 
