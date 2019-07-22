@@ -23,14 +23,6 @@ class TestBatches(unittest.TestCase):
         })
 
         params.append(batch01)
-        batch02 = packet.DeviceBatch({
-            "hostname": "batchtest02",
-            "quantity": 1,
-            "facility": "ewr1",
-            "operating_system": "centos_7",
-            "plan": "baremetal_0",
-        })
-        params.append(batch02)
         data = self.manager.create_batch(project_id=self.projectId,
                                          params=params)
         self.batches = data
@@ -49,17 +41,15 @@ class TestBatches(unittest.TestCase):
     def tearDownClass(self):
         devices = self.manager.list_devices(project_id=self.projectId)
         for device in devices:
-            if device.hostname == "hostname01" \
-                    or device.hostname == "hostname02":
+            if device.hostname == "batchtest01":
                 if device.state != "active":
                     while True:
                         if self.manager\
-                                .get_device(self.device.id).state == "active":
-                            break
-                        time.sleep(2)
-                    device.delete()
-                device.delete()
+                                .get_device(device.id).state != "active":
+                            time.sleep(2)
 
+                else
+                    break
 
 if __name__ == "__main__":
     sys.exit(unittest.main())
