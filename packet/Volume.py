@@ -65,6 +65,26 @@ class Volume:
     def create_snapshot(self):
         self.manager.call_api("storage/%s/snapshots" % self.id, type="POST")
 
+    def create_snapshot_policy(self, frequency, count):
+        """Creates a new snapshot policy of your volume.
+
+        :param frequency:  (required) Snapshot frequency
+
+        Validation of `frequency` is left to the packet api to avoid going out
+        of date if any new value is introduced.
+        The currently known values are:
+          - 1hour,
+          - 1day
+          - 1week
+          - 1month
+          - 1year
+        """
+        data = self.manager.call_api("storage/{0}/snapshot-policies?snapshot_frequency={1}&snapshot_count={2}".format(
+            self.id,
+            frequency, count),
+            type="POST")
+        return SnapshotPolicy(data, self)
+
     def clone(self):
         return Volume(self.manager.call_api("storage/%s/clone" % self.id, type="POST"), manager=self.manager)
 
@@ -91,6 +111,48 @@ class VolumeSnapshot:
         return self.volume.manager.call_api(
             "/storage/%s/snapshots/%s" % (self.volume.id, self.id), type="DELETE"
         )
+
+    def __str__(self):
+        return "%s" % self.id
+
+    def __repr__(self):
+        return "{}: {}".format(self.__class__.__name__, self.id)
+
+
+class SnapshotPolicy:
+    def __init__(self, data, policy):
+        self.policy = policy
+
+        self.id = data["id"]
+        self.count = data["snapshot_count"]
+        self.frequency = data["snapshot_frequency"]
+        self.created_at = data["created_at"]
+        self.updated_at = data["updated_at"]
+
+    def delete(self):
+        return self.policy.manager.call_api(
+            "storage/snapshot-policies/%s" % self.id, type="DELETE"
+        )
+
+    def update_snapshot_policy(self, frequency, count):
+        """Updates the volume snapshot policy.
+
+           :param frequency:  (required) Snapshot frequency
+
+           Validation of `frequency` is left to the packet api to avoid going out
+           of date if any new value is introduced.
+           The currently known values are:
+             - 1hour,
+             - 1day
+             - 1week
+             - 1month
+             - 1year
+       """
+        data = self.policy.manager.call_api(
+            "storage/snapshot-policies/{0}?snapshot_frequency={1}&snapshot_count={2}".format(
+                self.id, frequency, count),
+            type="PATCH")
+        return SnapshotPolicy(data, self)
 
     def __str__(self):
         return "%s" % self.id

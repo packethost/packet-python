@@ -16,6 +16,7 @@ from .BGPSession import BGPSession
 from .IPAddress import IPAddress
 from .Snapshot import Snapshot
 from .Organization import Organization
+from .Email import Email
 
 
 class Manager(BaseAPI):
@@ -79,25 +80,25 @@ class Manager(BaseAPI):
         return devices
 
     def create_device(
-        self,
-        project_id,
-        hostname,
-        plan,
-        facility,
-        operating_system,
-        always_pxe=False,
-        billing_cycle="hourly",
-        features={},
-        ipxe_script_url="",
-        locked=False,
-        project_ssh_keys=[],
-        public_ipv4_subnet_size=31,
-        spot_instance=False,
-        spot_price_max=-1,
-        tags={},
-        termination_time=None,
-        user_ssh_keys=[],
-        userdata="",
+            self,
+            project_id,
+            hostname,
+            plan,
+            facility,
+            operating_system,
+            always_pxe=False,
+            billing_cycle="hourly",
+            features={},
+            ipxe_script_url="",
+            locked=False,
+            project_ssh_keys=[],
+            public_ipv4_subnet_size=31,
+            spot_instance=False,
+            spot_price_max=-1,
+            tags={},
+            termination_time=None,
+            user_ssh_keys=[],
+            userdata="",
     ):
 
         params = {
@@ -160,14 +161,14 @@ class Manager(BaseAPI):
         return volumes
 
     def create_volume(
-        self,
-        project_id,
-        description,
-        plan,
-        size,
-        facility,
-        snapshot_count=0,
-        snapshot_frequency=None,
+            self,
+            project_id,
+            description,
+            plan,
+            size,
+            facility,
+            snapshot_count=0,
+            snapshot_frequency=None,
     ):
         params = {
             "description": description,
@@ -222,7 +223,7 @@ class Manager(BaseAPI):
                     "facility": server[0],
                     "plan": server[1],
                     "quantity": server[2]
-                 }
+                }
             )
 
         try:
@@ -258,7 +259,7 @@ class Manager(BaseAPI):
                              type="POST",
                              params={
                                  "address_family": address_family
-                                 })
+                             })
         return BGPSession(data)
 
     # IP operations
@@ -332,3 +333,13 @@ class Manager(BaseAPI):
         data = self.call_api("organizations/%s" % org_id,
                              type="GET", params=params)
         return Organization(data)
+
+    # Email
+    def add_email(self, address, default=False):
+        params = {"address": address, "default": default}
+        data = self.call_api("emails", type="POST", params=params)
+        return Email(data, self)
+
+    def get_email(self, email_id):
+        data = self.call_api("emails/%s" % email_id)
+        return Email(data, self)

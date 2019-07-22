@@ -10,6 +10,7 @@ __license__ = "LGPL v3"
 __copyright__ = "Copyright (c) 2019, Packet"
 
 from .Device import Device  # noqa
+from .Email import Email  # noqa
 from .Facility import Facility  # noqa
 from .OperatingSystem import OperatingSystem  # noqa
 from .Plan import Plan  # noqa
