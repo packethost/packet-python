@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 import json
 
+from packet.Volume import SnapshotPolicy
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
 from .Plan import Plan
@@ -80,25 +81,25 @@ class Manager(BaseAPI):
         return devices
 
     def create_device(
-        self,
-        project_id,
-        hostname,
-        plan,
-        facility,
-        operating_system,
-        always_pxe=False,
-        billing_cycle="hourly",
-        features={},
-        ipxe_script_url="",
-        locked=False,
-        project_ssh_keys=[],
-        public_ipv4_subnet_size=31,
-        spot_instance=False,
-        spot_price_max=-1,
-        tags={},
-        termination_time=None,
-        user_ssh_keys=[],
-        userdata="",
+            self,
+            project_id,
+            hostname,
+            plan,
+            facility,
+            operating_system,
+            always_pxe=False,
+            billing_cycle="hourly",
+            features={},
+            ipxe_script_url="",
+            locked=False,
+            project_ssh_keys=[],
+            public_ipv4_subnet_size=31,
+            spot_instance=False,
+            spot_price_max=-1,
+            tags={},
+            termination_time=None,
+            user_ssh_keys=[],
+            userdata="",
     ):
 
         params = {
@@ -161,14 +162,14 @@ class Manager(BaseAPI):
         return volumes
 
     def create_volume(
-        self,
-        project_id,
-        description,
-        plan,
-        size,
-        facility,
-        snapshot_count=0,
-        snapshot_frequency=None,
+            self,
+            project_id,
+            description,
+            plan,
+            size,
+            facility,
+            snapshot_count=0,
+            snapshot_frequency=None,
     ):
         params = {
             "description": description,
@@ -223,7 +224,7 @@ class Manager(BaseAPI):
                     "facility": server[0],
                     "plan": server[1],
                     "quantity": server[2]
-                 }
+                }
             )
 
         try:
@@ -259,7 +260,7 @@ class Manager(BaseAPI):
                              type="POST",
                              params={
                                  "address_family": address_family
-                                 })
+                             })
         return BGPSession(data)
 
     # IP operations
@@ -276,7 +277,7 @@ class Manager(BaseAPI):
         return IPAddress(data)
 
     # Batches
-    def create_batch(self,project_id, params):
+    def create_batch(self, project_id, params):
         data = self.call_api("/projects/%s/devices/batch" % project_id, type="POST", params=params)
 
     # Snapshots
