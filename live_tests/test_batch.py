@@ -47,10 +47,9 @@ class TestBatches(unittest.TestCase):
                         if self.manager\
                                 .get_device(device.id).state != "active":
                             time.sleep(2)
-
-                else:
-                    device.delete()
-                    break
+                        else:
+                            device.delete()
+                            break
 
 if __name__ == "__main__":
     sys.exit(unittest.main())
