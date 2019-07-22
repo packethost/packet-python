@@ -21,7 +21,8 @@ class BGPConfig:
 
 
     def __str__(self):
-        return "%s" % self.code
+        return "%s" % self.id
 
     def __repr__(self):
         return "{}: {}".format(self.__class__.__name__, self.id)
+

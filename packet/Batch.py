@@ -24,7 +24,7 @@ class Batch:
             self.project = Project(data["project"])
 
     def __str__(self):
-        return "%s" % self.hostname
+        return "%s" % self.id
 
     def __repr__(self):
         return "{}: {}".format(self.__class__.__name__, self.id)

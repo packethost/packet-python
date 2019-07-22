@@ -18,7 +18,7 @@ class BGPSession:
         self.href = data["href"]
 
     def __str__(self):
-        return "%s" % self.hostname
+        return "%s" % self.id
 
     def __repr__(self):
         return "{}: {}".format(self.__class__.__name__, self.id)
