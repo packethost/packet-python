@@ -48,7 +48,8 @@ class TestBatches(unittest.TestCase):
                                 .get_device(device.id).state != "active":
                             time.sleep(2)
 
-                else
+                else:
+                    device.delete()
                     break
 
 if __name__ == "__main__":
