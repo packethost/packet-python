@@ -16,6 +16,3 @@ class DeviceBatch:
 
     def __str__(self):
         return "%s" % self.hostname
-
-    # def __repr__(self):
-    #     return "{}: {}".format(self.__class__.__name__, self.hostname)
