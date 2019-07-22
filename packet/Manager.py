@@ -16,6 +16,7 @@ from .BGPSession import BGPSession
 from .IPAddress import IPAddress
 from .Snapshot import Snapshot
 from .Organization import Organization
+from .Email import Email
 
 
 class Manager(BaseAPI):
@@ -308,3 +309,13 @@ class Manager(BaseAPI):
         data = self.call_api("organizations/%s" % org_id, type="GET", params=params)
 
         return Organization(data)
+
+    # Email
+    def add_email(self, address, default=False):
+        params = {"address": address, "default": default}
+        data = self.call_api("emails", type="POST", params=params)
+        return Email(data, self)
+
+    def get_email(self, email_id):
+        data = self.call_api("emails/%s" % email_id)
+        return Email(data, self)
