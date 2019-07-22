@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
-import json
 
-from packet.Volume import SnapshotPolicy
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
+from .Batch import Batch
 from .Plan import Plan
 from .Device import Device
 from .SSHKey import SSHKey
@@ -278,11 +277,34 @@ class Manager(BaseAPI):
 
     # Batches
     def create_batch(self, project_id, params):
-        data = self.call_api("/projects/%s/devices/batch" % project_id, type="POST", params=params)
+        param = {
+            "batches": params
+        }
+        data = self.call_api("/projects/%s/devices/batch" % project_id,
+                             type="POST", params=param)
+        batches = list()
+        for b in data["batches"]:
+            batch = Batch(b)
+            batches.append(batch)
+        return batches
+
+    def list_batches(self, project_id, params=None):
+        data = self.call_api("/projects/%s/batches" % project_id,
+                             type="GET", params=params)
+        batches = list()
+        for b in data["batches"]:
+            batch = Batch(b)
+            batches.append(batch)
+        return batches
+
+    def delete_batch(self, batch_id, remove_associated_instances=False):
+        self.call_api("/batches/%s" % batch_id, type="DELETE",
+                      params=remove_associated_instances)
 
     # Snapshots
     def get_snapshots(self, volume_id, params=None):
-        data = self.call_api("storage/%s/snapshots" % volume_id, type="GET", params=params)
+        data = self.call_api("storage/%s/snapshots" % volume_id,
+                             type="GET", params=params)
         snapshots = list()
         for ss in data["snapshots"]:
             snapshot = Snapshot(ss)
@@ -294,7 +316,8 @@ class Manager(BaseAPI):
         params = {
             "restore_point": restore_point
         }
-        self.call_api("storage/%s/restore" % volume_id, type="POST", params=params)
+        self.call_api("storage/%s/restore" % volume_id,
+                      type="POST", params=params)
 
     # Organization
     def list_organizations(self, params=None):
@@ -307,8 +330,8 @@ class Manager(BaseAPI):
         return orgs
 
     def get_organization(self, org_id, params=None):
-        data = self.call_api("organizations/%s" % org_id, type="GET", params=params)
-
+        data = self.call_api("organizations/%s" % org_id,
+                             type="GET", params=params)
         return Organization(data)
 
     # Email

@@ -54,7 +54,8 @@ class BaseAPI(object):
                 url = url + "%s" % self._parse_params(params)
                 resp = requests.get(url, headers=headers)
             elif type == "POST":
-                resp = requests.post(url, headers=headers, data=json.dumps(params))
+                resp = requests.post(url, headers=headers, data=json.dumps(params,default=lambda o: o.__dict__,
+                        sort_keys=True, indent=4))
             elif type == "DELETE":
                 resp = requests.delete(url, headers=headers)
             elif type == "PATCH":

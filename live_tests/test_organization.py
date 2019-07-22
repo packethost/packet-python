@@ -8,11 +8,12 @@ class TestOrganization(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
-
-    def test_list_organizations(self):
         orgs = self.manager.list_organizations()
-        self.assertIsNotNone(orgs)
         self.org_id = orgs[0].id
+
+    def test_organization(self):
+        org = self.manager.get_organization(org_id=self.org_id)
+        self.assertEquals(self.org_id, org.id)
 
     @classmethod
     def tearDownClass(self):

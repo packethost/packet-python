@@ -21,7 +21,12 @@ class Batch:
         if data["devices"] is not None:
             self.devices = data["devices"]
         if data["project"] is not None:
-            self.project = Project(data["project"])
+            self.project = data["project"]
+        if data["state"] is not None:
+            self.state = data["state"]
+        if data["error_messages"] is not None:
+            self.error_messages = data["error_messages"]
+
 
     def __str__(self):
         return "%s" % self.id
