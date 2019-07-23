@@ -46,6 +46,10 @@ class TestDevice(unittest.TestCase):
         data = self.manager.get_bgp_sessions(self.device.id)
         self.assertIsNotNone(self, data)
 
+    def test_get_device_events(self):
+        events = self.manager.get_project_events(self.device.id)
+        self.assertTrue(len(events) > 0)
+
     @classmethod
     def tearDownClass(self):
         self.device.delete()

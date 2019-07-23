@@ -11,6 +11,7 @@ __copyright__ = "Copyright (c) 2019, Packet"
 
 from .Device import Device  # noqa
 from .Email import Email  # noqa
+from .Event import Event  # noqa
 from .Facility import Facility  # noqa
 from .OperatingSystem import OperatingSystem  # noqa
 from .Plan import Plan  # noqa
