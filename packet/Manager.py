@@ -17,6 +17,7 @@ from .IPAddress import IPAddress
 from .Snapshot import Snapshot
 from .Organization import Organization
 from .Email import Email
+from .Event import Event
 
 
 class Manager(BaseAPI):
@@ -343,3 +344,40 @@ class Manager(BaseAPI):
     def get_email(self, email_id):
         data = self.call_api("emails/%s" % email_id)
         return Email(data, self)
+
+    # Event
+    def list_events(self, params=None):
+        data = self.call_api("events", type="GET", params=params)
+        events = list()
+        for e in data["events"]:
+            events.append(Event(e))
+
+        return events
+
+    def get_event(self, event_id):
+        data = self.call_api("events/%s" % event_id)
+        return Event(data)
+
+    def get_device_events(self, device_id, params=None):
+        data = self.call_api("devices/%s/events" % device_id, type="GET", params=params)
+        events = list()
+        for e in data["events"]:
+            events.append(Event(e))
+
+        return events
+
+    def get_project_events(self, project_id, params=None):
+        data = self.call_api("projects/%s/events" % project_id, type="GET", params=params)
+        events = list()
+        for e in data["events"]:
+            events.append(Event(e))
+
+        return events
+
+    def get_volume_events(self, volume_id, params=None):
+        data = self.call_api("volumes/%s/events" % volume_id, type="GET", params=params)
+        events = list()
+        for e in data["events"]:
+            events.append(Event(e))
+
+        return events
