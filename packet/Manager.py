@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
-
+from packet.Vlan import Vlan
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
 from .Batch import Batch
@@ -381,3 +381,24 @@ class Manager(BaseAPI):
             events.append(Event(e))
 
         return events
+
+    # vlan operations
+    def list_vlans(self, project_id, params=None):
+        data = self.call_api("projects/%s/virtual-networks" % project_id, type="GET", params=params)
+        vlans = list()
+        for vlan in data["virtual_networks"]:
+            vlans.append(Vlan(vlan, self))
+
+        return vlans
+
+    def create_vlan(self, project_id, facility, vxlan=None, vlan=None):
+        params = {
+            "project_id": project_id,
+            "facility": facility,
+            "vxlan": vxlan,
+            "vlan": vlan,
+
+        }
+        data = self.call_api("projects/%s/virtual-networks" % project_id, type="POST",
+                             params=params)
+        return Vlan(data, self)
