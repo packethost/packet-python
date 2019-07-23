@@ -381,3 +381,14 @@ class Manager(BaseAPI):
             events.append(Event(e))
 
         return events
+
+    def get_vpn_configuration(self, facilityCode):
+        params = {"code": facilityCode}
+        data = self.call_api("user/vpn", type="GET", params=params)
+        return data
+
+    def turn_on_vpn(self):
+        return self.call_api("user/vpn", type="POST")
+
+    def turn_off_vpn(self):
+        return self.call_api("user/vpn", type="DELETE")
