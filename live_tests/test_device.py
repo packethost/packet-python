@@ -50,6 +50,10 @@ class TestDevice(unittest.TestCase):
         events = self.manager.get_project_events(self.device.id)
         self.assertTrue(len(events) > 0)
 
+    def test_get_device_ips(self):
+        ips = self.device.ips()
+        self.assertTrue(len(ips) > 0)
+
     @classmethod
     def tearDownClass(self):
         self.device.delete()

@@ -77,6 +77,9 @@ class Device:
             "devices/%s/actions" % self.id, type="POST", params=params
         )
 
+    def ips(self):
+        return self.manager.list_device_ips(self.id)
+
     def __str__(self):
         return "%s" % self.hostname
 
