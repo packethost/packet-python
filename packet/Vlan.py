@@ -44,8 +44,8 @@ class Vlan:
             "/ports/%s/native-vlan" % port_id, type="POST", params=params
         )
 
-    def remove_native_vlan(self):
-        return self.manager.call_api("/ports/%s/native-vlan" % self.id, type="DELETE")
+    def remove_native_vlan(self, port_id):
+        return self.manager.call_api("/ports/%s/native-vlan" % port_id, type="DELETE")
 
     def __str__(self):
         return "%s" % self.id

@@ -2,48 +2,59 @@ import os
 import sys
 import time
 import unittest
+
 import packet
 
 
-class TestVlan(unittest.TestCase):
+class TestPorts(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
         self.projectId = self.manager.list_projects()[0].id
         self.device = self.manager.create_device(
-            self.projectId, "vlantesting", "baremetal_2", "ewr1", "centos_7")
-
+            self.projectId, "networktestingdevice", "baremetal_2", "ewr1", "centos_7")
         self.vlan = self.manager.create_vlan(self.projectId, "ewr1")
         self.vlan2 = self.manager.create_vlan(self.projectId, "ewr1")
+
         while True:
             if self.manager.get_device(self.device.id).state == "active":
                 break
             time.sleep(2)
         self.device_port_id = self.device['network_ports'][0]['id']
         self.device_eth0_port_id = self.device['network_ports'][1]['id']
-        # must convert to layer 2 to work with vlans
+
+    def test01_convert_layer2(self):
         self.manager.convert_layer_2(self.device_port_id, self.vlan.id)
 
-    def test_list_vlan(self):
-        vlans = self.manager.list_vlans(self.projectId)
-        self.assertTrue(len(vlans) > 0)
+    def test02_remove_port(self):
+        self.manager.remove_port(self.device_port_id, self.vlan.id)
 
-    def test_get_vlan(self):
-        vlan = self.vlan.get()
-        self.assertEqual(vlan['id'], self.vlan.id)
+    def test03_assign_port(self):
+        self.manager.assign_port(self.device_port_id, self.vlan.id)
 
-    # def test_create_internet_gateway(self):
-    #     self.vlan.create_internet_gateway("8")
+    def test04_bond_port(self):
+        self.manager.bond_ports(self.device_port_id, False)
 
-    def test_assign_port(self):
-        self.manager.disbond_ports(self.device_eth0_port_id, False)
+    def test05_disbond_port(self):
+        self.manager.disbond_ports(self.device_port_id, False)
+
+    def test06_assign_native_vlan(self):
+        # must remove vlan from any previous association and attach more than one vlan to the eth0 port to be able to
+        #  choose a native vlan
         self.manager.remove_port(self.device_port_id, self.vlan.id)
         self.manager.assign_port(self.device_eth0_port_id, self.vlan.id)
         self.manager.assign_port(self.device_eth0_port_id, self.vlan2.id)
-        self.vlan.assign_native_vlan(self.device_eth0_port_id)
+        self.manager.assign_native_vlan(self.device_eth0_port_id, self.vlan.id)
 
-    def test_remove_port(self):
-        self.vlan.remove_native_vlan(self.device_eth0_port_id)
+    def test07_remove_native_vlan(self):
+        self.manager.remove_native_vlan(self.device_eth0_port_id)
+
+    def test08_convert_layer3(self):
+        ipadresses = list({
+            "address_family": 6,
+            "public": False,
+        })
+        self.manager.convert_layer_3(self.device_port_id, ipadresses)
 
     @classmethod
     def tearDownClass(self):

@@ -402,3 +402,55 @@ class Manager(BaseAPI):
         data = self.call_api("projects/%s/virtual-networks" % project_id, type="POST",
                              params=params)
         return Vlan(data, self)
+
+    def assign_port(self, port_id, vlan_id):
+        params = {
+            "vnid": vlan_id,
+        }
+        self.call_api("ports/%s/assign" % port_id, type="POST",
+                      params=params)
+
+    def remove_port(self, port_id, vlan_id):
+        params = {
+            "vnid": vlan_id,
+        }
+        self.call_api("ports/%s/unassign" % port_id, type="POST",
+                      params=params)
+
+    def disbond_ports(self, port_id, bulk_disable):
+        params = {
+            "bulk_disable": bulk_disable,
+        }
+        self.call_api("ports/%s/disbond" % port_id, type="POST",
+                      params=params)
+
+    def bond_ports(self, port_id, bulk_disable):
+        params = {
+            "bulk_disable": bulk_disable,
+        }
+        self.call_api("ports/%s/bond" % port_id, type="POST",
+                      params=params)
+
+    def convert_layer_2(self, port_id, vlan_id):
+        params = {
+            "vnid": vlan_id,
+        }
+        self.call_api("ports/%s/convert/layer-2" % port_id, type="POST",
+                      params=params)
+
+    def convert_layer_3(self, port_id, request_ips):
+        params = {
+            "request_ips": request_ips,
+        }
+        self.call_api("ports/%s/convert/layer-3" % port_id, type="POST",
+                      params=params)
+
+    def assign_native_vlan(self, port_id, vnid):
+        params = {
+            "vnid": vnid,
+        }
+        self.call_api("ports/%s/native-vlan" % port_id, type="POST",
+                      params=params)
+
+    def remove_native_vlan(self, port_id):
+        self.call_api("ports/%s/native-vlan" % port_id, type="DELETE")
