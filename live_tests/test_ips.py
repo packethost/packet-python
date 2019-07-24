@@ -11,6 +11,13 @@ class TestIps(unittest.TestCase):
 
         cls.project_id = cls.manager.list_projects()[0].id
 
+        ip = None
+        params = {
+            "include": ["facility"]
+        }
+        ips = cls.manager.list_project_ips(cls.project_id,
+                                            params=params)
+
         cls.ipaddresses = cls.manager\
             .reserve_ip_address(project_id=cls.project_id,
                                 type="global_ipv4",
@@ -18,11 +25,6 @@ class TestIps(unittest.TestCase):
                                 facility="EWR1",
                                 details="delete me",
                                 tags=["deleteme"])
-
-        cls.ip = None
-        for i in cls.ipaddresses:
-            if i.details == "deleteme":
-                cls.ip = i
 
         cls.device = cls.manager.create_device(
             cls.project_id, "iptest", "baremetal_0", "ewr1", "centos_7"
@@ -36,7 +38,7 @@ class TestIps(unittest.TestCase):
         cls.manager.reserve_ip_address(project_id=cls.project_id,
                                        type="global_ipv4",
                                        quantity=1,
-                                       facility="EWR1")
+                                       facility="ewr1")
 
     def list_project_ips(self):
         ips = self.manager.list_project_ips(self.project_id)
@@ -44,8 +46,20 @@ class TestIps(unittest.TestCase):
         self.assertIsNotNone(ips)
 
     def test_create_device_ip(self):
+        ip = None
+        params = {
+            "include": ["facility"]
+        }
+        ips = self.manager.list_project_ips(self.project_id,
+                                            params=params)
+        for i in ips:
+            if i.facility.code == "ewr1" \
+                    and i.address_family == 4:
+                ip = i
+                break
+
         ipaddress = self.manager.create_device_ip(self.device.id,
-                                                  address="147.75.39.190")
+                                                  address=ip.address)
         self.assertIsNotNone(ipaddress)
 
     @classmethod

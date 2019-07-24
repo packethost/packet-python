@@ -278,8 +278,8 @@ class Manager(BaseAPI):
     def delete_ip(self, ip_id):
         self.call_api("ips/%s" % ip_id, type="DELETE")
 
-    def list_project_ips(self, project_id):
-        data = self.call_api("projects/%s/ips" % project_id, type="GET")
+    def list_project_ips(self, project_id, params={}):
+        data = self.call_api("projects/%s/ips" % project_id, type="GET", params=params)
         ips = list()
         for jsoned in data["ip_addresses"]:
             ip = IPAddress(jsoned)
