@@ -21,11 +21,19 @@ class IPAddress:
         self.project = data["project"]
         self.project_lite = data["project_lite"]
         self.facility = Facility(data["facility"])
-        self.assigned_to = data["assigned_to"]
-        self.interface = data["interface"]
-        self.network = data["network"]
-        self.address = data["address"]
-        self.gateway = data["gateway"]
+
+        if "details" in data:
+            self.details = data["details"]
+        if "assigned_to" in data:
+            self.assigned_to = data["assigned_to"]
+        if "interface" in data:
+            self.interface = data["interface"]
+        if "network" in data:
+            self.network = data["network"]
+        if "address" in data:
+            self.address = data["address"]
+        if "gateway" in data:
+            self.gateway = data["gateway"]
 
         def __str__(self):
             return "%s" % self.code

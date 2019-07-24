@@ -218,12 +218,8 @@ class PacketManagerTest(unittest.TestCase):
 
     # IP Addresses
     def test_list_device_ips(self):
-        ips = self.manager.list_ips("e123s")
+        ips = self.manager.list_device_ips("e123s")
         self.assertIsNotNone(ips)
-
-    # def test_list_device_ips(self):
-    #     ip = self.manager.get_ip("e123s")
-    #     self.assertIsNotNone(ip)
 
 
 class PacketMockManager(packet.Manager):
