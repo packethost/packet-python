@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
-
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
 from .Batch import Batch
@@ -264,7 +263,7 @@ class Manager(BaseAPI):
         return BGPSession(data)
 
     # IP operations
-    def list_ips(self, device_id):
+    def list_device_ips(self, device_id):
         data = self.call_api("devices/%s/ips" % device_id, type="GET")
         ips = list()
         for jsoned in data["ip_addresses"]:
@@ -275,6 +274,52 @@ class Manager(BaseAPI):
     def get_ip(self, ip_id):
         data = self.call_api("ips/%s" % ip_id)
         return IPAddress(data)
+
+    def delete_ip(self, ip_id):
+        self.call_api("ips/%s" % ip_id, type="DELETE")
+
+    def list_project_ips(self, project_id, params={}):
+        data = self.call_api("projects/%s/ips" % project_id, type="GET", params=params)
+        ips = list()
+        for jsoned in data["ip_addresses"]:
+            ip = IPAddress(jsoned)
+            ips.append(ip)
+        return ips
+
+    def get_available_ip_subnets(self, ip_id, cidr):
+        data = self.call_api("/ips/%s/available" % ip_id,
+                             type="GET", params="cidr=%s" % cidr)
+        return data
+
+    def create_device_ip(self, device_id, address,
+                         manageable=True, customdata=None):
+        params = {
+            "address": address,
+            "manageable": manageable,
+            "customdata": customdata
+        }
+
+        data = self.call_api("/devices/%s/ips" % device_id,
+                             params=params, type="POST")
+        return IPAddress(data)
+
+    def reserve_ip_address(self, project_id, type, quantity, facility,
+                           details=None, comments=None, tags=list()):
+        request = {
+            "type": type,
+            "quantity": quantity,
+            "facility": facility,
+            "details": details,
+            "comments": comments,
+            "tags": tags
+        }
+
+        data = self.call_api("/projects/%s/ips" % project_id, params=request)
+        ips = list()
+        for i in data["ip_addresses"]:
+            ip = IPAddress(i)
+            ips.append(ip)
+        return ips
 
     # Batches
     def create_batch(self, project_id, params):
@@ -359,7 +404,8 @@ class Manager(BaseAPI):
         return Event(data)
 
     def get_device_events(self, device_id, params=None):
-        data = self.call_api("devices/%s/events" % device_id, type="GET", params=params)
+        data = self.call_api("devices/%s/events" % device_id,
+                             type="GET", params=params)
         events = list()
         for e in data["events"]:
             events.append(Event(e))
@@ -367,7 +413,8 @@ class Manager(BaseAPI):
         return events
 
     def get_project_events(self, project_id, params=None):
-        data = self.call_api("projects/%s/events" % project_id, type="GET", params=params)
+        data = self.call_api("projects/%s/events" % project_id,
+                             type="GET", params=params)
         events = list()
         for e in data["events"]:
             events.append(Event(e))
@@ -375,7 +422,8 @@ class Manager(BaseAPI):
         return events
 
     def get_volume_events(self, volume_id, params=None):
-        data = self.call_api("volumes/%s/events" % volume_id, type="GET", params=params)
+        data = self.call_api("volumes/%s/events" % volume_id,
+                             type="GET", params=params)
         events = list()
         for e in data["events"]:
             events.append(Event(e))
