@@ -73,7 +73,6 @@ class Manager(BaseAPI):
         return devices
 
     def list_all_devices(self, project_id):
-        all_devices = list()
         raw_devices = list()
         page = 1
         while True:
@@ -85,6 +84,8 @@ class Manager(BaseAPI):
                 break
             else:
                 page += 1
+
+        all_devices = list()
         for raw_device in raw_devices:
             device = Device(raw_device, self)
             all_devices.append(device)
