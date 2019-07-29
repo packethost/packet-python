@@ -71,7 +71,7 @@ class PacketManagerTest(unittest.TestCase):
             str(device)
             repr(device)
             self.assertIsInstance(device, packet.Device)
-    
+
     # TODO figure out how to properly handle this test case
     # def test_list_all_devices(self):
     #     devices = self.manager.list_all_devices("438659f0")
