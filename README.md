@@ -76,7 +76,7 @@ Available parameters
 Gets details about a specified server
 
 ```python
-response = compute.servers.get(server_id)
+self.device = self.manager.get(server_id)
 ```
 
 ## Update a server
