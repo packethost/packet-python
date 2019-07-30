@@ -72,6 +72,25 @@ class Manager(BaseAPI):
             devices.append(device)
         return devices
 
+    def list_all_devices(self, project_id):
+        raw_devices = list()
+        page = 1
+        while True:
+            paginate = {"page": page}
+            data = self.call_api("projects/%s/devices" % project_id, params=paginate)
+            next = self.meta["next"]
+            raw_devices.extend(data["devices"])
+            if next is None:
+                break
+            else:
+                page += 1
+
+        all_devices = list()
+        for raw_device in raw_devices:
+            device = Device(raw_device, self)
+            all_devices.append(device)
+        return all_devices
+
     def create_device(
         self,
         project_id,
