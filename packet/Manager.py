@@ -266,11 +266,11 @@ class Manager(BaseAPI):
         return BGPConfig(data)
 
     def enable_project_bgp_config(self, project_id, asn,
-                                  deploymnet_type,
+                                  deployment_type,
                                   md5=None,
                                   use_case=None):
         params = {
-            "deployment_type": deploymnet_type,
+            "deployment_type": deployment_type,
             "asn": asn,
             "md5": md5,
             "use_case": use_case
@@ -290,7 +290,7 @@ class Manager(BaseAPI):
             bgp_sessions.append(bpg_session)
         return bgp_sessions
 
-    def create_create_bgp_session(self, device_id, address_family):
+    def create_bgp_session(self, device_id, address_family):
         data = self.call_api("/devices/%s/bgp/sessions" % device_id,
                              type="POST",
                              params={

@@ -39,7 +39,7 @@ class TestDevice(unittest.TestCase):
 
     def test_create_bgp_session(self):
         bgp_session = self.manager\
-            .create_create_bgp_session(self.device.id, address_family="ipv4")
+            .create_bgp_session(self.device.id, address_family="ipv4")
         self.assertIsNotNone(bgp_session)
 
     def test_get_bgp_sessions(self):

@@ -12,10 +12,13 @@ class TestVolume(unittest.TestCase):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
         self.projectId = self.manager.list_projects()[0].id
 
-        self.volume = self.manager.create_volume(
-            self.projectId, "volume description",
-            "storage_1", "100",
-            "ewr1", 7, "1day")
+        self.volume = self.manager.create_volume(self.projectId,
+                                                 "volume description",
+                                                 "storage_1",
+                                                 "100",
+                                                 "ewr1",
+                                                 7,
+                                                 "1day")
 
         while True:
             if self.manager.get_volume(self.volume.id).state == "active":
