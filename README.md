@@ -82,7 +82,7 @@ response = compute.servers.get(server_id)
 ## Update a server
 Updates a server
 ```python
-server.hostname= 'test02'
+self.device.hostname= 'test02'
 
 self.device = self.device.update
 ```
