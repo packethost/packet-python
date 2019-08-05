@@ -18,6 +18,7 @@ from .Snapshot import Snapshot
 from .Organization import Organization
 from .Email import Email
 from .Event import Event
+from .Provider import Provider
 
 
 class Manager(BaseAPI):
@@ -264,6 +265,21 @@ class Manager(BaseAPI):
         data = self.call_api("projects/%s/bgp-config" % project_id)
         return BGPConfig(data)
 
+    def enable_project_bgp_config(self, project_id, asn,
+                                  deployment_type,
+                                  md5=None,
+                                  use_case=None):
+        params = {
+            "deployment_type": deployment_type,
+            "asn": asn,
+            "md5": md5,
+            "use_case": use_case
+        }
+        data = self.call_api("/projects/%s/bgp-configs" % project_id,
+                             type="POST",
+                             params=params)
+        return BGPConfig(data)
+
     # BGP Session
     def get_bgp_sessions(self, device_id, params={}):
         data = self.call_api("/devices/%s/bgp/sessions" % device_id,
@@ -274,7 +290,7 @@ class Manager(BaseAPI):
             bgp_sessions.append(bpg_session)
         return bgp_sessions
 
-    def create_create_bgp_session(self, device_id, address_family):
+    def create_bgp_session(self, device_id, address_family):
         data = self.call_api("/devices/%s/bgp/sessions" % device_id,
                              type="POST",
                              params={
@@ -299,7 +315,9 @@ class Manager(BaseAPI):
         self.call_api("ips/%s" % ip_id, type="DELETE")
 
     def list_project_ips(self, project_id, params={}):
-        data = self.call_api("projects/%s/ips" % project_id, type="GET", params=params)
+        data = self.call_api("projects/%s/ips" % project_id,
+                             type="GET",
+                             params=params)
         ips = list()
         for jsoned in data["ip_addresses"]:
             ip = IPAddress(jsoned)
@@ -480,7 +498,9 @@ class Manager(BaseAPI):
 
     # vlan operations
     def list_vlans(self, project_id, params=None):
-        data = self.call_api("projects/%s/virtual-networks" % project_id, type="GET", params=params)
+        data = self.call_api("projects/%s/virtual-networks" % project_id,
+                             type="GET",
+                             params=params)
         vlans = list()
         for vlan in data["virtual_networks"]:
             vlans.append(Vlan(vlan, self))
@@ -495,7 +515,8 @@ class Manager(BaseAPI):
             "vlan": vlan,
 
         }
-        data = self.call_api("projects/%s/virtual-networks" % project_id, type="POST",
+        data = self.call_api("projects/%s/virtual-networks" % project_id,
+                             type="POST",
                              params=params)
         return Vlan(data, self)
 
@@ -561,3 +582,53 @@ class Manager(BaseAPI):
 
     def turn_off_vpn(self):
         return self.call_api("user/vpn", type="DELETE")
+
+    # Packet connect
+    def create_packet_connections(self, params):
+        body = {
+            "name": params["name"],
+            "project_id": params["project_id"],
+            "provider_id": params["provider_id"],
+            "provider_payload": params["provider_payload"],
+            "facility": params["facility"],
+            "port_speed": params["port_speed"],
+            "vlan": params["vlan"],
+        }
+        if "tags" in params:
+            body["tags"] = params["tags"]
+        if "description" in params:
+            body["description"] = params["description"]
+
+        data = self.call_api("/packet-connect/connections",
+                             type="POST", params=body)
+        return data
+
+    def get_packet_connection(self, connection_id):
+        data = self.call_api("/packet-connect/connections/%s" % connection_id)
+        return data
+
+    def delete_packet_connection(self, connection_id):
+        data = self.call_api("/packet-connect/connections/%s" % connection_id, type="DELETE")
+        return data
+
+    def provision_packet_connection(self,connection_id):
+        data = self.call_api("/packet-connect/connections/{id}/provision" % connection_id, type="POST")
+        return data
+
+    def deprovision_packet_connection(self,connection_id, delete):
+        params={
+            "delete": delete
+        }
+        data = self.call_api("/packet-connect/connections/{id}/deprovision" % connection_id, type="POST", params=params)
+        return data
+
+    def list_packet_connect_providers(self):
+        data = self.call_api("/packet-connect/providers", type="GET")
+        providers = list()
+        for p in data["providers"]:
+            providers.append(Provider(p))
+        return  providers
+
+    def get_packet_connect_provider(self,provider_id):
+        data = self.call_api("/packet-connect/providers/%s" % provider_id, type="GET")
+        return Provider(data)

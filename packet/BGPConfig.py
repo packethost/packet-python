@@ -18,8 +18,6 @@ class BGPConfig:
         self.ranges = data["ranges"]
         self.href = data["href"]
 
-
-
     def __str__(self):
         return "%s" % self.id
 
