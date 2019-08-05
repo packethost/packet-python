@@ -10,7 +10,6 @@ class TestOrganization(unittest.TestCase):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
         orgs = self.manager.list_organizations()
         self.org_id = orgs[0].id
-        self.project = None
 
     def test_organization(self):
         org = self.manager.get_organization(org_id=self.org_id)
@@ -24,7 +23,7 @@ class TestOrganization(unittest.TestCase):
             customdata={"tag": "delete me"}
         )
         self.assertIsNotNone(project)
-        self.project = project
+        project.delete()
 
     def test_list_organization_projects(self):
         projects = self.manager.list_organization_projects(org_id=self.org_id)
@@ -36,8 +35,7 @@ class TestOrganization(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
-        if self.project:
-            self.project.delete()
+        pass
 
 
 if __name__ == "__main__":
