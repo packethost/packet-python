@@ -418,6 +418,34 @@ class Manager(BaseAPI):
                              type="GET", params=params)
         return Organization(data)
 
+    def list_organization_projects(self, org_id, params=None):
+        data = self.call_api("organizations/%s/projects" % org_id,
+                             type="GET", params=params)
+        projects = list()
+        for p in data["projects"]:
+            projects.append(Project(p, self))
+
+        return projects
+
+    def list_organization_devices(self, org_id, params=None):
+        data = self.call_api("organizations/%s/devices" % org_id,
+                             type="GET", params=params)
+        devices = list()
+        for d in data["devices"]:
+            devices.append(Device(d, self))
+
+        return devices
+
+    def create_organization_project(self, org_id, name, payment_method_id=None, customdata=None):
+        params = {
+            "name": name,
+            "payment_method_id": payment_method_id,
+            "customdata": customdata,
+        }
+        data = self.call_api("organizations/%s/projects" % org_id, type="POST",
+                             params=params)
+        return Project(data, self)
+
     # Email
     def add_email(self, address, default=False):
         params = {"address": address, "default": default}
@@ -441,7 +469,7 @@ class Manager(BaseAPI):
         data = self.call_api("events/%s" % event_id)
         return Event(data)
 
-    def get_device_events(self, device_id, params=None):
+    def list_device_events(self, device_id, params=None):
         data = self.call_api("devices/%s/events" % device_id,
                              type="GET", params=params)
         events = list()
@@ -450,7 +478,7 @@ class Manager(BaseAPI):
 
         return events
 
-    def get_project_events(self, project_id, params=None):
+    def list_project_events(self, project_id, params=None):
         data = self.call_api("projects/%s/events" % project_id,
                              type="GET", params=params)
         events = list()
