@@ -451,7 +451,7 @@ class Manager(BaseAPI):
         data = self.call_api("events/%s" % event_id)
         return Event(data)
 
-    def get_device_events(self, device_id, params=None):
+    def list_device_events(self, device_id, params=None):
         data = self.call_api("devices/%s/events" % device_id,
                              type="GET", params=params)
         events = list()
@@ -460,7 +460,7 @@ class Manager(BaseAPI):
 
         return events
 
-    def get_project_events(self, project_id, params=None):
+    def list_project_events(self, project_id, params=None):
         data = self.call_api("projects/%s/events" % project_id,
                              type="GET", params=params)
         events = list()

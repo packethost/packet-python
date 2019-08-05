@@ -22,7 +22,7 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(event.id, self.events[0].id)
 
     def test_get_project_events(self):
-        events = self.manager.get_project_events(self.project_id)
+        events = self.manager.list_project_events(self.project_id)
         self.assertTrue(len(events) > 0)
 
     @classmethod
