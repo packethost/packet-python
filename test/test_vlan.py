@@ -49,6 +49,7 @@ class TestVlan(unittest.TestCase):
     def tearDownClass(self):
         self.device.delete()
         self.vlan.delete()
+        self.vlan2.delete()
 
 
 if __name__ == "__main__":

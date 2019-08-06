@@ -58,7 +58,9 @@ class TestPorts(unittest.TestCase):
 
     @classmethod
     def tearDownClass(self):
+        self.manager.remove_port(self.device_eth0_port_id, self.vlan.id)
         self.device.delete()
+        self.vlan2.delete()
         self.vlan.delete()
 
 
