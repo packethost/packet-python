@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
 
+
 class DeviceBatch:
     def __init__(self, data):
         if "hostname" in data:

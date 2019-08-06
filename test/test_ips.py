@@ -11,13 +11,6 @@ class TestIps(unittest.TestCase):
 
         cls.project_id = cls.manager.list_projects()[0].id
 
-        ip = None
-        params = {
-            "include": ["facility"]
-        }
-        ips = cls.manager.list_project_ips(cls.project_id,
-                                            params=params)
-
         cls.ipaddresses = cls.manager\
             .reserve_ip_address(project_id=cls.project_id,
                                 type="global_ipv4",

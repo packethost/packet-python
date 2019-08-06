@@ -23,7 +23,7 @@ class Organization:
         if "main_phone" in data:
             self.main_phone = data["main_phone"]
         if "billing_phone" in data:
-                self.billing_phone = data["billing_phone"]
+            self.billing_phone = data["billing_phone"]
         if "credit_amount" in data:
             self.credit_amount = data["credit_amount"]
         if "personal" in data:
@@ -70,8 +70,6 @@ class Organization:
             self.current_user_abilities = data["current_user_abilities"]
         if "href" in data:
             self.href = data["href"]
-
-
 
     def __str__(self):
         return "%s" % self.id

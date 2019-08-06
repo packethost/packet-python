@@ -611,12 +611,12 @@ class Manager(BaseAPI):
         data = self.call_api("/packet-connect/connections/%s" % connection_id, type="DELETE")
         return data
 
-    def provision_packet_connection(self,connection_id):
+    def provision_packet_connection(self, connection_id):
         data = self.call_api("/packet-connect/connections/{id}/provision" % connection_id, type="POST")
         return data
 
-    def deprovision_packet_connection(self,connection_id, delete):
-        params={
+    def deprovision_packet_connection(self, connection_id, delete):
+        params = {
             "delete": delete
         }
         data = self.call_api("/packet-connect/connections/{id}/deprovision" % connection_id, type="POST", params=params)
@@ -627,8 +627,8 @@ class Manager(BaseAPI):
         providers = list()
         for p in data["providers"]:
             providers.append(Provider(p))
-        return  providers
+        return providers
 
-    def get_packet_connect_provider(self,provider_id):
+    def get_packet_connect_provider(self, provider_id):
         data = self.call_api("/packet-connect/providers/%s" % provider_id, type="GET")
         return Provider(data)

@@ -34,8 +34,8 @@ class TestBatches(unittest.TestCase):
     def test_delete_batches(self):
         self.batches = self.manager.list_batches(project_id=self.projectId)
         for batch in self.batches:
-                self.manager.delete_batch(batch.id,
-                                          remove_associated_instances=True)
+            self.manager.delete_batch(batch.id,
+                                      remove_associated_instances=True)
 
     @classmethod
     def tearDownClass(self):
@@ -44,12 +44,13 @@ class TestBatches(unittest.TestCase):
             if device.hostname == "batchtest01":
                 if device.state != "active":
                     while True:
-                        if self.manager\
+                        if self.manager \
                                 .get_device(device.id).state != "active":
                             time.sleep(2)
                         else:
                             device.delete()
                             break
+
 
 if __name__ == "__main__":
     sys.exit(unittest.main())

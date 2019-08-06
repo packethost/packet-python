@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
 
-from .Device import Device
-
 
 class BGPSession:
     def __init__(self, data):

@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 # from .Volume import Volume
 
+
 class Device:
     def __init__(self, data, manager):
         self.manager = manager

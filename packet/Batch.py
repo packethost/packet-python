@@ -1,8 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
 
-from .Project import Project
-
 
 class Batch:
     def __init__(self, data):
@@ -26,7 +24,6 @@ class Batch:
             self.state = data["state"]
         if data["error_messages"] is not None:
             self.error_messages = data["error_messages"]
-
 
     def __str__(self):
         return "%s" % self.id
