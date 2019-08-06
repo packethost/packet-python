@@ -22,7 +22,7 @@ class TestDevice(unittest.TestCase):
 
     def test_get_device(self):
         device = self.manager.get_device(self.device.id)
-        self.assertEquals(device.hostname, self.device.hostname)
+        self.assertEqual(device.hostname, self.device.hostname)
 
     def test_list_devices(self):
         devices = self.manager.list_devices(self.projectId)
@@ -35,7 +35,7 @@ class TestDevice(unittest.TestCase):
         self.device.hostname = "newname"
         self.device.update()
         device = self.manager.get_device(self.device.id)
-        self.assertEquals(self.device.hostname, device.hostname)
+        self.assertEqual(self.device.hostname, device.hostname)
 
     def test_create_bgp_session(self):
         bgp_session = self.manager\

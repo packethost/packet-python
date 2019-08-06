@@ -39,7 +39,7 @@ class TestVolume(unittest.TestCase):
 
     def test_get_volume(self):
         volume = self.manager.get_volume(self.volume.id)
-        self.assertEquals(volume.description, self.volume.description)
+        self.assertEqual(volume.description, self.volume.description)
 
     def test_list_volumes(self):
         volumes = self.manager.list_volumes(self.projectId)
@@ -52,7 +52,7 @@ class TestVolume(unittest.TestCase):
         self.volume.description = "newdescription"
         self.volume.update()
         volume = self.manager.get_volume(self.volume.id)
-        self.assertEquals(self.volume.description, volume.description)
+        self.assertEqual(self.volume.description, volume.description)
 
     def test_attach_volume(self):
         self.volume.attach(self.device.id)

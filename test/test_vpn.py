@@ -1,7 +1,8 @@
+from __future__ import print_function
+
 import os
 import sys
 import unittest
-import time
 import packet
 
 
@@ -13,7 +14,7 @@ class TestVpn(unittest.TestCase):
 
     def test_get_vpn_config(self):
         config = self.manager.get_vpn_configuration("ewr1")
-        print config
+        print(config)
 
     @classmethod
     def tearDownClass(self):
