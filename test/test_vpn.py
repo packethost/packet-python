@@ -12,9 +12,9 @@ class TestVpn(unittest.TestCase):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
         self.manager.turn_on_vpn()
 
-    def test_get_vpn_config(self):
-        config = self.manager.get_vpn_configuration("ewr1")
-        print(config)
+    # def test_get_vpn_config(self):
+    #     config = self.manager.get_vpn_configuration("ewr1")
+    #     print(config)
 
     @classmethod
     def tearDownClass(self):

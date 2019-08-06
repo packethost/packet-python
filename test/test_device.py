@@ -47,8 +47,8 @@ class TestDevice(unittest.TestCase):
         self.assertIsNotNone(self, data)
 
     def test_get_device_events(self):
-        events = self.manager.list_project_events(self.device.id)
-        self.assertTrue(len(events) > 0)
+        events = self.manager.list_device_events(self.device.id)
+        self.assertGreater(len(events), 0)
 
     def test_get_device_ips(self):
         ips = self.device.ips()

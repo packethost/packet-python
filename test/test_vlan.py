@@ -32,9 +32,6 @@ class TestVlan(unittest.TestCase):
         vlan = self.vlan.get()
         self.assertEqual(vlan['id'], self.vlan.id)
 
-    # def test_create_internet_gateway(self):
-    #     self.vlan.create_internet_gateway("8")
-
     def test_assign_port(self):
         self.manager.disbond_ports(self.device_eth0_port_id, False)
         self.manager.remove_port(self.device_port_id, self.vlan.id)
