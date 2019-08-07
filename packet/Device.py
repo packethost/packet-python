@@ -24,8 +24,12 @@ class Device:
         self.updated_at = data["updated_at"]
         if "ipxe_script_url" in data:
             self.ipxe_script_url = data["ipxe_script_url"]
+        else:
+            self.ipxe_script_url = None
         if "always_pxe" in data:
             self.always_pxe = data["always_pxe"]
+        else:
+            self.always_pxe = False
         if "storage" in data:
             self.storage = data["storage"]
         if "customdata" in data:
@@ -49,9 +53,26 @@ class Device:
         if "network_ports" in data:
             self.network_ports = data["network_ports"]
         self.href = data["href"]
+        if "spot_instance" in data:
+            self.spot_instance = data["spot_instance"]
+        else:
+            self.spot_instance = False
+        if "root_password" in data:
+            self.root_password = data["root_password"]
 
     def update(self):
-        params = {"hostname": self.hostname, "locked": self.locked, "tags": self.tags}
+        params = {
+            "hostname": self.hostname,
+            "locked": self.locked,
+            "tags": self.tags,
+            "description": self.description,
+            "billing_cycle": self.billing_cycle,
+            "userdata": self.userdata,
+            "always_pxe": self.always_pxe,
+            "ipxe_script_url": self.ipxe_script_url,
+            "spot_instance": self.spot_instance,
+            "customdata": self.customdata
+        }
 
         return self.manager.call_api(
             "devices/%s" % self.id, type="PATCH", params=params
