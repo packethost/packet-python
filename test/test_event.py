@@ -7,7 +7,7 @@ import packet
 class TestEvent(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
+        cls.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
 
         cls.events = cls.manager.list_events()
 

@@ -9,7 +9,7 @@ class TestVolume(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.timestamp = ''
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
+        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
         self.projectId = self.manager.list_projects()[0].id
 
         self.volume = self.manager.create_volume(self.projectId,

@@ -7,7 +7,7 @@ import packet
 class TestOrganization(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
+        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
         orgs = self.manager.list_organizations()
         self.org_id = orgs[0].id
 
