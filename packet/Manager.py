@@ -275,10 +275,9 @@ class Manager(BaseAPI):
             "md5": md5,
             "use_case": use_case
         }
-        data = self.call_api("/projects/%s/bgp-configs" % project_id,
-                             type="POST",
-                             params=params)
-        return BGPConfig(data)
+        self.call_api("/projects/%s/bgp-configs" % project_id,
+                      type="POST",
+                      params=params)
 
     # BGP Session
     def get_bgp_sessions(self, device_id, params={}):

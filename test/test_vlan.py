@@ -4,17 +4,25 @@ import time
 import unittest
 import packet
 
+from datetime import datetime
+
 
 class TestVlan(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
-        self.projectId = self.manager.list_projects()[0].id
-        self.device = self.manager.create_device(
-            self.projectId, "vlantesting", "baremetal_2", "ewr1", "centos_7")
 
-        self.vlan = self.manager.create_vlan(self.projectId, "ewr1")
-        self.vlan2 = self.manager.create_vlan(self.projectId, "ewr1")
+        org_id = self.manager.list_organizations()[0].id
+        self.project = self.manager.create_organization_project(
+            org_id=org_id,
+            name="Int-Tests-VLAN_{}".format(datetime.utcnow().timestamp())
+        )
+
+        self.device = self.manager.create_device(
+            self.project.id, "vlantesting", "baremetal_2", "ewr1", "centos_7")
+
+        self.vlan = self.manager.create_vlan(self.project.id, "ewr1")
+        self.vlan2 = self.manager.create_vlan(self.project.id, "ewr1")
         while True:
             if self.manager.get_device(self.device.id).state == "active":
                 break
@@ -25,7 +33,7 @@ class TestVlan(unittest.TestCase):
         self.manager.convert_layer_2(self.device_port_id, self.vlan.id)
 
     def test_list_vlan(self):
-        vlans = self.manager.list_vlans(self.projectId)
+        vlans = self.manager.list_vlans(self.project.id)
         self.assertTrue(len(vlans) > 0)
 
     def test_get_vlan(self):
@@ -47,6 +55,7 @@ class TestVlan(unittest.TestCase):
         self.device.delete()
         self.vlan.delete()
         self.vlan2.delete()
+        self.project.delete()
 
 
 if __name__ == "__main__":

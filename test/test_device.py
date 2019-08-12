@@ -4,15 +4,27 @@ import unittest
 import time
 import packet
 
+from datetime import datetime
+
 
 class TestDevice(unittest.TestCase):
     @classmethod
     def setUpClass(self):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
-        self.projectId = self.manager.list_projects()[0].id
+        org_id = self.manager.list_organizations()[0].id
+        self.project = self.manager.create_organization_project(
+            org_id=org_id,
+            name="Int-Tests-Device_{}".format(datetime.utcnow().timestamp())
+        )
+
+        self.manager.enable_project_bgp_config(
+            project_id=self.project.id,
+            deployment_type="local",
+            asn=65000
+        )
 
         self.device = self.manager.create_device(
-            self.projectId, "devicetest", "baremetal_0", "ewr1", "centos_7"
+            self.project.id, "devicetest", "baremetal_0", "ewr1", "centos_7"
         )
 
         while True:
@@ -25,7 +37,7 @@ class TestDevice(unittest.TestCase):
         self.assertEqual(device.hostname, self.device.hostname)
 
     def test_list_devices(self):
-        devices = self.manager.list_devices(self.projectId)
+        devices = self.manager.list_devices(self.project.id)
         for device in devices:
             if device.id is self.device.id:
                 break
@@ -57,6 +69,7 @@ class TestDevice(unittest.TestCase):
     @classmethod
     def tearDownClass(self):
         self.device.delete()
+        self.project.delete()
 
 
 if __name__ == "__main__":

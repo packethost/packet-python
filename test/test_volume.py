@@ -4,6 +4,8 @@ import unittest
 import time
 import packet
 
+from datetime import datetime
+
 
 class TestVolume(unittest.TestCase):
     @classmethod
@@ -12,7 +14,13 @@ class TestVolume(unittest.TestCase):
         self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
         self.projectId = self.manager.list_projects()[0].id
 
-        self.volume = self.manager.create_volume(self.projectId,
+        org_id = self.manager.list_organizations()[0].id
+        self.project = self.manager.create_organization_project(
+            org_id=org_id,
+            name="Int-Tests-Volume_{}".format(datetime.utcnow().timestamp())
+        )
+
+        self.volume = self.manager.create_volume(self.project.id,
                                                  "volume description",
                                                  "storage_1",
                                                  "100",
@@ -26,7 +34,7 @@ class TestVolume(unittest.TestCase):
             time.sleep(2)
 
         self.device = self.manager.create_device(
-            self.projectId, "devicevolumestest", "baremetal_0", "ewr1", "centos_7"
+            self.project.id, "devicevolumestest", "baremetal_0", "ewr1", "centos_7"
         )
 
         self.policy = self.volume.create_snapshot_policy("1day", 2)
@@ -42,7 +50,7 @@ class TestVolume(unittest.TestCase):
         self.assertEqual(volume.description, self.volume.description)
 
     def test_list_volumes(self):
-        volumes = self.manager.list_volumes(self.projectId)
+        volumes = self.manager.list_volumes(self.project.id)
         for volume in volumes:
             if volume.id is self.volume.id:
                 break
@@ -90,6 +98,7 @@ class TestVolume(unittest.TestCase):
         self.volume.delete()
         self.device.delete()
         self.clone.delete()
+        self.project.delete()
 
 
 if __name__ == "__main__":

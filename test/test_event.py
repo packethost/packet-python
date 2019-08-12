@@ -3,6 +3,8 @@ import sys
 import unittest
 import packet
 
+from datetime import datetime
+
 
 class TestEvent(unittest.TestCase):
     @classmethod
@@ -11,8 +13,11 @@ class TestEvent(unittest.TestCase):
 
         cls.events = cls.manager.list_events()
 
-        projects = cls.manager.list_projects()
-        cls.project_id = projects[0].id
+        org_id = cls.manager.list_organizations()[0].id
+        cls.project = cls.manager.create_organization_project(
+            org_id=org_id,
+            name="Int-Tests-Events_{}".format(datetime.utcnow().timestamp())
+        )
 
     def test_list_events(self):
         self.assertTrue(len(self.events) > 0)
@@ -22,12 +27,12 @@ class TestEvent(unittest.TestCase):
         self.assertEqual(event.id, self.events[0].id)
 
     def test_get_project_events(self):
-        events = self.manager.list_project_events(self.project_id)
-        self.assertTrue(len(events) > 0)
+        events = self.manager.list_project_events(self.project.id)
+        self.assertGreaterEqual(len(events), 0)
 
     @classmethod
     def tearDownClass(cls):
-        pass
+        cls.project.delete()
 
 
 if __name__ == "__main__":
