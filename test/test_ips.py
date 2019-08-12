@@ -7,7 +7,7 @@ import packet
 class TestIps(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.manager = packet.Manager(auth_token=os.environ['PACKET_TOKEN'])
+        cls.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
 
         cls.project_id = cls.manager.list_projects()[0].id
 
