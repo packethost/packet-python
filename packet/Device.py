@@ -34,6 +34,8 @@ class Device:
             self.storage = data["storage"]
         if "customdata" in data:
             self.customdata = data["customdata"]
+        else:
+            self.customdata = None
         self.operating_system = data["operating_system"]
         self.facility = data["facility"]
         self.project = data["project"]
