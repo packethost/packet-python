@@ -13,7 +13,7 @@ class Plan:
         self.description = data["description"]
 
     def __str__(self):
-        return "%s" % (self.slug)
+        return "%s" % self.slug
 
     def __repr__(self):
         return "{}: {}".format(self.__class__.__name__, self.id)
