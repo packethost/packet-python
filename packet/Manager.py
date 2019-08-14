@@ -302,13 +302,13 @@ class Manager(BaseAPI):
         data = self.call_api("devices/%s/ips" % device_id, type="GET")
         ips = list()
         for jsoned in data["ip_addresses"]:
-            ip = IPAddress(jsoned)
+            ip = IPAddress(jsoned, self)
             ips.append(ip)
         return ips
 
     def get_ip(self, ip_id):
         data = self.call_api("ips/%s" % ip_id)
-        return IPAddress(data)
+        return IPAddress(data, self)
 
     def delete_ip(self, ip_id):
         self.call_api("ips/%s" % ip_id, type="DELETE")
@@ -319,7 +319,7 @@ class Manager(BaseAPI):
                              params=params)
         ips = list()
         for jsoned in data["ip_addresses"]:
-            ip = IPAddress(jsoned)
+            ip = IPAddress(jsoned, self)
             ips.append(ip)
         return ips
 
@@ -338,7 +338,7 @@ class Manager(BaseAPI):
 
         data = self.call_api("/devices/%s/ips" % device_id,
                              params=params, type="POST")
-        return IPAddress(data)
+        return IPAddress(data, self)
 
     def reserve_ip_address(self, project_id, type, quantity, facility,
                            details=None, comments=None, tags=list()):
@@ -351,12 +351,9 @@ class Manager(BaseAPI):
             "tags": tags
         }
 
-        data = self.call_api("/projects/%s/ips" % project_id, params=request)
-        ips = list()
-        for i in data["ip_addresses"]:
-            ip = IPAddress(i)
-            ips.append(ip)
-        return ips
+        data = self.call_api("/projects/%s/ips" % project_id,
+                             params=request, type="POST")
+        return IPAddress(data, self)
 
     # Batches
     def create_batch(self, project_id, params):
