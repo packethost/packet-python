@@ -16,7 +16,7 @@ class TestEvent(unittest.TestCase):
         org_id = cls.manager.list_organizations()[0].id
         cls.project = cls.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-Events_{}".format(datetime.utcnow().timestamp())
+            name="Int-Tests-Events_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
         )
 
     def test_list_events(self):

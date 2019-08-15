@@ -15,7 +15,7 @@ class TestPorts(unittest.TestCase):
         org_id = self.manager.list_organizations()[0].id
         self.project = self.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-Ports_{}".format(datetime.utcnow().timestamp())
+            name="Int-Tests-Ports_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
         )
 
         self.device = self.manager.create_device(
