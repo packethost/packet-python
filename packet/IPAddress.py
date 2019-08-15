@@ -5,8 +5,10 @@ from .Facility import Facility
 
 
 class IPAddress:
-    def __init__(self, data):
-        self.ip = data["id"]
+    def __init__(self, data, manager):
+        self.manager = manager
+
+        self.id = data["id"]
         self.address_family = data["address_family"]
         self.netmask = data["netmask"]
         self.created_at = data["created_at"]
@@ -35,8 +37,11 @@ class IPAddress:
         if "gateway" in data:
             self.gateway = data["gateway"]
 
-        def __str__(self):
-            return "%s" % self.code
+    def delete(self):
+        return self.manager.call_api("ips/%s" % self.id, type="DELETE")
 
-        def __repr__(self):
-            return "{}: {}".format(self.__class__.__name__, self.id)
+    def __str__(self):
+        return "%s" % self.code
+
+    def __repr__(self):
+        return "{}: {}".format(self.__class__.__name__, self.id)

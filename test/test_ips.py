@@ -1,4 +1,5 @@
 import os
+import sys
 import time
 import unittest
 import packet
@@ -14,14 +15,14 @@ class TestIps(unittest.TestCase):
         org_id = cls.manager.list_organizations()[0].id
         cls.project = cls.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-IPs_{}".format(datetime.utcnow().timestamp())
+            name="Int-Tests-IPs_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
         )
 
-        cls.ipaddresses = cls.manager\
+        cls.ip_block = cls.manager \
             .reserve_ip_address(project_id=cls.project.id,
-                                type="global_ipv4",
+                                type="public_ipv4",
                                 quantity=1,
-                                facility="EWR1",
+                                facility="ewr1",
                                 details="delete me",
                                 tags=["deleteme"])
 
@@ -34,34 +35,26 @@ class TestIps(unittest.TestCase):
                 break
             time.sleep(2)
 
-        cls.manager.reserve_ip_address(project_id=cls.project.id,
-                                       type="global_ipv4",
-                                       quantity=1,
-                                       facility="ewr1")
+    def test_reserve_ip_address(self):
+        self.assertEqual(32, self.ip_block.cidr)
+        self.assertEqual("delete me", self.ip_block.details)
 
-    def list_project_ips(self):
+    def test_list_project_ips(self):
         ips = self.manager.list_project_ips(self.project.id)
-
-        self.assertIsNotNone(ips)
+        self.assertGreater(len(ips), 0)
 
     def test_create_device_ip(self):
-        ip = None
-        params = {
-            "include": ["facility"]
-        }
-        ips = self.manager.list_project_ips(self.project.id,
-                                            params=params)
-        for i in ips:
-            if i.facility.code == "ewr1" \
-                    and i.address_family == 4:
-                ip = i
-                break
-
-        ipaddress = self.manager.create_device_ip(self.device.id,
-                                                  address=ip.address)
-        self.assertIsNotNone(ipaddress)
+        ip = self.manager.create_device_ip(self.device.id,
+                                           address=self.ip_block.address)
+        self.assertIsNotNone(ip)
+        self.assertEqual(ip.address, self.ip_block.address)
 
     @classmethod
     def tearDownClass(cls):
         cls.device.delete()
+        cls.ip_block.delete()
         cls.project.delete()
+
+
+if __name__ == "__main__":
+    sys.exit(unittest.main())

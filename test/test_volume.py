@@ -17,7 +17,7 @@ class TestVolume(unittest.TestCase):
         org_id = self.manager.list_organizations()[0].id
         self.project = self.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-Volume_{}".format(datetime.utcnow().timestamp())
+            name="Int-Tests-Volume_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
         )
 
         self.volume = self.manager.create_volume(self.project.id,
