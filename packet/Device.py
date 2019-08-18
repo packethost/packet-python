@@ -22,20 +22,11 @@ class Device:
         self.bonding_mode = data["bonding_mode"]
         self.created_at = data["created_at"]
         self.updated_at = data["updated_at"]
-        if "ipxe_script_url" in data:
-            self.ipxe_script_url = data["ipxe_script_url"]
-        else:
-            self.ipxe_script_url = None
-        if "always_pxe" in data:
-            self.always_pxe = data["always_pxe"]
-        else:
-            self.always_pxe = False
+        self.ipxe_script_url = data.get("ipxe_script_url", None)
+        self.always_pxe = data.get("always_pxe", False)
         if "storage" in data:
             self.storage = data["storage"]
-        if "customdata" in data:
-            self.customdata = data["customdata"]
-        else:
-            self.customdata = None
+        self.customdata = data.get("customdata", None)
         self.operating_system = data["operating_system"]
         self.facility = data["facility"]
         self.project = data["project"]
@@ -55,10 +46,7 @@ class Device:
         if "network_ports" in data:
             self.network_ports = data["network_ports"]
         self.href = data["href"]
-        if "spot_instance" in data:
-            self.spot_instance = data["spot_instance"]
-        else:
-            self.spot_instance = False
+        self.spot_instance = data.get("spot_instance", False)
         if "root_password" in data:
             self.root_password = data["root_password"]
 
