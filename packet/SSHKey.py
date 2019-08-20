@@ -6,14 +6,18 @@ class SSHKey:
     def __init__(self, data, manager):
         self.manager = manager
 
-        self.id = data["id"]
-        self.key = data["key"]
-        self.label = data["label"]
-        self.fingerprint = data["fingerprint"]
-        self.href = data["href"]
-        self.owner = data["owner"]["href"]
-        self.created_at = data["created_at"]
-        self.updated_at = data["updated_at"]
+        self.id = data.get("id")
+        self.key = data.get("key")
+        self.label = data.get("label")
+        self.fingerprint = data.get("fingerprint")
+        self.href = data.get("href")
+        self.created_at = data.get("created_at")
+        self.updated_at = data.get("updated_at")
+
+        try:
+            self.owner = data["owner"]["href"]
+        except (KeyError, TypeError):
+            self.owner = None
 
     def update(self):
         params = {"label": self.label, "key": self.key}

@@ -14,6 +14,7 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_get_user(self):
         user = self.manager.get_user()
+
         self.assertEqual(user.get("full_name"), "Aaron Welch")
 
     def test_list_facilities(self):
@@ -32,10 +33,10 @@ class PacketManagerTest(unittest.TestCase):
 
     def test_list_operating_systems(self):
         oss = self.manager.list_operating_systems()
-        for os in oss:
-            str(os)
-            repr(os)
-            self.assertIsInstance(os, packet.OperatingSystem)
+        for o in oss:
+            str(o)
+            repr(o)
+            self.assertIsInstance(o, packet.OperatingSystem)
 
     def test_list_projects(self):
         projects = self.manager.list_projects()
@@ -132,12 +133,10 @@ class PacketManagerTest(unittest.TestCase):
         self.assertIsInstance(key, packet.SSHKey)
 
     def test_create_ssh_key(self):
-        public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDI4pIqzpb5g3992h+yr527VRcaB68KE4vPjWPPoiQws49KIs2NMcOzS9QE4\
-641uW1u5ML2HgQdfYKMF/YFGnI1Y6xV637DjhDyZYV9LasUH49npSSJjsBcsk9JGfUpNAOdcgpFzK8V90eiOrOC5YncxdwwG8pwjFI9nNVPCl4hYEu1iXdy\
-ysHvkFfS2fklsNjLWrzfafPlaen+qcBxygCA0sFdW/7er50aJeghdBHnE2WhIKLUkJxnKadznfAge7oEe+3LLAPfP+3yHyvp2+H0IzmVfYvAjnzliYetqQ8\
-pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
+        public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDI4pIqzpb5g3992h+yr527VRcaB68KE4vPjWPPoiQws49KIs2NMcOzS9QE4641uW1u5ML2HgQdfYKMF/YFGnI1Y6xV637DjhDyZYV9LasUH49npSSJjsBcsk9JGfUpNAOdcgpFzK8V90eiOrOC5YncxdwwG8pwjFI9nNVPCl4hYEu1iXdyysHvkFfS2fklsNjLWrzfafPlaen+qcBxygCA0sFdW/7er50aJeghdBHnE2WhIKLUkJxnKadznfAge7oEe+3LLAPfP+3yHyvp2+H0IzmVfYvAjnzliYetqQ8pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
-        key = self.manager.create_ssh_key(label="sshkey-name", public_key=public_key)
+        key = self.manager\
+            .create_ssh_key(label="sshkey-name", public_key=public_key)
         self.assertIsInstance(key, packet.SSHKey)
         self.assertEqual(key.key, public_key)
 
@@ -160,7 +159,13 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_create_volume(self):
         volume = self.manager.create_volume(
-            "438659f0", "volume description", "storage_0", "100", "ewr1", 7, "1day"
+            "438659f0",
+            "volume description",
+            "storage_0",
+            "100",
+            "ewr1",
+            7,
+            "1day"
         )
         self.assertIsInstance(volume, packet.Volume)
 
@@ -204,14 +209,24 @@ pg5ZW2BiJzvqz5PebGS70y/ySCNW1qQmJURK/Wc1bt9en"
 
     def test_volume_create_clone(self):
         volume = self.manager.get_volume("f9a8a263")
-        volume.create_clone()
+        volume.clone()
 
     def test_capacity(self):
         self.manager.get_capacity()
 
+    def test_get_bgp_config(self):
+        bgp = self.manager.get_bgp_config("1234")
+        self.assertIsNotNone(bgp)
+
     def test_validate_capacity(self):
-        capacity = self.manager.validate_capacity([("ewr1", "baremetal_0", 10)])
+        capacity = self.manager\
+            .validate_capacity([("ewr1", "baremetal_0", 10)])
         self.assertTrue(capacity)
+
+    # IP Addresses
+    def test_list_device_ips(self):
+        ips = self.manager.list_device_ips("e123s")
+        self.assertIsNotNone(ips)
 
 
 class PacketMockManager(packet.Manager):
@@ -227,7 +242,8 @@ class PacketMockManager(packet.Manager):
 
             if type == "DELETE":
                 mock(requests_mock.ANY)
-                return super(PacketMockManager, self).call_api(method, type, params)
+                return super(PacketMockManager, self)\
+                    .call_api(method, type, params)
 
             fixture = "%s_%s" % (type.lower(), method.lower())
             fixture = fixture.replace("/", "_").split("?")[0]
@@ -239,7 +255,8 @@ class PacketMockManager(packet.Manager):
                 j = json.load(data_file)
 
             mock(requests_mock.ANY, headers=headers, json=j)
-            return super(PacketMockManager, self).call_api(method, type, params)
+            return super(PacketMockManager, self)\
+                .call_api(method, type, params)
 
 
 if __name__ == "__main__":
