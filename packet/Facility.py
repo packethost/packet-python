@@ -4,16 +4,11 @@
 
 class Facility:
     def __init__(self, data):
-        if "id" in data:
-            self.id = data["id"]
-        if "code" in data:
-            self.code = data["code"]
-        if "name" in data:
-            self.name = data["name"]
-        if "features" in data:
-            self.features = data["features"]
-        if "address" in data:
-            self.address = data["address"]
+        self.id = data.get("id")
+        self.code = data.get("code")
+        self.name = data.get("name")
+        self.features = data.get("features")
+        self.address = data.get("address")
 
     def __str__(self):
         return "%s" % self.code

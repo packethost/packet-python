@@ -7,48 +7,38 @@ class Device:
     def __init__(self, data, manager):
         self.manager = manager
 
-        self.id = data["id"]
-        self.short_id = data["short_id"]
-        self.hostname = data["hostname"]
-        self.description = data["description"]
-        self.state = data["state"]
-        self.tags = data["tags"]
-        if "image_url" in data:
-            self.image_url = data["image_url"]
-        self.billing_cycle = data["billing_cycle"]
-        self.user = data["user"]
-        self.iqn = data["iqn"]
-        self.locked = data["locked"]
-        self.bonding_mode = data["bonding_mode"]
-        self.created_at = data["created_at"]
-        self.updated_at = data["updated_at"]
+        self.id = data.get("id")
+        self.short_id = data.get("short_id")
+        self.hostname = data.get("hostname")
+        self.description = data.get("description")
+        self.state = data.get("state")
+        self.tags = data.get("tags")
+        self.image_url = data.get("image_url")
+        self.billing_cycle = data.get("billing_cycle")
+        self.user = data.get("user")
+        self.iqn = data.get("iqn")
+        self.locked = data.get("locked")
+        self.bonding_mode = data.get("bonding_mode")
+        self.created_at = data.get("created_at")
+        self.updated_at = data.get("updated_at")
         self.ipxe_script_url = data.get("ipxe_script_url", None)
         self.always_pxe = data.get("always_pxe", False)
-        if "storage" in data:
-            self.storage = data["storage"]
+        self.storage = data.get("storage")
         self.customdata = data.get("customdata", None)
-        self.operating_system = data["operating_system"]
-        self.facility = data["facility"]
-        self.project = data["project"]
-        if "ssh_keys" in data:
-            self.ssh_keys = data["ssh_keys"]
-        if "project_lite" in data:
-            self.project_lite = data["project_lite"]
-
-        if "volumes" in data:
-            self.volumes = data["volumes"]
-
-        self.ip_addresses = data["ip_addresses"]
-        self.plan = data["plan"]
-        self.userdata = data["userdata"]
-        if "switch_uuid" in data:
-            self.switch_uuid = data["switch_uuid"]
-        if "network_ports" in data:
-            self.network_ports = data["network_ports"]
-        self.href = data["href"]
+        self.operating_system = data.get("operating_system")
+        self.facility = data.get("facility")
+        self.project = data.get("project")
+        self.ssh_keys = data.get("ssh_keys")
+        self.project_lite = data.get("project_lite")
+        self.volumes = data.get("volumes")
+        self.ip_addresses = data.get("ip_addresses")
+        self.plan = data.get("plan")
+        self.userdata = data.get("userdata")
+        self.switch_uuid = data.get("switch_uuid")
+        self.network_ports = data.get("network_ports")
+        self.href = data.get("href")
         self.spot_instance = data.get("spot_instance", False)
-        if "root_password" in data:
-            self.root_password = data["root_password"]
+        self.root_password = data.get("root_password")
 
     def update(self):
         params = {

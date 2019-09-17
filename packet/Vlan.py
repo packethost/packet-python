@@ -10,14 +10,14 @@ class Vlan:
         if data is None:
             return
 
-        self.id = data["id"]
-        self.description = data["description"]
-        self.vxlan = data["vxlan"]
-        self.internet_gateway = data["internet_gateway"]
-        self.facility_code = data["facility_code"]
-        self.created_at = data["created_at"]
+        self.id = data.get("id")
+        self.description = data.get("description")
+        self.vxlan = data.get("vxlan")
+        self.internet_gateway = data.get("internet_gateway")
+        self.facility_code = data.get("facility_code")
+        self.created_at = data.get("created_at")
 
-        self.facility = Facility(data["facility"])
+        self.facility = Facility(data.get("facility"))
         try:
             project_data = self.manager.call_api(data["assigned_to"]["href"], type="GET")
             self.assigned_to = Project(project_data, self.manager)

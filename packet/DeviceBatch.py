@@ -4,16 +4,11 @@
 
 class DeviceBatch:
     def __init__(self, data):
-        if "hostname" in data:
-            self.hostname = data["hostname"]
-        if "plan" in data:
-            self.plan = data["plan"]
-        if "operating_system" in data:
-            self.operating_system = data["operating_system"]
-        if "facility" in data:
-            self.facility = data["facility"]
-        if "quantity" in data:
-            self.quantity = data["quantity"]
+        self.hostname = data.get("hostname")
+        self.plan = data.get("plan")
+        self.operating_system = data.get("operating_system")
+        self.facility = data.get("facility")
+        self.quantity = data.get("quantity")
 
     def __str__(self):
         return "%s" % self.hostname

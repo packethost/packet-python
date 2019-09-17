@@ -6,17 +6,17 @@ class Project:
     def __init__(self, data, manager):
         self.manager = manager
 
-        self.id = data["id"]
-        self.name = data["name"]
+        self.id = data.get("id")
+        self.name = data.get("name")
         self.payment_method = data.get("payment_method", [])
         self.max_projects = data.get("max_devices")
-        self.created_at = data["created_at"]
-        self.updated_at = data["updated_at"]
-        self.devices = data["devices"]
-        self.invitations = data["invitations"]
-        self.memberships = data["memberships"]
-        self.members = data["members"]
-        self.ssh_keys = data["ssh_keys"]
+        self.created_at = data.get("created_at")
+        self.updated_at = data.get("updated_at")
+        self.devices = data.get("devices")
+        self.invitations = data.get("invitations")
+        self.memberships = data.get("memberships")
+        self.members = data.get("members")
+        self.ssh_keys = data.get("ssh_keys")
 
     def update(self):
         params = {"name": self.name}

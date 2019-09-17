@@ -6,10 +6,10 @@ class Email:
     def __init__(self, data, manager):
         self.manager = manager
 
-        self.id = data["id"]
-        self.address = data["address"]
-        self.default = data["default"]
-        self.verified = data["verified"]
+        self.id = data.get("id")
+        self.address = data.get("address")
+        self.default = data.get("default")
+        self.verified = data.get("verified")
 
     def update(self):
         params = {"address": self.address, "default": self.default}

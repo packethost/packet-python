@@ -120,7 +120,6 @@ class Manager(BaseAPI):
             termination_time=None,
             user_ssh_keys=[],
             userdata="",
-            hardware_reservation_id=""
     ):
 
         params = {
@@ -139,8 +138,6 @@ class Manager(BaseAPI):
             "userdata": userdata,
         }
 
-        if hardware_reservation_id !="":
-            params["hardware_reservation_id"] = hardware_reservation_id
         if ipxe_script_url != "":
             params["always_pxe"] = always_pxe
             params["ipxe_script_url"] = ipxe_script_url

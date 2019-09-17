@@ -4,14 +4,14 @@
 
 class Event:
     def __init__(self, data):
-        self.id = data["id"]
-        self.type = data["type"]
-        self.body = data["body"]
-        self.state = data["state"]
-        self.created_at = data["created_at"]
-        self.modified_by = data["modified_by"]
-        self.ip = data["ip"]
-        self.interpolated = data["interpolated"]
+        self.id = data.get("id")
+        self.type = data.get("type")
+        self.body = data.get("body")
+        self.state = data.get("state")
+        self.created_at = data.get("created_at")
+        self.modified_by = data.get("modified_by")
+        self.ip = data.get("ip")
+        self.interpolated = data.get("interpolated")
 
     def __str__(self):
         return "%s" % self.interpolated

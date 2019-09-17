@@ -4,16 +4,11 @@
 
 class Snapshot:
     def __init__(self, data):
-        if "id" in data:
-            self.id = data["id"]
-        if "status" in data:
-            self.status = data["status"]
-        if "timestamp" in data:
-            self.timestamp = data["timestamp"]
-        if "created_at" in data:
-            self.created_at = data["created_at"]
-        if "volume" in data:
-            self.volume = data["volume"]
+        self.id = data.get("id")
+        self.status = data.get("status")
+        self.timestamp = data.get("timestamp")
+        self.created_at = data.get("created_at")
+        self.volume = data.get("volume")
 
     def __str__(self):
         return "%s" % self.name

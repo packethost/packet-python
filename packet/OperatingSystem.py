@@ -4,11 +4,11 @@
 
 class OperatingSystem(object):
     def __init__(self, data):
-        self.slug = data["slug"]
-        self.name = data["name"]
-        self.distro = data["distro"]
-        self.version = data["version"]
-        self.provisionable_on = data["provisionable_on"]
+        self.slug = data.get("slug")
+        self.name = data.get("name")
+        self.distro = data.get("distro")
+        self.version = data.get("version")
+        self.provisionable_on = data.get("provisionable_on")
 
     def __str__(self):
         return "%s %s %s %s" % (self.slug, self.name, self.distro, self.version)

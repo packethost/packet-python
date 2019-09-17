@@ -11,19 +11,19 @@ class Volume:
         if data is None:
             return
 
-        self.id = data["id"]
-        self.name = data["name"]
-        self.description = data["description"]
-        self.size = data["size"]
-        self.state = data["state"]
-        self.locked = data["locked"]
-        self.billing_cycle = data["billing_cycle"]
-        self.created_at = data["created_at"]
-        self.updated_at = data["updated_at"]
-        self.attachments = data["attachments"]
+        self.id = data.get("id")
+        self.name = data.get("name")
+        self.description = data.get("description")
+        self.size = data.get("size")
+        self.state = data.get("state")
+        self.locked = data.get("locked")
+        self.billing_cycle = data.get("billing_cycle")
+        self.created_at = data.get("created_at")
+        self.updated_at = data.get("updated_at")
+        self.attachments = data.get("attachments")
 
-        self.plan = Plan(data["plan"])
-        self.facility = Facility(data["facility"])
+        self.plan = Plan(data.get("plan"))
+        self.facility = Facility(data.get("facility"))
         try:
             self.attached_to = data["attachments"][0]["device"]["id"]
         except (KeyError, IndexError):

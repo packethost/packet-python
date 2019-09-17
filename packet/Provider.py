@@ -4,16 +4,11 @@
 
 class Provider:
     def __init__(self, data):
-        if data["id"] is not None:
-            self.id = data["id"]
-        if data["name"] is not None:
-            self.name = data["name"]
-        if data["status"] is not None:
-            self.status = data["status"]
-        if data["type"] is not None:
-            self.type = data["type"]
-        if data["public"] is not None:
-            self.public = data["public"]
+        self.id = data.get("id")
+        self.name = data.get("name")
+        self.status = data.get("status")
+        self.type = data.get("type")
+        self.public = data.get("public")
 
     def __str__(self):
         return "%s" % self.id
