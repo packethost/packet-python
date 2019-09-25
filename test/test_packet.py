@@ -108,6 +108,7 @@ class PacketManagerTest(unittest.TestCase):
         self.assertIsNone(device.power_off())
         self.assertIsNone(device.power_on())
         self.assertIsNone(device.reboot())
+        self.assertIsNone(device.rescue())
 
     def test_update_device(self):
         hostname = "updated hostname"
