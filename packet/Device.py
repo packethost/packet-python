@@ -79,6 +79,12 @@ class Device:
             "devices/%s/actions" % self.id, type="POST", params=params
         )
 
+    def rescue(self):
+        params = {"type": "rescue"}
+        return self.manager.call_api(
+            "devices/%s/actions" % self.id, type="POST", params=params
+        )
+
     def ips(self):
         return self.manager.list_device_ips(self.id)
 

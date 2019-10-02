@@ -107,6 +107,7 @@ class PacketManagerTest(unittest.TestCase):
         device = self.manager.get_device("9dec7266")
         self.assertIsNone(device.power_off())
         self.assertIsNone(device.power_on())
+        self.assertIsNone(device.rescue())
         self.assertIsNone(device.reboot())
 
     def test_update_device(self):
