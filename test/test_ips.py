@@ -10,21 +10,24 @@ from datetime import datetime
 class TestIps(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        cls.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
 
         org_id = cls.manager.list_organizations()[0].id
         cls.project = cls.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-IPs_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
+            name="Int-Tests-IPs_{}".format(
+                datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3]
+            ),
         )
 
-        cls.ip_block = cls.manager \
-            .reserve_ip_address(project_id=cls.project.id,
-                                type="public_ipv4",
-                                quantity=1,
-                                facility="ewr1",
-                                details="delete me",
-                                tags=["deleteme"])
+        cls.ip_block = cls.manager.reserve_ip_address(
+            project_id=cls.project.id,
+            type="public_ipv4",
+            quantity=1,
+            facility="ewr1",
+            details="delete me",
+            tags=["deleteme"],
+        )
 
         cls.device = cls.manager.create_device(
             cls.project.id, "iptest", "baremetal_0", "ewr1", "centos_7"
@@ -44,8 +47,9 @@ class TestIps(unittest.TestCase):
         self.assertGreater(len(ips), 0)
 
     def test_create_device_ip(self):
-        ip = self.manager.create_device_ip(self.device.id,
-                                           address=self.ip_block.address)
+        ip = self.manager.create_device_ip(
+            self.device.id, address=self.ip_block.address
+        )
         self.assertIsNotNone(ip)
         self.assertEqual(ip.address, self.ip_block.address)
 

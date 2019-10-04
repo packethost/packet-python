@@ -9,7 +9,7 @@ import packet
 class TestVpn(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        self.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
         self.manager.turn_on_vpn()
 
     # def test_get_vpn_config(self):

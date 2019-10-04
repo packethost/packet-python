@@ -8,9 +8,11 @@ import random
 class TestEmail(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        cls.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
 
-        cls.email = cls.manager.add_email("john.doe{}@packet.com".format(random.randint(1, 1001)))
+        cls.email = cls.manager.add_email(
+            "john.doe{}@packet.com".format(random.randint(1, 1001))
+        )
 
     def test_get_email(self):
         email = self.manager.get_email(self.email.id)

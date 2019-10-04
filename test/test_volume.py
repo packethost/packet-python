@@ -10,23 +10,21 @@ from datetime import datetime
 class TestVolume(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.timestamp = ''
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        self.timestamp = ""
+        self.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
         self.projectId = self.manager.list_projects()[0].id
 
         org_id = self.manager.list_organizations()[0].id
         self.project = self.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-Volume_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
+            name="Int-Tests-Volume_{}".format(
+                datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3]
+            ),
         )
 
-        self.volume = self.manager.create_volume(self.project.id,
-                                                 "volume description",
-                                                 "storage_1",
-                                                 "100",
-                                                 "ewr1",
-                                                 7,
-                                                 "1day")
+        self.volume = self.manager.create_volume(
+            self.project.id, "volume description", "storage_1", "100", "ewr1", 7, "1day"
+        )
 
         while True:
             if self.manager.get_volume(self.volume.id).state == "active":

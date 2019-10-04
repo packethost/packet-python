@@ -19,7 +19,9 @@ class Vlan:
 
         self.facility = Facility(data.get("facility"))
         try:
-            project_data = self.manager.call_api(data["assigned_to"]["href"], type="GET")
+            project_data = self.manager.call_api(
+                data["assigned_to"]["href"], type="GET"
+            )
             self.assigned_to = Project(project_data, self.manager)
         except (KeyError, IndexError):
             self.attached_to = None
@@ -34,7 +36,9 @@ class Vlan:
         """:param ip_reservation_length:  (required) number of IP addresses possible 8 or 16"""
         params = {"length": ip_reservation_length}
         return self.manager.call_api(
-            "/virtual-networks/%s/internet-gateways" % self.id, type="POST", params=params
+            "/virtual-networks/%s/internet-gateways" % self.id,
+            type="POST",
+            params=params,
         )
 
     def assign_native_vlan(self, port_id):

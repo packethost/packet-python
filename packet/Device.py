@@ -51,7 +51,7 @@ class Device:
             "always_pxe": self.always_pxe,
             "ipxe_script_url": self.ipxe_script_url,
             "spot_instance": self.spot_instance,
-            "customdata": self.customdata
+            "customdata": self.customdata,
         }
 
         return self.manager.call_api(

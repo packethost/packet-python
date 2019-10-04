@@ -10,16 +10,19 @@ from datetime import datetime
 class TestVlan(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        self.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
 
         org_id = self.manager.list_organizations()[0].id
         self.project = self.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-VLAN_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
+            name="Int-Tests-VLAN_{}".format(
+                datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3]
+            ),
         )
 
         self.device = self.manager.create_device(
-            self.project.id, "vlantesting", "baremetal_2", "ewr1", "centos_7")
+            self.project.id, "vlantesting", "baremetal_2", "ewr1", "centos_7"
+        )
 
         self.vlan = self.manager.create_vlan(self.project.id, "ewr1")
         self.vlan2 = self.manager.create_vlan(self.project.id, "ewr1")
@@ -27,8 +30,8 @@ class TestVlan(unittest.TestCase):
             if self.manager.get_device(self.device.id).state == "active":
                 break
             time.sleep(2)
-        self.device_port_id = self.device['network_ports'][0]['id']
-        self.device_eth0_port_id = self.device['network_ports'][1]['id']
+        self.device_port_id = self.device["network_ports"][0]["id"]
+        self.device_eth0_port_id = self.device["network_ports"][1]["id"]
         # must convert to layer 2 to work with vlans
         self.manager.convert_layer_2(self.device_port_id, self.vlan.id)
 
@@ -38,7 +41,7 @@ class TestVlan(unittest.TestCase):
 
     def test_get_vlan(self):
         vlan = self.vlan.get()
-        self.assertEqual(vlan['id'], self.vlan.id)
+        self.assertEqual(vlan["id"], self.vlan.id)
 
     def test_assign_port(self):
         self.manager.disbond_ports(self.device_eth0_port_id, False)

@@ -10,17 +10,17 @@ from datetime import datetime
 class TestDevice(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        self.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
         org_id = self.manager.list_organizations()[0].id
         self.project = self.manager.create_organization_project(
             org_id=org_id,
-            name="Int-Tests-Device_{}".format(datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3])
+            name="Int-Tests-Device_{}".format(
+                datetime.utcnow().strftime("%Y%m%dT%H%M%S.%f")[:-3]
+            ),
         )
 
         self.manager.enable_project_bgp_config(
-            project_id=self.project.id,
-            deployment_type="local",
-            asn=65000
+            project_id=self.project.id, deployment_type="local", asn=65000
         )
 
         self.device = self.manager.create_device(
@@ -50,8 +50,9 @@ class TestDevice(unittest.TestCase):
         self.assertEqual(self.device.hostname, device.hostname)
 
     def test_create_bgp_session(self):
-        bgp_session = self.manager\
-            .create_bgp_session(self.device.id, address_family="ipv4")
+        bgp_session = self.manager.create_bgp_session(
+            self.device.id, address_family="ipv4"
+        )
         self.assertIsNotNone(bgp_session)
 
     def test_get_bgp_sessions(self):
