@@ -79,14 +79,19 @@ class Volume:
           - 1month
           - 1year
         """
-        data = self.manager.call_api("storage/{0}/snapshot-policies?snapshot_frequency={1}&snapshot_count={2}".format(
-            self.id,
-            frequency, count),
-            type="POST")
+        data = self.manager.call_api(
+            "storage/{0}/snapshot-policies?snapshot_frequency={1}&snapshot_count={2}".format(
+                self.id, frequency, count
+            ),
+            type="POST",
+        )
         return SnapshotPolicy(data, self)
 
     def clone(self):
-        return Volume(self.manager.call_api("storage/%s/clone" % self.id, type="POST"), manager=self.manager)
+        return Volume(
+            self.manager.call_api("storage/%s/clone" % self.id, type="POST"),
+            manager=self.manager,
+        )
 
     def restore(self, restore_point):
         self.manager.restore_volume(self.id, restore_point=restore_point)
@@ -150,8 +155,10 @@ class SnapshotPolicy:
        """
         data = self.policy.manager.call_api(
             "storage/snapshot-policies/{0}?snapshot_frequency={1}&snapshot_count={2}".format(
-                self.id, frequency, count),
-            type="PATCH")
+                self.id, frequency, count
+            ),
+            type="PATCH",
+        )
         return SnapshotPolicy(data, self)
 
     def __str__(self):

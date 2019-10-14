@@ -1,13 +1,20 @@
+# -*- coding: utf-8 -*-
+# SPDX-License-Identifier: LGPL-3.0-only
+
 import os
 import sys
 import unittest
 import packet
 
 
+@unittest.skipIf(
+    "PACKET_PYTHON_TEST_ACTUAL_API" not in os.environ,
+    "PACKET_PYTHON_TEST_ACTUAL_API is missing from environment",
+)
 class TestOrganization(unittest.TestCase):
     @classmethod
     def setUpClass(self):
-        self.manager = packet.Manager(auth_token=os.environ['PACKET_AUTH_TOKEN'])
+        self.manager = packet.Manager(auth_token=os.environ["PACKET_AUTH_TOKEN"])
         orgs = self.manager.list_organizations()
         self.org_id = orgs[0].id
 
@@ -20,7 +27,7 @@ class TestOrganization(unittest.TestCase):
             org_id=self.org_id,
             name="live-tests-project",
             payment_method_id=None,
-            customdata={"tag": "delete me"}
+            customdata={"tag": "delete me"},
         )
         self.assertIsNotNone(project)
         project.delete()

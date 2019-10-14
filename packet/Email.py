@@ -14,9 +14,7 @@ class Email:
     def update(self):
         params = {"address": self.address, "default": self.default}
 
-        return self.manager.call_api(
-            "emails/%s" % self.id, type="PATCH", params=params
-        )
+        return self.manager.call_api("emails/%s" % self.id, type="PATCH", params=params)
 
     def delete(self):
         return self.manager.call_api("emails/%s" % self.id, type="DELETE")

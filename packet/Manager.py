@@ -101,26 +101,26 @@ class Manager(BaseAPI):
         return all_devices
 
     def create_device(
-            self,
-            project_id,
-            hostname,
-            plan,
-            facility,
-            operating_system,
-            always_pxe=False,
-            billing_cycle="hourly",
-            features={},
-            ipxe_script_url="",
-            locked=False,
-            project_ssh_keys=[],
-            public_ipv4_subnet_size=31,
-            spot_instance=False,
-            spot_price_max=-1,
-            tags={},
-            termination_time=None,
-            user_ssh_keys=[],
-            userdata="",
-            hardware_reservation_id=""
+        self,
+        project_id,
+        hostname,
+        plan,
+        facility,
+        operating_system,
+        always_pxe=False,
+        billing_cycle="hourly",
+        features={},
+        ipxe_script_url="",
+        locked=False,
+        project_ssh_keys=[],
+        public_ipv4_subnet_size=31,
+        spot_instance=False,
+        spot_price_max=-1,
+        tags={},
+        termination_time=None,
+        user_ssh_keys=[],
+        userdata="",
+        hardware_reservation_id="",
     ):
 
         params = {
@@ -185,14 +185,14 @@ class Manager(BaseAPI):
         return volumes
 
     def create_volume(
-            self,
-            project_id,
-            description,
-            plan,
-            size,
-            facility,
-            snapshot_count=0,
-            snapshot_frequency=None,
+        self,
+        project_id,
+        description,
+        plan,
+        size,
+        facility,
+        snapshot_count=0,
+        snapshot_frequency=None,
     ):
         params = {
             "description": description,
@@ -243,11 +243,7 @@ class Manager(BaseAPI):
         params = {"servers": []}
         for server in servers:
             params["servers"].append(
-                {
-                    "facility": server[0],
-                    "plan": server[1],
-                    "quantity": server[2]
-                }
+                {"facility": server[0], "plan": server[1], "quantity": server[2]}
             )
 
         try:
@@ -268,24 +264,24 @@ class Manager(BaseAPI):
         data = self.call_api("projects/%s/bgp-config" % project_id)
         return BGPConfig(data)
 
-    def enable_project_bgp_config(self, project_id, asn,
-                                  deployment_type,
-                                  md5=None,
-                                  use_case=None):
+    def enable_project_bgp_config(
+        self, project_id, asn, deployment_type, md5=None, use_case=None
+    ):
         params = {
             "deployment_type": deployment_type,
             "asn": asn,
             "md5": md5,
-            "use_case": use_case
+            "use_case": use_case,
         }
-        self.call_api("/projects/%s/bgp-configs" % project_id,
-                      type="POST",
-                      params=params)
+        self.call_api(
+            "/projects/%s/bgp-configs" % project_id, type="POST", params=params
+        )
 
     # BGP Session
     def get_bgp_sessions(self, device_id, params={}):
-        data = self.call_api("/devices/%s/bgp/sessions" % device_id,
-                             type="GET", params=params)
+        data = self.call_api(
+            "/devices/%s/bgp/sessions" % device_id, type="GET", params=params
+        )
         bgp_sessions = list()
         for jsoned in data["bgp_sessions"]:
             bpg_session = BGPSession(jsoned)
@@ -293,11 +289,11 @@ class Manager(BaseAPI):
         return bgp_sessions
 
     def create_bgp_session(self, device_id, address_family):
-        data = self.call_api("/devices/%s/bgp/sessions" % device_id,
-                             type="POST",
-                             params={
-                                 "address_family": address_family
-                             })
+        data = self.call_api(
+            "/devices/%s/bgp/sessions" % device_id,
+            type="POST",
+            params={"address_family": address_family},
+        )
         return BGPSession(data)
 
     # IP operations
@@ -317,9 +313,7 @@ class Manager(BaseAPI):
         self.call_api("ips/%s" % ip_id, type="DELETE")
 
     def list_project_ips(self, project_id, params={}):
-        data = self.call_api("projects/%s/ips" % project_id,
-                             type="GET",
-                             params=params)
+        data = self.call_api("projects/%s/ips" % project_id, type="GET", params=params)
         ips = list()
         for jsoned in data["ip_addresses"]:
             ip = IPAddress(jsoned, self)
@@ -327,44 +321,51 @@ class Manager(BaseAPI):
         return ips
 
     def get_available_ip_subnets(self, ip_id, cidr):
-        data = self.call_api("/ips/%s/available" % ip_id,
-                             type="GET", params="cidr=%s" % cidr)
+        data = self.call_api(
+            "/ips/%s/available" % ip_id, type="GET", params="cidr=%s" % cidr
+        )
         return data
 
-    def create_device_ip(self, device_id, address,
-                         manageable=True, customdata=None):
+    def create_device_ip(self, device_id, address, manageable=True, customdata=None):
         params = {
             "address": address,
             "manageable": manageable,
-            "customdata": customdata
+            "customdata": customdata,
         }
 
-        data = self.call_api("/devices/%s/ips" % device_id,
-                             params=params, type="POST")
+        data = self.call_api("/devices/%s/ips" % device_id, params=params, type="POST")
         return IPAddress(data, self)
 
-    def reserve_ip_address(self, project_id, type, quantity, facility,
-                           details=None, comments=None, tags=list()):
+    def reserve_ip_address(
+        self,
+        project_id,
+        type,
+        quantity,
+        facility,
+        details=None,
+        comments=None,
+        tags=list(),
+    ):
         request = {
             "type": type,
             "quantity": quantity,
             "facility": facility,
             "details": details,
             "comments": comments,
-            "tags": tags
+            "tags": tags,
         }
 
-        data = self.call_api("/projects/%s/ips" % project_id,
-                             params=request, type="POST")
+        data = self.call_api(
+            "/projects/%s/ips" % project_id, params=request, type="POST"
+        )
         return IPAddress(data, self)
 
     # Batches
     def create_batch(self, project_id, params):
-        param = {
-            "batches": params
-        }
-        data = self.call_api("/projects/%s/devices/batch" % project_id,
-                             type="POST", params=param)
+        param = {"batches": params}
+        data = self.call_api(
+            "/projects/%s/devices/batch" % project_id, type="POST", params=param
+        )
         batches = list()
         for b in data["batches"]:
             batch = Batch(b)
@@ -372,8 +373,9 @@ class Manager(BaseAPI):
         return batches
 
     def list_batches(self, project_id, params=None):
-        data = self.call_api("/projects/%s/batches" % project_id,
-                             type="GET", params=params)
+        data = self.call_api(
+            "/projects/%s/batches" % project_id, type="GET", params=params
+        )
         batches = list()
         for b in data["batches"]:
             batch = Batch(b)
@@ -381,13 +383,15 @@ class Manager(BaseAPI):
         return batches
 
     def delete_batch(self, batch_id, remove_associated_instances=False):
-        self.call_api("/batches/%s" % batch_id, type="DELETE",
-                      params=remove_associated_instances)
+        self.call_api(
+            "/batches/%s" % batch_id, type="DELETE", params=remove_associated_instances
+        )
 
     # Snapshots
     def get_snapshots(self, volume_id, params=None):
-        data = self.call_api("storage/%s/snapshots" % volume_id,
-                             type="GET", params=params)
+        data = self.call_api(
+            "storage/%s/snapshots" % volume_id, type="GET", params=params
+        )
         snapshots = list()
         for ss in data["snapshots"]:
             snapshot = Snapshot(ss)
@@ -396,11 +400,8 @@ class Manager(BaseAPI):
         return snapshots
 
     def restore_volume(self, volume_id, restore_point):
-        params = {
-            "restore_point": restore_point
-        }
-        self.call_api("storage/%s/restore" % volume_id,
-                      type="POST", params=params)
+        params = {"restore_point": restore_point}
+        self.call_api("storage/%s/restore" % volume_id, type="POST", params=params)
 
     # Organization
     def list_organizations(self, params=None):
@@ -413,13 +414,13 @@ class Manager(BaseAPI):
         return orgs
 
     def get_organization(self, org_id, params=None):
-        data = self.call_api("organizations/%s" % org_id,
-                             type="GET", params=params)
+        data = self.call_api("organizations/%s" % org_id, type="GET", params=params)
         return Organization(data)
 
     def list_organization_projects(self, org_id, params=None):
-        data = self.call_api("organizations/%s/projects" % org_id,
-                             type="GET", params=params)
+        data = self.call_api(
+            "organizations/%s/projects" % org_id, type="GET", params=params
+        )
         projects = list()
         for p in data["projects"]:
             projects.append(Project(p, self))
@@ -427,22 +428,26 @@ class Manager(BaseAPI):
         return projects
 
     def list_organization_devices(self, org_id, params=None):
-        data = self.call_api("organizations/%s/devices" % org_id,
-                             type="GET", params=params)
+        data = self.call_api(
+            "organizations/%s/devices" % org_id, type="GET", params=params
+        )
         devices = list()
         for d in data["devices"]:
             devices.append(Device(d, self))
 
         return devices
 
-    def create_organization_project(self, org_id, name, payment_method_id=None, customdata=None):
+    def create_organization_project(
+        self, org_id, name, payment_method_id=None, customdata=None
+    ):
         params = {
             "name": name,
             "payment_method_id": payment_method_id,
             "customdata": customdata,
         }
-        data = self.call_api("organizations/%s/projects" % org_id, type="POST",
-                             params=params)
+        data = self.call_api(
+            "organizations/%s/projects" % org_id, type="POST", params=params
+        )
         return Project(data, self)
 
     # Email
@@ -469,8 +474,7 @@ class Manager(BaseAPI):
         return Event(data)
 
     def list_device_events(self, device_id, params=None):
-        data = self.call_api("devices/%s/events" % device_id,
-                             type="GET", params=params)
+        data = self.call_api("devices/%s/events" % device_id, type="GET", params=params)
         events = list()
         for e in data["events"]:
             events.append(Event(e))
@@ -478,8 +482,9 @@ class Manager(BaseAPI):
         return events
 
     def list_project_events(self, project_id, params=None):
-        data = self.call_api("projects/%s/events" % project_id,
-                             type="GET", params=params)
+        data = self.call_api(
+            "projects/%s/events" % project_id, type="GET", params=params
+        )
         events = list()
         for e in data["events"]:
             events.append(Event(e))
@@ -487,8 +492,7 @@ class Manager(BaseAPI):
         return events
 
     def get_volume_events(self, volume_id, params=None):
-        data = self.call_api("volumes/%s/events" % volume_id,
-                             type="GET", params=params)
+        data = self.call_api("volumes/%s/events" % volume_id, type="GET", params=params)
         events = list()
         for e in data["events"]:
             events.append(Event(e))
@@ -497,9 +501,9 @@ class Manager(BaseAPI):
 
     # vlan operations
     def list_vlans(self, project_id, params=None):
-        data = self.call_api("projects/%s/virtual-networks" % project_id,
-                             type="GET",
-                             params=params)
+        data = self.call_api(
+            "projects/%s/virtual-networks" % project_id, type="GET", params=params
+        )
         vlans = list()
         for vlan in data["virtual_networks"]:
             vlans.append(Vlan(vlan, self))
@@ -512,61 +516,39 @@ class Manager(BaseAPI):
             "facility": facility,
             "vxlan": vxlan,
             "vlan": vlan,
-
         }
-        data = self.call_api("projects/%s/virtual-networks" % project_id,
-                             type="POST",
-                             params=params)
+        data = self.call_api(
+            "projects/%s/virtual-networks" % project_id, type="POST", params=params
+        )
         return Vlan(data, self)
 
     def assign_port(self, port_id, vlan_id):
-        params = {
-            "vnid": vlan_id,
-        }
-        self.call_api("ports/%s/assign" % port_id, type="POST",
-                      params=params)
+        params = {"vnid": vlan_id}
+        self.call_api("ports/%s/assign" % port_id, type="POST", params=params)
 
     def remove_port(self, port_id, vlan_id):
-        params = {
-            "vnid": vlan_id,
-        }
-        self.call_api("ports/%s/unassign" % port_id, type="POST",
-                      params=params)
+        params = {"vnid": vlan_id}
+        self.call_api("ports/%s/unassign" % port_id, type="POST", params=params)
 
     def disbond_ports(self, port_id, bulk_disable):
-        params = {
-            "bulk_disable": bulk_disable,
-        }
-        self.call_api("ports/%s/disbond" % port_id, type="POST",
-                      params=params)
+        params = {"bulk_disable": bulk_disable}
+        self.call_api("ports/%s/disbond" % port_id, type="POST", params=params)
 
     def bond_ports(self, port_id, bulk_disable):
-        params = {
-            "bulk_disable": bulk_disable,
-        }
-        self.call_api("ports/%s/bond" % port_id, type="POST",
-                      params=params)
+        params = {"bulk_disable": bulk_disable}
+        self.call_api("ports/%s/bond" % port_id, type="POST", params=params)
 
     def convert_layer_2(self, port_id, vlan_id):
-        params = {
-            "vnid": vlan_id,
-        }
-        self.call_api("ports/%s/convert/layer-2" % port_id, type="POST",
-                      params=params)
+        params = {"vnid": vlan_id}
+        self.call_api("ports/%s/convert/layer-2" % port_id, type="POST", params=params)
 
     def convert_layer_3(self, port_id, request_ips):
-        params = {
-            "request_ips": request_ips,
-        }
-        self.call_api("ports/%s/convert/layer-3" % port_id, type="POST",
-                      params=params)
+        params = {"request_ips": request_ips}
+        self.call_api("ports/%s/convert/layer-3" % port_id, type="POST", params=params)
 
     def assign_native_vlan(self, port_id, vnid):
-        params = {
-            "vnid": vnid,
-        }
-        self.call_api("ports/%s/native-vlan" % port_id, type="POST",
-                      params=params)
+        params = {"vnid": vnid}
+        self.call_api("ports/%s/native-vlan" % port_id, type="POST", params=params)
 
     def remove_native_vlan(self, port_id):
         self.call_api("ports/%s/native-vlan" % port_id, type="DELETE")
@@ -598,8 +580,7 @@ class Manager(BaseAPI):
         if "description" in params:
             body["description"] = params["description"]
 
-        data = self.call_api("/packet-connect/connections",
-                             type="POST", params=body)
+        data = self.call_api("/packet-connect/connections", type="POST", params=body)
         return data
 
     def get_packet_connection(self, connection_id):
@@ -607,18 +588,24 @@ class Manager(BaseAPI):
         return data
 
     def delete_packet_connection(self, connection_id):
-        data = self.call_api("/packet-connect/connections/%s" % connection_id, type="DELETE")
+        data = self.call_api(
+            "/packet-connect/connections/%s" % connection_id, type="DELETE"
+        )
         return data
 
     def provision_packet_connection(self, connection_id):
-        data = self.call_api("/packet-connect/connections/{id}/provision" % connection_id, type="POST")
+        data = self.call_api(
+            "/packet-connect/connections/{id}/provision" % connection_id, type="POST"
+        )
         return data
 
     def deprovision_packet_connection(self, connection_id, delete):
-        params = {
-            "delete": delete
-        }
-        data = self.call_api("/packet-connect/connections/{id}/deprovision" % connection_id, type="POST", params=params)
+        params = {"delete": delete}
+        data = self.call_api(
+            "/packet-connect/connections/{id}/deprovision" % connection_id,
+            type="POST",
+            params=params,
+        )
         return data
 
     def list_packet_connect_providers(self):

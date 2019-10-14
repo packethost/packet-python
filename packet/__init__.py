@@ -19,7 +19,7 @@ from .Project import Project  # noqa
 from .SSHKey import SSHKey  # noqa
 from .Volume import Volume  # noqa
 from .BGPConfig import BGPConfig  # noqa
-from .BGPSession import BGPSession # noqa
+from .BGPSession import BGPSession  # noqa
 from .DeviceBatch import DeviceBatch  # noqa
 from .Manager import Manager  # noqa
 from .Snapshot import Snapshot  # noqa
