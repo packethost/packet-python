@@ -48,7 +48,7 @@ with open("README.md") as readme, open("CHANGELOG.md") as changelog:
 
 setup(
     name="packet-python",
-    version="1.38.2",
+    version="1.40.0",
     description="Packet API client",
     long_description=long_description,
     long_description_content_type="text/markdown",
