@@ -1,3 +1,5 @@
+# SPDX-License-Identifier: LGPL-3.0-only
+
 from __future__ import print_function
 
 import os
