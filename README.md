@@ -2,7 +2,7 @@
 
 A Python client for the Packet API.
 
-![travis build status badge](https://travis-ci.org/packethost/packet-python.svg?branch=master "Build Status")
+![Build Status](https://drone.packet.net/api/badges/packethost/packet-python/status.svg "Build Status")
 
 ## Table of Contents
 
@@ -254,7 +254,7 @@ print(vlan)
 * Fork the project.
 * Start a feature/bugfix branch.
 * Commit and push until you are happy with your contribution.
-* You can test your changes with the `test/tests.sh` script, which is what travis uses to check builds.
+* You can test your changes with the `test/tests.sh` script, which is what drone uses to check builds.
 
 ## Credits
 
