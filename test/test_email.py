@@ -8,6 +8,10 @@ import packet
 import random
 
 
+@unittest.skipIf(
+    "PACKET_PYTHON_TEST_ACTUAL_API" not in os.environ,
+    "PACKET_PYTHON_TEST_ACTUAL_API is missing from environment",
+)
 class TestEmail(unittest.TestCase):
     @classmethod
     def setUpClass(cls):

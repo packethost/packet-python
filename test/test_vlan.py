@@ -10,6 +10,10 @@ import packet
 from datetime import datetime
 
 
+@unittest.skipIf(
+    "PACKET_PYTHON_TEST_ACTUAL_API" not in os.environ,
+    "PACKET_PYTHON_TEST_ACTUAL_API is missing from environment",
+)
 class TestVlan(unittest.TestCase):
     @classmethod
     def setUpClass(self):

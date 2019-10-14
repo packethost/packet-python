@@ -9,6 +9,10 @@ import unittest
 import packet
 
 
+@unittest.skipIf(
+    "PACKET_PYTHON_TEST_ACTUAL_API" not in os.environ,
+    "PACKET_PYTHON_TEST_ACTUAL_API is missing from environment",
+)
 class TestVpn(unittest.TestCase):
     @classmethod
     def setUpClass(self):
