@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.39.1] - 2019-09-17
+### Added
+- Support for `hardware_reservation_id`
+
 ## [1.39.0] - 2019-08-26
 ### Added
 - Support for Organizations, Events, Emails, VLAN, Snapshot Policies, Batches, Ports, VPN and IPs.
