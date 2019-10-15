@@ -142,7 +142,7 @@ class Manager(BaseAPI):
 
         if hardware_reservation_id != "":
             params["hardware_reservation_id"] = hardware_reservation_id
-        if storage != "":
+        if storage:
             params["storage"] = storage
         if ipxe_script_url != "":
             params["always_pxe"] = always_pxe
