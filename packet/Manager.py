@@ -14,6 +14,7 @@ from .Volume import Volume
 from .BGPConfig import BGPConfig
 from .BGPSession import BGPSession
 from .IPAddress import IPAddress
+from .HardwareReservation import HardwareReservation
 from .Snapshot import Snapshot
 from .Organization import Organization
 from .Email import Email
@@ -72,6 +73,20 @@ class Manager(BaseAPI):
         params = {"name": name}
         data = self.call_api("projects", type="POST", params=params)
         return Project(data, self)
+
+    def list_hardware_reservations(self, project_id, params={}):
+        data = self.call_api(
+            "projects/%s/hardware-reservations" % project_id, params=params
+        )
+        hardware_reservations = list()
+        for jsoned in data["hardware_reservations"]:
+            hardware_reservation = HardwareReservation(jsoned, self)
+            hardware_reservations.append(hardware_reservation)
+        return hardware_reservations
+
+    def get_hardware_reservation(self, hardware_reservation_id):
+        data = self.call_api("hardware-reservations/%s" % hardware_reservation_id)
+        return HardwareReservation(data, self)
 
     def list_devices(self, project_id, params={}):
         data = self.call_api("projects/%s/devices" % project_id, params=params)
