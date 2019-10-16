@@ -30,9 +30,7 @@ class HardwareReservation:
         self.switch_uuid = data.get("switch_uuid")
 
         try:
-            project_data = self.manager.call_api(
-                data["project"]["href"], type="GET"
-            )
+            project_data = self.manager.call_api(data["project"]["href"], type="GET")
             self.project = Project(project_data, self.manager)
         except (KeyError, IndexError):
             self.attached_to = None
@@ -47,9 +45,7 @@ class HardwareReservation:
         #     self.attached_to = None
 
         try:
-            device_data = self.manager.call_api(
-                data["device"]["href"], type="GET"
-            )
+            device_data = self.manager.call_api(data["device"]["href"], type="GET")
             self.device = Device(device_data, self.manager)
         except (KeyError, IndexError):
             self.attached_to = None
