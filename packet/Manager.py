@@ -75,7 +75,9 @@ class Manager(BaseAPI):
         return Project(data, self)
 
     def list_hardware_reservations(self, project_id, params={}):
-        data = self.call_api("projects/%s/hardware-reservations" % project_id, params=params)
+        data = self.call_api(
+            "projects/%s/hardware-reservations" % project_id, params=params
+        )
         hardware_reservations = list()
         for jsoned in data["hardware_reservations"]:
             hardware_reservation = HardwareReservation(jsoned, self)
