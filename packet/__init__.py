@@ -3,7 +3,7 @@
 
 """library to interact with the Packet API"""
 
-__version__ = "1.40.0"
+__version__ = "1.41.0"
 __author__ = "Packet Engineers"
 __author_email__ = "help@packet.net"
 __license__ = "LGPL v3"
