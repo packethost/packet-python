@@ -21,7 +21,7 @@ class HardwareReservation:
         self.custom_rate = data.get("custom_rate")
         self.remove_at = data.get("remove_at")
         self.project = data.get("project")
-        #self.facility = data.get("facility")
+        # self.facility = data.get("facility")
         self.device = data.get("device")
         self.provisionable = data.get("provisionable")
         self.spare = data.get("spare")
@@ -38,13 +38,13 @@ class HardwareReservation:
             self.attached_to = None
 
         # endpoint is not working yet
-        #try:
-        #    facility_data = self.manager.call_api(
-        #        data["facility"]["href"], type="GET"
-        #    )
-        #    self.project = Facility(facility_data, self.manager)
-        #except (KeyError, IndexError):
-        #    self.attached_to = None
+        # try:
+        #     facility_data = self.manager.call_api(
+        #         data["facility"]["href"], type="GET"
+        #     )
+        #     self.project = Facility(facility_data, self.manager)
+        # except (KeyError, IndexError):
+        #     self.attached_to = None
 
         try:
             device_data = self.manager.call_api(
