@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.41.0] - 2019-10-16
+### Added
+- Support for retrieval of hardware reservations
+- CPR support at device creation
+
 ## [1.40.0] - 2019-10-14
 ### Added
 - Integration tests are only run if `PACKET_PYTHON_TEST_ACTUAL_API` envvar is set
