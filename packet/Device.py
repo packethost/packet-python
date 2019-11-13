@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
 # from .Volume import Volume
+from .OperatingSystem import OperatingSystem
 
 
 class Device:
@@ -25,7 +26,7 @@ class Device:
         self.always_pxe = data.get("always_pxe", False)
         self.storage = data.get("storage")
         self.customdata = data.get("customdata", None)
-        self.operating_system = data.get("operating_system")
+        self.operating_system = OperatingSystem(data["operating_system"])
         self.facility = data.get("facility")
         self.project = data.get("project")
         self.ssh_keys = data.get("ssh_keys")
