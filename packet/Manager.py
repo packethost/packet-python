@@ -193,6 +193,13 @@ class Manager(BaseAPI):
         data = self.call_api("ssh-keys", type="POST", params=params)
         return SSHKey(data, self)
 
+    def create_project_ssh_key(self, project_id, label, public_key):
+        params = {"key": public_key, "label": label}
+        data = self.call_api(
+            "projects/%s/ssh-keys" % project_id, type="POST", params=params
+        )
+        return SSHKey(data, self)
+
     def list_volumes(self, project_id, params={}):
         params["include"] = "facility,attachments.device"
         data = self.call_api("projects/%s/storage" % project_id, params=params)
