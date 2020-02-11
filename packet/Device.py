@@ -39,7 +39,10 @@ class Device:
         self.href = data.get("href")
         self.spot_instance = data.get("spot_instance", False)
         self.hardware_reservation_id = data.get("hardware_reservation_id")
+        self.spot_price_max = data.get("spot_price_max")
+        self.termination_time = data.get("termination_time")
         self.root_password = data.get("root_password")
+        self.provisioning_percentage = data.get("provisioning_percentage")
 
     def update(self):
         params = {
