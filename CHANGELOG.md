@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
+## [1.42.0] - 2020-02-14
+### Added
+- Capturing of available_in to Plan
+- Capturing of hardware_reservation, spot_price_max, termination_time, and provisioning_percentage to Device
+- Support for creating project ssh keys
+- Support for passing custom_data when creating a device
+### Fixed
+- Black not building for CI and thus failing
+
 ## [1.41.0] - 2019-10-16
 ### Added
 - Support for retrieval of hardware reservations
