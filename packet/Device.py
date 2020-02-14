@@ -38,6 +38,7 @@ class Device:
         self.network_ports = data.get("network_ports")
         self.href = data.get("href")
         self.spot_instance = data.get("spot_instance", False)
+        self.hardware_reservation_id = data.get("hardware_reservation_id")
         self.root_password = data.get("root_password")
 
     def update(self):
