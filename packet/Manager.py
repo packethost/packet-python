@@ -137,6 +137,7 @@ class Manager(BaseAPI):
         userdata="",
         hardware_reservation_id="",
         storage={},
+        customdata={},
     ):
 
         params = {
@@ -159,6 +160,8 @@ class Manager(BaseAPI):
             params["hardware_reservation_id"] = hardware_reservation_id
         if storage:
             params["storage"] = storage
+        if customdata:
+            params["customdata"] = customdata
         if ipxe_script_url != "":
             params["always_pxe"] = always_pxe
             params["ipxe_script_url"] = ipxe_script_url
