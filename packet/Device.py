@@ -65,6 +65,18 @@ class Device:
     def delete(self):
         return self.manager.call_api("devices/%s" % self.id, type="DELETE")
 
+    def reinstall(self, operating_system=None, ipxe_script_url=None):
+        params = {"type": "reinstall"}
+        if operating_system is not None:
+            params["operating_system"] = operating_system
+        if ipxe_script_url is not None:
+            params["operating_system"] = "custom_ipxe"
+            params["ipxe_script_url"] = ipxe_script_url
+
+        return self.manager.call_api(
+            "devices/%s/actions" % self.id, type="POST", params=params
+        )
+
     def power_off(self):
         params = {"type": "power_off"}
         return self.manager.call_api(
