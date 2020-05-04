@@ -12,6 +12,9 @@ class Plan:
         self.specs = data.get("specs")
         self.description = data.get("description")
         self.available_in = data.get("available_in")
+        self.available_in_ids = [
+            loc["href"].replace("/facilities/", "") for loc in data.get("available_in")
+        ]
 
     def __str__(self):
         return "%s" % self.slug
