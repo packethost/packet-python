@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 # SPDX-License-Identifier: LGPL-3.0-only
+from typing import Optional, List, Union, Dict
 from packet.Vlan import Vlan
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
@@ -10,6 +11,7 @@ from .SSHKey import SSHKey
 from .Project import Project
 from .Facility import Facility
 from .OperatingSystem import OperatingSystem
+from .SpotMarketRequest import SpotMarketRequest
 from .Volume import Volume
 from .BGPConfig import BGPConfig
 from .BGPSession import BGPSession
@@ -646,3 +648,97 @@ class Manager(BaseAPI):
     def get_packet_connect_provider(self, provider_id):
         data = self.call_api("/packet-connect/providers/%s" % provider_id, type="GET")
         return Provider(data)
+
+    def list_spot_market_requests(self, project_id):
+        data = self.call_api(
+            "/projects/%s/spot-market-requests" % project_id, type="GET"
+        )
+        requests = list()
+        for r in data["spot_market_requests"]:
+            requests.append(SpotMarketRequest(r))
+        return requests
+
+    def get_spot_market_request(self, request_id: str) -> SpotMarketRequest:
+        data = self.call_api("/spot-market-requests/%s" % request_id, type="GET")
+        return SpotMarketRequest(data)
+
+    def create_spot_market_request(
+        self,
+        project_id: str,
+        devices_max: int,
+        devices_min: int,
+        max_bid_price: float,
+        hostname: str,
+        plan: str,
+        facilities: List[str],
+        operating_system: str,
+        ipxe_script_url: Optional[str] = None,
+        always_pxe: Optional[bool] = None,
+        billing_cycle: str = "hourly",
+        features: Union[List[str], Dict[str, str]] = {},
+        project_ssh_keys: Optional[List[str]] = None,
+        public_ipv4_subnet_size: int = 31,
+        user_ssh_keys: Optional[List[str]] = None,
+        tags: List[str] = [],
+        userdata: Optional[str] = None,
+        customdata: Optional[str] = None,
+        end_at: Optional[str] = None,
+    ) -> SpotMarketRequest:
+        params = {
+            "devices_min": devices_min,
+            "devices_max": devices_max,
+            "max_bid_price": max_bid_price,
+            "facilities": facilities,
+        }
+
+        instance_params = {
+            "operating_system": operating_system,
+            "billing_cycle": billing_cycle,
+            "features": features,
+            "hostname": hostname,
+            "plan": plan,
+            "project_id": project_id,
+            "public_ipv4_subnet_size": public_ipv4_subnet_size,
+            "tags": tags,
+        }
+
+        if user_ssh_keys is not None:
+            instance_params["user_ssh_keys"] = user_ssh_keys
+
+        if project_ssh_keys is not None:
+            instance_params["project_ssh_keys"] = project_ssh_keys
+
+        if end_at is not None:
+            params["end_at"] = end_at
+
+        if userdata is not None:
+            instance_params["userdata"] = userdata
+
+        if customdata is not None:
+            instance_params["customdata"] = customdata
+
+        if ipxe_script_url is not None:
+            instance_params["ipxe_script_url"] = ipxe_script_url
+            instance_params["operating_system"] = "custom_ipxe"
+            if always_pxe is not None:
+                instance_params["always_pxe"] = always_pxe
+
+        params["instance_parameters"] = instance_params
+
+        data = self.call_api(
+            "projects/%s/spot-market-requests" % project_id, type="POST", params=params
+        )
+
+        return SpotMarketRequest(data)
+
+    def delete_spot_market_request(
+        self, request_id: str, force_termination: bool = False
+    ):
+        from pprint import pprint
+
+        pprint(request_id)
+        self.call_api(
+            "/spot-market-requests/%s" % request_id,
+            type="DELETE",
+            params={"force_termination": force_termination},
+        )
