@@ -62,6 +62,7 @@ class BaseAPI(object):
                     ),
                 )
             elif type == "DELETE":
+                url = url + "%s" % self._parse_params(params)
                 resp = requests.delete(url, headers=headers)
             elif type == "PATCH":
                 resp = requests.patch(url, headers=headers, data=json.dumps(params))
