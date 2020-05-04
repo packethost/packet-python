@@ -26,5 +26,6 @@ mkShell {
     python3Packages.tox
     python3Packages.twine
     python3Packages.wheel
+    python3Packages.mypy
   ];
 }
