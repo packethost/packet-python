@@ -275,8 +275,8 @@ class Manager(BaseAPI):
             )
 
         try:
-            self.call_api("/capacity", "POST", params)
-            return True
+            data = self.call_api("/capacity", "POST", params)
+            return all(s["available"] for s in data["servers"])
         except PacketError as e:  # pragma: no cover
             if e.args[0] == "Error 503: Service Unavailable":
                 return False
