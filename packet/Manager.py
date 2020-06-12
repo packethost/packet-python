@@ -138,6 +138,10 @@ class Manager(BaseAPI):
         hardware_reservation_id="",
         storage={},
         customdata={},
+        ip_addresses=[
+            {"address_family": 4, "public": True},
+            {"address_family": 6, "public": False}
+        ],
     ):
 
         params = {
@@ -154,6 +158,7 @@ class Manager(BaseAPI):
             "tags": tags,
             "user_ssh_keys": user_ssh_keys,
             "userdata": userdata,
+            "ip_addresses": ip_addresses,
         }
 
         if hardware_reservation_id != "":
