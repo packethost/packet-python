@@ -26,3 +26,4 @@ from .Snapshot import Snapshot  # noqa
 from .Organization import Organization  # noqa
 from .Provider import Provider  # noqa
 from .baseapi import Error  # noqa
+from .baseapi import ResponseError  # noqa

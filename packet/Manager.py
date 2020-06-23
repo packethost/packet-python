@@ -3,6 +3,7 @@
 from packet.Vlan import Vlan
 from .baseapi import BaseAPI
 from .baseapi import Error as PacketError
+from .baseapi import ResponseError
 from .Batch import Batch
 from .Plan import Plan
 from .Device import Device
@@ -197,11 +198,46 @@ class Manager(BaseAPI):
         return SSHKey(data, self)
 
     def create_project_ssh_key(self, project_id, label, public_key):
-        params = {"key": public_key, "label": label}
-        data = self.call_api(
-            "projects/%s/ssh-keys" % project_id, type="POST", params=params
-        )
-        return SSHKey(data, self)
+        """
+        Successfully creating an SSH key with a Project API Token results
+        in a 404 from the API. If we get a 404, we try the request again.
+
+        If the request actually failed with a 404, we will get another 404
+        which we raise.
+
+        If the request actually succeeded, we will get a 422. In this case,
+        we will try to list all the keys and find the SSHKey we just
+        received.
+
+        Customer Report Reference: TUVD-0107-UIKB
+        """
+
+        def issue_req():
+            try:
+                params = {"key": public_key, "label": label}
+                data = self.call_api(
+                    "projects/%s/ssh-keys" % project_id, type="POST", params=params
+                )
+                return SSHKey(data, self)
+            except ResponseError as e:
+                if e.response.status_code == 422:
+                    # Try to pluck the SSH key from the listing API
+                    keys = [
+                        key
+                        for key in self.list_ssh_keys()
+                        if key.key.strip() == public_key.strip()
+                    ]
+                    if len(keys) == 1:
+                        return keys.pop()
+                raise
+
+        try:
+            return issue_req()
+        except ResponseError as e:
+            if e.response.status_code == 404:
+                return issue_req()
+            else:
+                raise
 
     def list_volumes(self, project_id, params={}):
         params["include"] = "facility,attachments.device"

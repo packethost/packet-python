@@ -19,6 +19,21 @@ class Error(Exception):  # pragma: no cover
         return self._cause
 
 
+class ResponseError(Error):
+    def __init__(self, resp, data, exception=None):
+        if not data:
+            msg = "(empty response)"
+        elif "errors" in data:
+            msg = ", ".join(data["errors"])
+        super().__init__("Error {0}: {1}".format(resp.status_code, msg), exception)
+        self._response = resp
+
+    @property
+    def response(self):
+        """The Requests response which failed"""
+        return self._response
+
+
 class JSONReadError(Error):
     pass
 
@@ -84,17 +99,12 @@ class BaseAPI(object):
             data = resp.content  # pragma: no cover
 
         if not resp.ok:  # pragma: no cover
-            msg = data
-            if not data:
-                msg = "(empty response)"
-            elif "errors" in data:
-                msg = ", ".join(data["errors"])
-            raise Error("Error {0}: {1}".format(resp.status_code, msg))
+            raise ResponseError(resp, data)
 
         try:
             resp.raise_for_status()
         except requests.HTTPError as e:  # pragma: no cover
-            raise Error("Error {0}: {1}".format(resp.status_code, resp.reason), e)
+            raise ResponseError(resp, data, e)
 
         self.meta = None
         try:
