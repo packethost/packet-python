@@ -23,6 +23,8 @@ class ResponseError(Error):
     def __init__(self, resp, data, exception=None):
         if not data:
             msg = "(empty response)"
+        elif "error" in data:
+            msg = data["error"]
         elif "errors" in data:
             msg = ", ".join(data["errors"])
         super().__init__("Error {0}: {1}".format(resp.status_code, msg), exception)
