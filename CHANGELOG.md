@@ -4,16 +4,28 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.43.0] - 2020-02-24
+## [1.44.0] - Unreleased
+### Added
+### Changed
+### Fixed
+
+## [1.43.0] - 2020-07-14
 ### Added
 - Support for reinstalling the operating system to a device, including changing the operating system.
+- `Manager.create_vlan` now includes a description argument
+### Changed
+- `ResponseError` will now be raised when an API call results in an error
+### Fixed
+- `Manager.validate_capacity` now considers availability
+- `Manager.create_project_ssh_key` will retry when it encounters 404 responses following a successful creation.
+- API responses with `{"error":""}` keys were not handled well, and will now be handled just like `{"errors":[""]}` keys.
 
 ## [1.42.0] - 2020-02-14
 ### Added
-- Capturing of available_in to Plan
-- Capturing of hardware_reservation, spot_price_max, termination_time, and provisioning_percentage to Device
+- Capturing of `available_in` to Plan
+- Capturing of `hardware_reservation`, `spot_price_max`, `termination_time`, and `provisioning_percentage` to `Device`
 - Support for creating project ssh keys
-- Support for passing custom_data when creating a device
+- Support for passing `custom_data` when creating a device
 ### Fixed
 - Black not building for CI and thus failing
 
