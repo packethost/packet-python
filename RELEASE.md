@@ -22,7 +22,7 @@ git checkout origin/master
 Tag the commit:
 
 ```bash
-git tag -a vAA.BB.CC origin/master -m vAA.BB.CC
+git tag -a vAA.BB.CC origin/master -m vAA.BB.CC # use -s if gpg is available
 ```
 
 Build the package using `setuptools`:
@@ -50,6 +50,10 @@ repository: https://test.pypi.org/legacy/
 username: username-here (not necessarily same as real pypi)
 password: password-here (not necessarily same as real pypi)
 ```
+
+If you are using a token, the username is `__token__`.  Make sure you have been added to the
+[project](https://pypi.org/manage/project/packet-python/collaboration/) and the
+[test project](https://test.pypi.org/manage/project/packet-python/collaboration/).
 
 Then upload using twine to testpypi first:
 
