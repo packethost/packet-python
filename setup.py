@@ -1,54 +1,35 @@
 #!/usr/bin/env python
 # SPDX-License-Identifier: LGPL-3.0-only
-
-# Notes for the not-an-everyday-python-dev for package distribution on pypi
-#
-# Build the package using `setuptools`:
-#
-#     python setup.py sdist bdist_wheel
-#
-# Make sure you have ~/.pypirc correctly populated, as of today should look something like:
-#
-#     [distutils]
-#     index-servers =
-#         pypi
-#         testpypi
-#
-#     [pypi]
-#     username: username-here
-#     password: password-here
-#
-#     [testpypi]
-#     repository: https://test.pypi.org/legacy/
-#     username: username-here (not necessarily same as real pypi)
-#     password: password-here (not necessarily same as real pypi)
-#
-# Then upload using twine to testpypi first:
-#
-#     twine upload -r testpypi dist/*
-#
-# If all looks good go ahead and tag the repo, push to GH, and then push to real
-# pypi:
-#
-#     twine upload dist/*
-#
-# Congratulations to me, I've just condensed so many webpages into 30 lines,
-# :raised_hands:!
+import codecs
+import os.path
 
 try:
     from setuptools import setup
 except ImportError:
     from ez_setup import use_setuptools
-
     use_setuptools()
     from setuptools import setup
+
 
 with open("README.md") as readme, open("CHANGELOG.md") as changelog:
     long_description = readme.read() + "\n" + changelog.read()
 
+def read(rel_path):
+    here = os.path.abspath(os.path.dirname(__file__))
+    with codecs.open(os.path.join(here, rel_path), 'r') as fp:
+        return fp.read()
+
+def get_version(rel_path):
+    for line in read(rel_path).splitlines():
+        if line.startswith('__version__'):
+            delim = '"' if '"' in line else "'"
+            return line.split(delim)[1]
+    else:
+        raise RuntimeError("Unable to find version string.")
+
 setup(
     name="packet-python",
-    version="1.42.0",
+    version=get_version("packet/__init__.py"),
     description="Packet API client",
     long_description=long_description,
     long_description_content_type="text/markdown",
