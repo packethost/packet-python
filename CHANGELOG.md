@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Changed
 ### Fixed
 
+## [1.43.1] - 2020-09-04
+### Fixed
+- ResponseError fixed for Python2.7 compatibility
+
 ## [1.43.0] - 2020-07-14
 ### Added
 - Support for reinstalling the operating system to a device, including changing the operating system.
