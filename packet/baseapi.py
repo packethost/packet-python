@@ -27,7 +27,9 @@ class ResponseError(Error):
             msg = data["error"]
         elif "errors" in data:
             msg = ", ".join(data["errors"])
-        super().__init__("Error {0}: {1}".format(resp.status_code, msg), exception)
+        super(ResponseError, self).__init__(
+            "Error {0}: {1}".format(resp.status_code, msg), exception
+        )
         self._response = resp
 
     @property
