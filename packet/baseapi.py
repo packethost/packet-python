@@ -5,6 +5,8 @@ import json
 import logging
 import requests
 
+from packet import __version__
+
 
 class Error(Exception):  # pragma: no cover
     """Base exception class for this module"""
@@ -47,11 +49,18 @@ class BaseAPI(object):
         Basic api class for
     """
 
-    def __init__(self, auth_token, consumer_token):
+    def __init__(self, auth_token, consumer_token, user_agent=""):
         self.auth_token = auth_token
         self.consumer_token = consumer_token
         self.end_point = "api.packet.net"
+        self._user_agent_prefix = user_agent
         self._log = logging.getLogger(__name__)
+
+    @property
+    def user_agent(self):
+        return "{}packet-python/{} {}".format(
+            self._user_agent_prefix, __version__, requests.utils.default_user_agent()
+        ).strip()
 
     def call_api(self, method, type="GET", params=None):  # noqa
         if params is None:
@@ -63,6 +72,7 @@ class BaseAPI(object):
             "X-Auth-Token": self.auth_token,
             "X-Consumer-Token": self.consumer_token,
             "Content-Type": "application/json",
+            "User-Agent": self.user_agent,
         }
 
         # remove token from log
