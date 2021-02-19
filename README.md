@@ -1,11 +1,11 @@
-# Packet
+# Equinix Metal
 
-A Python client for the Packet API.
+A Python client for the Equinix Metal API.
 
 ![Build Status](https://drone.packet.net/api/badges/packethost/packet-python/status.svg "Build Status")
 ![](https://img.shields.io/badge/Stability-Maintained-green.svg)
 
-This repository is [Maintained](https://github.com/packethost/standards/blob/master/maintained-statement.md) meaning that this software is supported by Packet and its community - available to use in production environments.
+This repository is [Maintained](https://github.com/packethost/standards/blob/master/maintained-statement.md) meaning that this software is supported by Equinix Metal and its community - available to use in production environments.
 
 ## Table of Contents
 
@@ -33,7 +33,7 @@ This repository is [Maintained](https://github.com/packethost/standards/blob/mas
 
 ## Installation
 
-The packet python api library can be installed using pip:
+The Equinix Metal python api library can be installed using pip:
 
     pip install packet-python
 
@@ -43,8 +43,8 @@ https://pypi.python.org/pypi/packet-python
 
 ## Documentation
 
-Full Packet API documenation is available here:
-[https://www.packet.net/developers/api/](https://www.packet.net/developers/api/)
+Full Equinix Metal API documenation is available here:
+[https://metal.equinix.com/developers/api/](https://metal.equinix.com/developers/api/)
 
 ## Authentication
 
@@ -107,7 +107,7 @@ device.reboot()
 
 ### Listing all Devices Limiting to 50 per Page
 
-_Packet API defaults to a limit of 10 per page_
+_Equinix Metal API defaults to a limit of 10 per page_
 
 ```python
 import packet
@@ -263,10 +263,6 @@ print(vlan)
 
 CargoCulted with much gratitude from:
 https://github.com/koalalorenzo/python-digitalocean
-
-## Copyright
-
-Copyright (c) 2017 Packet Host. See [License](LICENSE.txt) for further details.
 
 ## Changes
 
