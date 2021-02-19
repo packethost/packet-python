@@ -3,6 +3,9 @@
 A Python client for the Packet API.
 
 ![Build Status](https://drone.packet.net/api/badges/packethost/packet-python/status.svg "Build Status")
+![](https://img.shields.io/badge/Stability-Maintained-green.svg)
+
+This repository is [Maintained](https://github.com/packethost/standards/blob/master/maintained-statement.md) meaning that this software is supported by Packet and its community - available to use in production environments.
 
 ## Table of Contents
 
