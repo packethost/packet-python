@@ -10,6 +10,7 @@ from .Device import Device
 from .SSHKey import SSHKey
 from .Project import Project
 from .Facility import Facility
+from .Metro import Metro
 from .OperatingSystem import OperatingSystem
 from .Volume import Volume
 from .BGPConfig import BGPConfig
@@ -40,6 +41,14 @@ class Manager(BaseAPI):
             facility = Facility(jsoned)
             facilities.append(facility)
         return facilities
+
+    def list_metros(self, params={}):
+        data = self.call_api("metros", params=params)
+        metros = list()
+        for jsoned in data["metros"]:
+            metro = Metro(jsoned)
+            metros.append(metro)
+        return metros
 
     def list_plans(self, params={}):
         data = self.call_api("plans", params=params)
@@ -121,8 +130,8 @@ class Manager(BaseAPI):
         project_id,
         hostname,
         plan,
-        facility,
-        operating_system,
+        facility="",
+        operating_system="",
         always_pxe=False,
         billing_cycle="hourly",
         features={},
@@ -139,11 +148,11 @@ class Manager(BaseAPI):
         hardware_reservation_id="",
         storage={},
         customdata={},
+        metro="",
     ):
 
         params = {
             "billing_cycle": billing_cycle,
-            "facility": facility,
             "features": features,
             "hostname": hostname,
             "locked": locked,
@@ -157,6 +166,10 @@ class Manager(BaseAPI):
             "userdata": userdata,
         }
 
+        if metro != "":
+            params["metro"] = metro
+        if facility != "":
+            params["facility"] = facility
         if hardware_reservation_id != "":
             params["hardware_reservation_id"] = hardware_reservation_id
         if storage:
@@ -319,6 +332,23 @@ class Manager(BaseAPI):
             else:
                 raise e
 
+    # servers is a list of tuples of metro, plan, and quantity.
+    def validate_metro_capacity(self, servers):
+        params = {"servers": []}
+        for server in servers:
+            params["servers"].append(
+                {"facility": server[0], "plan": server[1], "quantity": server[2]}
+            )
+
+        try:
+            data = self.call_api("/capacity/metros", "POST", params)
+            return all(s["available"] for s in data["servers"])
+        except PacketError as e:  # pragma: no cover
+            if e.args[0] == "Error 503: Service Unavailable":
+                return False
+            else:
+                raise e
+
     def get_spot_market_prices(self, params={}):
         data = self.call_api("/market/spot/prices", params=params)
         return data["spot_market_prices"]
@@ -405,20 +435,24 @@ class Manager(BaseAPI):
         project_id,
         type,
         quantity,
-        facility,
+        facility="",
         details=None,
         comments=None,
         tags=list(),
+        metro="",
     ):
         request = {
             "type": type,
             "quantity": quantity,
-            "facility": facility,
             "details": details,
             "comments": comments,
             "tags": tags,
         }
 
+        if facility != "":
+            request["facility"] = facility
+        if metro != "":
+            request["metro"] = metro
         data = self.call_api(
             "/projects/%s/ips" % project_id, params=request, type="POST"
         )
@@ -575,15 +609,18 @@ class Manager(BaseAPI):
         return vlans
 
     def create_vlan(
-        self, project_id, facility, vxlan=None, vlan=None, description=None
+        self, project_id, facility="", vxlan=None, vlan=None, description=None, metro=""
     ):
         params = {
             "project_id": project_id,
-            "facility": facility,
             "vxlan": vxlan,
             "vlan": vlan,
             "description": description,
         }
+        if facility != "":
+            params["facility"] = facility
+        if metro != "":
+            params["metro"] = metro
         data = self.call_api(
             "projects/%s/virtual-networks" % project_id, type="POST", params=params
         )
@@ -638,14 +675,12 @@ class Manager(BaseAPI):
             "project_id": params["project_id"],
             "provider_id": params["provider_id"],
             "provider_payload": params["provider_payload"],
-            "facility": params["facility"],
             "port_speed": params["port_speed"],
             "vlan": params["vlan"],
         }
-        if "tags" in params:
-            body["tags"] = params["tags"]
-        if "description" in params:
-            body["description"] = params["description"]
+        for opt in ["tags", "description", "facility", "metro"]:
+            if opt in params:
+                body[opt] = params[opt]
 
         data = self.call_api("/packet-connect/connections", type="POST", params=body)
         return data

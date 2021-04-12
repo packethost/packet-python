@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 from packet import Project
 from .Facility import Facility
+from .Metro import Metro
 
 
 class Vlan:
@@ -15,9 +16,11 @@ class Vlan:
         self.vxlan = data.get("vxlan")
         self.internet_gateway = data.get("internet_gateway")
         self.facility_code = data.get("facility_code")
+        self.metro_code = data.get("metro_code")
         self.created_at = data.get("created_at")
 
         self.facility = Facility(data.get("facility"))
+        self.metro = Metro(data.get("metro"))
         try:
             project_data = self.manager.call_api(
                 data["assigned_to"]["href"], type="GET"

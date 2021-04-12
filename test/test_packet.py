@@ -25,6 +25,13 @@ class PacketManagerTest(unittest.TestCase):
             repr(facility)
             self.assertIsInstance(facility, packet.Facility)
 
+    def test_list_metros(self):
+        metros = self.manager.list_metros()
+        for metro in metros:
+            str(metro)
+            repr(metro)
+            self.assertIsInstance(metro, packet.Metro)
+
     def test_list_plans(self):
         plans = self.manager.list_plans()
         for plan in plans:

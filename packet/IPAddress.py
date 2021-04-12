@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LGPL-3.0-only
 
 from .Facility import Facility
+from .Metro import Metro
 
 
 class IPAddress:
@@ -23,6 +24,7 @@ class IPAddress:
         self.project = data.get("project")
         self.project_lite = data.get("project_lite")
         self.facility = Facility(data.get("facility"))
+        self.metro = Metro(data.get("metro"))
         self.details = data.get("details")
         self.assigned_to = data.get("assigned_to")
         self.interface = data.get("interface")

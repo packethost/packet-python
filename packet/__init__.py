@@ -13,6 +13,7 @@ from .Device import Device  # noqa
 from .Email import Email  # noqa
 from .Event import Event  # noqa
 from .Facility import Facility  # noqa
+from .Metro import Metro  # noqa
 from .OperatingSystem import OperatingSystem  # noqa
 from .Plan import Plan  # noqa
 from .Project import Project  # noqa
