@@ -2,8 +2,8 @@
 
 A Python client for the Equinix Metal API.
 
-![Build Status](https://drone.packet.net/api/badges/packethost/packet-python/status.svg "Build Status")
-![](https://img.shields.io/badge/Stability-Maintained-green.svg)
+[![Build Status](https://github.com/packethost/packet-python/actions/workflows/test.yml/badge.svg)](https://github.com/packethost/packet-python/actions/workflows/test.yml)
+[![Stability: Maintained](https://img.shields.io/badge/Stability-Maintained-green.svg)](https://github.com/packethost/standards/blob/main/maintained-statement.md#maintained-statements)
 
 This repository is [Maintained](https://github.com/packethost/standards/blob/master/maintained-statement.md) meaning that this software is supported by Equinix Metal and its community - available to use in production environments.
 
@@ -257,7 +257,7 @@ print(vlan)
 * Fork the project.
 * Start a feature/bugfix branch.
 * Commit and push until you are happy with your contribution.
-* You can test your changes with the `test/tests.sh` script, which is what drone uses to check builds.
+* You can test your changes with the `tox`, which is what GitHub Actions use to check builds.
 
 ## Credits
 
