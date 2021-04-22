@@ -18,9 +18,11 @@ class Vlan:
         self.facility_code = data.get("facility_code")
         self.metro_code = data.get("metro_code")
         self.created_at = data.get("created_at")
+        facility = data.get("facility", None)
+        self.facility = Facility(facility) if facility else None
+        metro = data.get("metro", None)
+        self.metro = Metro(metro) if metro else None
 
-        self.facility = Facility(data.get("facility"))
-        self.metro = Metro(data.get("metro"))
         try:
             project_data = self.manager.call_api(
                 data["assigned_to"]["href"], type="GET"

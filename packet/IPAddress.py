@@ -23,14 +23,17 @@ class IPAddress:
         self.customdata = data.get("customdata")
         self.project = data.get("project")
         self.project_lite = data.get("project_lite")
-        self.facility = Facility(data.get("facility"))
-        self.metro = Metro(data.get("metro"))
         self.details = data.get("details")
         self.assigned_to = data.get("assigned_to")
         self.interface = data.get("interface")
         self.network = data.get("network")
         self.address = data.get("address")
         self.gateway = data.get("gateway")
+
+        facility = data.get("facility", None)
+        self.facility = Facility(facility) if facility else None
+        metro = data.get("metro", None)
+        self.metro = Metro(metro) if metro else None
 
     def delete(self):
         return self.manager.call_api("ips/%s" % self.id, type="DELETE")
