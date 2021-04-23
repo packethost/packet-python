@@ -4,10 +4,10 @@
 """library to interact with the Packet API"""
 
 __version__ = "1.43.1"
-__author__ = "Packet Engineers"
-__author_email__ = "help@packet.net"
+__author__ = "Equinix Metal Engineers"
+__author_email__ = "support@equinixmetal.com"
 __license__ = "LGPL v3"
-__copyright__ = "Copyright (c) 2020, Packet"
+__copyright__ = "Copyright (c) 2021, Equinix"
 
 from .Device import Device  # noqa
 from .Email import Email  # noqa
