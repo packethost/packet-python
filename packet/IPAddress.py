@@ -22,7 +22,8 @@ class IPAddress:
         self.customdata = data.get("customdata")
         self.project = data.get("project")
         self.project_lite = data.get("project_lite")
-        self.facility = Facility(data.get("facility"))
+        if data.get("facility") is not None:
+            self.facility = Facility(data.get("facility"))
         self.details = data.get("details")
         self.assigned_to = data.get("assigned_to")
         self.interface = data.get("interface")
