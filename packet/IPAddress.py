@@ -30,9 +30,9 @@ class IPAddress:
         self.address = data.get("address")
         self.gateway = data.get("gateway")
 
-        facility = data.get("facility", None)
+        facility = data.get("facility")
         self.facility = Facility(facility) if facility else None
-        metro = data.get("metro", None)
+        metro = data.get("metro")
         self.metro = Metro(metro) if metro else None
 
     def delete(self):
