@@ -229,6 +229,18 @@ class PacketManagerTest(unittest.TestCase):
         ips = self.manager.list_device_ips("e123s")
         self.assertIsNotNone(ips)
 
+    def test_list_projects_ips(self):
+        ips = self.manager.list_project_ips("438659f0")
+        self.assertIsNotNone(ips)
+        for ip in ips:
+            self.assertIsInstance(ip.facility, packet.Facility)
+
+    def test_list_projects_ips_state_all(self):
+        ips = self.manager.list_project_ips("438659f1", params={"state": "all"})
+        self.assertIsNotNone(ips)
+        self.assertIsNone(ips[0].facility)
+        self.assertIsInstance(ips[1].facility, packet.Facility)
+
 
 class PacketMockManager(packet.Manager):
     def call_api(self, method, type="GET", params=None):
