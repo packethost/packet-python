@@ -25,6 +25,13 @@ class PacketManagerTest(unittest.TestCase):
             repr(facility)
             self.assertIsInstance(facility, packet.Facility)
 
+    def test_list_metros(self):
+        metros = self.manager.list_metros()
+        for metro in metros:
+            str(metro)
+            repr(metro)
+            self.assertIsInstance(metro, packet.Metro)
+
     def test_list_plans(self):
         plans = self.manager.list_plans()
         for plan in plans:
@@ -221,6 +228,18 @@ class PacketManagerTest(unittest.TestCase):
     def test_list_device_ips(self):
         ips = self.manager.list_device_ips("e123s")
         self.assertIsNotNone(ips)
+
+    def test_list_projects_ips(self):
+        ips = self.manager.list_project_ips("438659f0")
+        self.assertIsNotNone(ips)
+        for ip in ips:
+            self.assertIsInstance(ip.facility, packet.Facility)
+
+    def test_list_projects_ips_state_all(self):
+        ips = self.manager.list_project_ips("438659f1", params={"state": "all"})
+        self.assertIsNotNone(ips)
+        self.assertIsNone(ips[0].facility)
+        self.assertIsInstance(ips[1].facility, packet.Facility)
 
 
 class PacketMockManager(packet.Manager):

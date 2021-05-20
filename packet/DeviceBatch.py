@@ -8,6 +8,7 @@ class DeviceBatch:
         self.plan = data.get("plan")
         self.operating_system = data.get("operating_system")
         self.facility = data.get("facility")
+        self.metro = data.get("metro")
         self.quantity = data.get("quantity")
 
     def __str__(self):

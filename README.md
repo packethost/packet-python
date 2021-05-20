@@ -89,7 +89,7 @@ manager = packet.Manager(auth_token="yourapiauthtoken")
 
 device = manager.create_device(project_id='project-id',
                                hostname='node-name-of-your-choice',
-                               plan='baremetal_1', facility='ewr1',
+                               plan='baremetal_1', metro='sv',
                                operating_system='ubuntu_18_04')
 print(device)
 ```

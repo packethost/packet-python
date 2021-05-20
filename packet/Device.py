@@ -28,6 +28,7 @@ class Device:
         self.customdata = data.get("customdata", None)
         self.operating_system = OperatingSystem(data["operating_system"])
         self.facility = data.get("facility")
+        self.metro = data.get("metro")
         self.project = data.get("project")
         self.ssh_keys = data.get("ssh_keys")
         self.project_lite = data.get("project_lite")
