@@ -4,10 +4,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/en/1.0.0/).
 This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 
-## [1.44.0] - Unreleased
+## [1.45.0] - Unreleased
 ### Added
 ### Changed
 ### Fixed
+
+## [1.44.0] - 2021-05-20
+### Added
+- User-Agent header added to client requests #113
+- `Metro` class added (https://feedback.equinixmetal.com/changelog/new-metros-feature-live) #110
+- Adds `metro` property to `DeviceBatch`, `Device`, `IPAddress`, `VLan` #110
+- Adds `metro` to `create_device`, `reserve_ip_address`, `create_vlan`, `create_connection` #110
+- Adds `list_metros`, `validate_metro_capacity` to `Manager` #110
+- Adds `CODE_OF_CONDUCT.md`, `SUPPORT.md`, `OWNERS.md` #102, #101, #100
+- Adds package metadata for `author`, `author_email`, `copyright` #114
+### Changed
+- `facility` is now optional in `create_device`, `reserve_ip_address`, `create_vlan`, `create_connection` #110
+- CI is using GH Actions instead of Drone #115
+### Fixed
+- Handles when IPAddress Facility is null in API responses #117
 
 ## [1.43.1] - 2020-09-04
 ### Fixed

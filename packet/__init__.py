@@ -3,7 +3,7 @@
 
 """library to interact with the Packet API"""
 
-__version__ = "1.43.1"
+__version__ = "1.44.0"
 __author__ = "Equinix Metal Engineers"
 __author_email__ = "support@equinixmetal.com"
 __license__ = "LGPL v3"
