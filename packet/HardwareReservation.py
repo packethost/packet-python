@@ -44,16 +44,10 @@ class HardwareReservation:
         # except (KeyError, IndexError):
         #     self.attached_to = None
 
-
-        # not attached
-        if data["device"] is None:
-            self.attached_to = None
-            return
-
         try:
             device_data = self.manager.call_api(data["device"]["href"], type="GET")
             self.device = Device(device_data, self.manager)
-        except (KeyError, IndexError):
+        except (KeyError, IndexError, TypeError):
             self.attached_to = None
 
     def __str__(self):
