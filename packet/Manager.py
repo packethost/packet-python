@@ -43,7 +43,7 @@ class Manager(BaseAPI):
         return facilities
 
     def list_metros(self, params={}):
-        data = self.call_api("metros", params=params)
+        data = self.call_api("locations/metros", params=params)
         metros = list()
         for jsoned in data["metros"]:
             metro = Metro(jsoned)
