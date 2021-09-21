@@ -9,7 +9,12 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Changed
 ### Fixed
 
-## [1.44.0] - 2021-05-20
+## [1.44.1] - 2021-09-20
+### Fixed
+- Fix metros URL used in Metro API lists #122
+- Catch TypeError when HardwareReservations do not have a device assignment #120
+
+## [1.44.0] - 2021-05-19
 ### Added
 - User-Agent header added to client requests #113
 - `Metro` class added (https://feedback.equinixmetal.com/changelog/new-metros-feature-live) #110
