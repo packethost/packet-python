@@ -3,7 +3,7 @@
 
 """library to interact with the Equinix Metal API"""
 
-__version__ = "1.44.1"
+__version__ = "1.44.2"
 __author__ = "Equinix Metal Engineers"
 __author_email__ = "support@equinixmetal.com"
 __license__ = "LGPL v3"
