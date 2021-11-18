@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Changed
 ### Fixed
 
+## [1.44.2] - 2021-11-18
+### Fixed
+- Fix logic behind `validate_metro_capacity` #125
+
 ## [1.44.1] - 2021-09-20
 ### Fixed
 - Fix metros URL used in Metro API lists #122
