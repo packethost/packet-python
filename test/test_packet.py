@@ -224,6 +224,10 @@ class PacketManagerTest(unittest.TestCase):
         capacity = self.manager.validate_capacity([("ewr1", "baremetal_0", 10)])
         self.assertTrue(capacity)
 
+    def test_validate_metro_capacity(self):
+        capacity = self.manager.validate_metro_capacity([("sv", "baremetal_1", 10)])
+        self.assertTrue(capacity)
+
     # IP Addresses
     def test_list_device_ips(self):
         ips = self.manager.list_device_ips("e123s")

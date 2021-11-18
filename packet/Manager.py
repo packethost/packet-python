@@ -337,7 +337,7 @@ class Manager(BaseAPI):
         params = {"servers": []}
         for server in servers:
             params["servers"].append(
-                {"facility": server[0], "plan": server[1], "quantity": server[2]}
+                {"metro": server[0], "plan": server[1], "quantity": server[2]}
             )
 
         try:
