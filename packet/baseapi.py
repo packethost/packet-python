@@ -25,6 +25,8 @@ class ResponseError(Error):
     def __init__(self, resp, data, exception=None):
         if not data:
             msg = "(empty response)"
+        elif not isinstance(data, dict):
+            msg = str(data)
         elif "error" in data:
             msg = data["error"]
         elif "errors" in data:
