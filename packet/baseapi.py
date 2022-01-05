@@ -8,7 +8,7 @@ import requests
 from packet import __version__
 
 
-class Error(Exception):  # pragma: no cover
+class Error(Exception):
     """Base exception class for this module"""
 
     def __init__(self, msg, cause=None):
@@ -96,7 +96,7 @@ class BaseAPI(object):
                 resp = requests.delete(url, headers=headers)
             elif type == "PATCH":
                 resp = requests.patch(url, headers=headers, data=json.dumps(params))
-            else:  # pragma: no cover
+            else:
                 raise Error(
                     "method type not recognized as one of GET, POST, DELETE or PATCH: %s"
                     % type
