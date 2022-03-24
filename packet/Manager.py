@@ -93,6 +93,14 @@ class Manager(BaseAPI):
             hardware_reservation = HardwareReservation(jsoned, self)
             hardware_reservations.append(hardware_reservation)
         return hardware_reservations
+    
+    def list_project_usage(self, project_id, params={}):
+        data = self.call_api("projects/%s/usages" % project_id, params=params)
+        usages = list()
+        for jsoned in data["usages"]:
+            device = Usage(jsoned, self)
+            usages.append(device)
+        return usages   
 
     def get_hardware_reservation(self, hardware_reservation_id):
         data = self.call_api("hardware-reservations/%s" % hardware_reservation_id)
