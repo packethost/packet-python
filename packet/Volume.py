@@ -142,17 +142,17 @@ class SnapshotPolicy:
     def update_snapshot_policy(self, frequency, count):
         """Updates the volume snapshot policy.
 
-           :param frequency:  (required) Snapshot frequency
+        :param frequency:  (required) Snapshot frequency
 
-           Validation of `frequency` is left to the packet api to avoid going out
-           of date if any new value is introduced.
-           The currently known values are:
-             - 1hour,
-             - 1day
-             - 1week
-             - 1month
-             - 1year
-       """
+        Validation of `frequency` is left to the packet api to avoid going out
+        of date if any new value is introduced.
+        The currently known values are:
+          - 1hour,
+          - 1day
+          - 1week
+          - 1month
+          - 1year
+        """
         data = self.policy.manager.call_api(
             "storage/snapshot-policies/{0}?snapshot_frequency={1}&snapshot_count={2}".format(
                 self.id, frequency, count
