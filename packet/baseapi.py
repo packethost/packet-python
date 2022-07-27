@@ -48,7 +48,7 @@ class JSONReadError(Error):
 
 class BaseAPI(object):
     """
-        Basic api class for
+    Basic api class for
     """
 
     def __init__(self, auth_token, consumer_token, user_agent=""):

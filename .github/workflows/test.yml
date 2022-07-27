@@ -20,7 +20,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
     - id: fmt_and_lint
       run: |
-        pip install black==19.3b0 pylama
+        pip install black==22.6.0 pylama
         black --check --diff .
         pylama packet test setup.py
 
