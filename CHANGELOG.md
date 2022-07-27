@@ -9,6 +9,10 @@ This project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html
 ### Changed
 ### Fixed
 
+## [1.44.3] - 2022-07-27
+### Fixed
+- Fix handling non-dict error data in ResponseError #128 #129
+
 ## [1.44.2] - 2021-11-18
 ### Fixed
 - Fix logic behind `validate_metro_capacity` #125
