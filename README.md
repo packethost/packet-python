@@ -44,7 +44,7 @@ https://pypi.python.org/pypi/packet-python
 ## Documentation
 
 Full Equinix Metal API documenation is available here:
-[https://metal.equinix.com/developers/api/](https://metal.equinix.com/developers/api/)
+[https://deploy.equinix.com/developers/api/metal/](https://deploy.equinix.com/developers/api/metal/)
 
 ## Authentication
 
