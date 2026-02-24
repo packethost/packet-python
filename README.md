@@ -5,6 +5,10 @@ A Python client for the Equinix Metal API.
 [![Build Status](https://github.com/packethost/packet-python/actions/workflows/test.yml/badge.svg)](https://github.com/packethost/packet-python/actions/workflows/test.yml)
 [![Stability: Maintained](https://img.shields.io/badge/Stability-Maintained-green.svg)](https://github.com/packethost/standards/blob/main/maintained-statement.md#maintained-statements)
 
+> [!WARNING]
+> With the upcoming EoL of Equinix Metal on June 30, 2026, this repo is being archived on February 28, 2026.
+
+
 This repository is [Maintained](https://github.com/packethost/standards/blob/master/maintained-statement.md) meaning that this software is supported by Equinix Metal and its community - available to use in production environments.
 
 ## Table of Contents
